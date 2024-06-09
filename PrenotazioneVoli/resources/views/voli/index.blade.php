@@ -19,6 +19,8 @@
 
 @section('body')
 
+
+
 <div class="container mt-3">
   <!-- Barra di ricerca -->
   <div class="row mb-4">
@@ -32,7 +34,7 @@
                   <label for="from">Da:</label>
                   <select class="form-select form-control" aria-label="Seleziona l'aeroporto di partenza" id="partenza"
                     name="partenza">
-                    <option selected disabled>Aeroporto Partenza</option>
+                    <option value="-1" selected disabled>Aeroporto Partenza</option>
                     @foreach ($aeroportiPartenza as $aer)
             <option value="{{ $aer->id }}">{{ $aer->city }}</option>
           @endforeach
@@ -44,21 +46,31 @@
                   <label for="to">A:</label>
                   <select class="form-select form-control" aria-label="Seleziona l'aeroporto di arrivo" id="arrivo"
                     name="arrivo">
-                    <option selected disabled>Aeroporto Arrivo</option>
+
+                    <option selected value="-1" disabled>Aeroporto Arrivo</option>
                     @foreach ($aeroportiArrivo as $aer)
-            <option value="{{ $aer->id }}">{{ $aer->city }}</option>
-          @endforeach
-                  </select>
+                    @if(isset($city) && $aer->city == $city)
+        <option selected value="{{$aer->id}}">{{$aer->city}}</option>
+      @else
+    <option value="{{ $aer->id }}">{{ $aer->city }}</option>
+  @endif          
+  @endforeach
+                  
+                  </select>                
                 </div>
               </div>
+
+              
+
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="departure-date">Data di partenza:</label>
-                  <input type="date" class="form-control" id="departure-date" name="departure_date">
+                  <input type="date" class="form-control" id="departure_date" name="departure_date">
                 </div>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-block cercaVolo">Cerca voli</button>
+            <button type="submit" onclick="resetFiltri()" class="btn btn-primary btn-block cercaVolo">Resetta
+              Filtri</button>
           </form>
         </div>
       </div>
@@ -67,7 +79,6 @@
 
   <!-- Lista dei voli disponibili -->
   <div id="risultati-voli">
-
     @foreach($voli as $flight)
 
     <div class="flight-card p-3">
@@ -77,13 +88,15 @@
         <div class="col-md-2 d-flex align-items-center justify-content-center">
         <div class="flight-detail d-flex flex-column align-items-center justify-content-center">
           <p class="mb-0"><strong>{{\Carbon\Carbon::parse($flight->orarioPartenza)->format('D')}}</strong></p>
-          <p class="mb-0"><strong>{{\Carbon\Carbon::parse($flight->orarioPartenza)->format('d/m/Y')}}</strong></p>
+          <p class="mb-0"><strong><span
+            id="departureDate">{{\Carbon\Carbon::parse($flight->orarioPartenza)->format('Y-m-d')}}</span></strong>
+          </p>
         </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
         <div class="flight-detail">
           <h5 class="mb-3">Partenza</h5>
-          <p><strong>Da:</strong> {{$flight->aereoportoPartenza->city}}
+          <p><strong>Da:</strong><span id="partenzaCity">{{$flight->aereoportoPartenza->city}}</span>
           ({{$flight->aereoportoPartenza->codice_iata}})</p>
           <p><strong>Ora:</strong> {{\Carbon\Carbon::parse($flight->orarioPartenza)->format('H:i')}}</p>
         </div>
@@ -91,7 +104,8 @@
         <div class="col-md-4">
         <div class="flight-detail">
           <h5 class="mb-3">Arrivo</h5>
-          <p><strong>A:</strong> {{$flight->aereoportoArrivo->city}} ({{$flight->aereoportoArrivo->codice_iata}})
+          <p><strong>A:</strong> <span id="arrivoCity">{{$flight->aereoportoArrivo->city}}</span>
+          ({{$flight->aereoportoArrivo->codice_iata}})
           </p>
           <p><strong>Ora:</strong> {{\Carbon\Carbon::parse($flight->orarioArrivo)->format('H:i')}}
           @if(\Carbon\Carbon::parse($flight->orarioPartenza)->format('d/m') != \Carbon\Carbon::parse($flight->orarioArrivo)->format('d/m'))
@@ -100,13 +114,13 @@
           </p>
         </div>
         </div>
-        <div class="col-md-2 d-flex flex-column justify-content-center align-items-center mt-2 mt-md-0">
-        <div class="flight-detail text-center">
+        <div class="col-md-2 d-flex flex-column justify-content-center ">
+        <div class="flight-detail ">
 
-          <a href="{{ route("prenotazioni.edit", $flight->id) }}" class="btn btn-primary mr-2 mb-2">
+          <a href="{{ route("prenotazioni.edit", $flight->id) }}" class="btn btn-primary mb-1 w-100"><i class="bi bi-calendar-plus"></i>
           Prenota Ora</a>
 
-          <a href="{{ route("voli.show", $flight->id) }}" class="btn btn-info mr-2"><i class="bi bi-search"></i>
+          <a href="{{ route("voli.show", $flight->id) }}" class="btn btn-info mt-1 w-100"><i class="bi bi-search"></i>
           Dettagli</a>
 
         </div>
@@ -115,11 +129,132 @@
       </div>
     </div>
 
-
     <div class="row mb-4"></div>
   @endforeach
 
   </div>
 </div>
+
+@if (isset($city))
+<script>
+
+var selectedValue = $('#partenza').find('option:selected').text();
+      var partenzaId = $('#partenza').find('option:selected').val();
+      var arrivoValue = $('#arrivo').find('option:selected').text();
+      var arrivoId = $('#arrivo').find('option:selected').val();
+      var departureDate = $('#departure_date').val();
+
+      if (partenzaId == -1) {
+        selectedValue = null;
+      }
+      if (arrivoId == -1) {
+        arrivoValue = null;
+      }
+
+      $('.flight-card').hide();
+
+      $('.flight-card').each(function () {
+        var partenzaCity = $(this).find('span#partenzaCity').text().trim();
+        var arrivoCity = $(this).find('span#arrivoCity').text().trim();
+        var flightDepartureDate = $(this).find('span#departureDate').text().trim(); // Utilizziamo text() per ottenere il valore dallo span
+
+        var filterPartenza = (selectedValue === null || partenzaCity === selectedValue);
+        var filterArrivo = (arrivoValue === null || arrivoCity === arrivoValue);
+
+
+        // Confronto solo giorno, mese e anno ignorando l'orario
+        var filterDate = (!departureDate || flightDepartureDate === departureDate);
+
+        if (filterPartenza && filterArrivo && filterDate) {
+          $(this).show();
+        }
+      });
+
+</script>
+
+
+@endif
+
+<script>
+
+  $(document).ready(function () {
+    function filterFlights() {
+      var selectedValue = $('#partenza').find('option:selected').text();
+      var partenzaId = $('#partenza').find('option:selected').val();
+      var arrivoValue = $('#arrivo').find('option:selected').text();
+      var arrivoId = $('#arrivo').find('option:selected').val();
+      var departureDate = $('#departure_date').val();
+
+      if (partenzaId == -1) {
+        selectedValue = null;
+      }
+      if (arrivoId == -1) {
+        arrivoValue = null;
+      }
+
+      $('.flight-card').hide();
+
+      $('.flight-card').each(function () {
+        var partenzaCity = $(this).find('span#partenzaCity').text().trim();
+        var arrivoCity = $(this).find('span#arrivoCity').text().trim();
+        var flightDepartureDate = $(this).find('span#departureDate').text().trim(); // Utilizziamo text() per ottenere il valore dallo span
+
+        var filterPartenza = (selectedValue === null || partenzaCity === selectedValue);
+        var filterArrivo = (arrivoValue === null || arrivoCity === arrivoValue);
+
+
+        // Confronto solo giorno, mese e anno ignorando l'orario
+        var filterDate = (!departureDate || flightDepartureDate === departureDate);
+
+        if (filterPartenza && filterArrivo && filterDate) {
+          $(this).show();
+        }
+      });
+    }
+
+
+
+    // Evento change per la selezione della partenza
+    $('#partenza').change(function () {
+      filterFlights();
+    });
+
+    // Evento change per la selezione dell'arrivo
+    $('#arrivo').change(function () {
+      filterFlights();
+    });
+
+    // Evento change per la selezione della data di partenza
+    $('#departure_date').change(function () {
+      filterFlights();
+    });
+
+
+    function clearFilters() {
+      // Rimuovi la selezione degli option nei select
+      $('#partenza').val(-1);
+      $('#arrivo').val(-1);
+      // Resetta il valore della data di partenza
+      $('#departure_date').val('');
+
+      // Nascondi tutti gli elementi con classe flight-card
+      $('.flight-card').show();
+    }
+
+    // Associa la funzione al clic del bottone
+    $('#cercavolo').submit(function (event) {
+      // Previeni il comportamento di default del form
+      event.preventDefault();
+
+      // Chiamata alla funzione per rimuovere i filtri
+      clearFilters();
+    });
+
+  });
+
+
+</script>
+
+
 
 @endsection

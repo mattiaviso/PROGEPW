@@ -40,11 +40,12 @@
     <div class="row">
         <div class="col-md-12">
             @if(isset($compagnia->id))
-                <form class="form-horizontal" name="compagnia" method="post"
+                <form class="form-horizontal" id="formCrea" name="compagnia" method="post"
                     action="{{ route('compagnie.update', ['compagnie' => $compagnia->id]) }}">
                     @method('PUT')
             @else
-                <form class="form-horizontal" name="compagnia" method="post" action="{{ route('compagnie.store') }}">
+                <form class="form-horizontal" id="formCrea" name="compagnia" method="post"
+                    action="{{ route('compagnie.store') }}">
             @endif
                     @csrf
                     <div class="form-group row mb-3">
@@ -58,6 +59,7 @@
                             @else
                                 <input class="form-control" type="text" name="nome" placeholder="Nome Compagnia" />
                             @endif
+                            <span class="text-danger" id="invalid-nome"></span>
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -68,9 +70,11 @@
                             @if(isset($compagnia->id))
                                 <input class="form-control" type="text" name="city" placeholder="Sede Centrale"
                                     value="{{ $compagnia->sede }}" />
+                                <input type="hidden" name="old_code" value="{{ $compagnia->nome }}">
                             @else
                                 <input class="form-control" type="text" name="city" placeholder="Sede Centrale" />
                             @endif
+                            <span class="text-danger" id="invalid-city"></span>
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -85,6 +89,7 @@
                                 <input class="form-control" type="text" name="country"
                                     placeholder="Nazione di Registrazione" />
                             @endif
+                            <span class="text-danger" id="invalid-country"></span>
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -98,6 +103,7 @@
                             @else
                                 <input class="form-control" type="text" name="anno" placeholder="Anno di Fondazione" />
                             @endif
+                            <span class="text-danger" id="invalid-anno"></span>
                         </div>
                     </div>
 
@@ -119,5 +125,81 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    $(document).ready(function () {
+        isValid = true;
+
+        $('#formCrea').submit(function (event) {
+
+            if ($('input[name="nome"]').val().trim() === '') {
+                isValid = false;
+                $("#invalid-nome").text("Il campo nome non può essere vuoto.");
+                event.preventDefault();
+                $("input[name='nome']").focus();
+            } else {
+                $("#invalid-nome").text("");
+            }
+
+            var cityValue = $('input[name="city"]').val().trim();
+            var cityRegex = /^[a-zA-ZÀ-ÿ\s]+$/;
+            if (!cityRegex.test(cityValue)) {
+                isValid = false;
+                $("#invalid-city").text("Il campo città può contenere solo lettere e accenti.");
+                event.preventDefault();
+                $("input[name='city']").focus();
+            } else {
+                $("#invalid-city").text("");
+            }
+
+            var countryValue = $('input[name="country"]').val().trim();
+            var countryRegex = /^[a-zA-ZÀ-ÿ\s]+$/;
+            if (!countryRegex.test(countryValue)) {
+                isValid = false;
+                $("#invalid-country").text("Il campo nazione può contenere solo lettere e accenti.");
+                event.preventDefault();
+                $("input[name='country']").focus();
+            } else {
+                $("#invalid-country").text("");
+            }
+
+            var annoValue = $('input[name="anno"]').val().trim();
+
+            if (annoValue === '' || isNaN(annoValue) || parseFloat(annoValue) <= 0) {
+                isValid = false;
+                $("#invalid-anno").text("Inserire un valore numerico valido e maggiore di zero per l'anno.");
+                event.preventDefault();
+                $("input[name='anno']").focus();
+            } else {
+                $("#invalid-anno").text("");
+            }
+
+            if (isValid) {
+                var old_code = $('input[name="old_code"]').val();
+
+                event.preventDefault();
+                $.ajax({
+                    type: 'GET',
+                    url: '/ajaxNomeCompagnia',
+                    data: { nome: $('input[name="nome"]').val().trim() },
+
+                    success: function (data) {
+                        if (!data.found || old_code === $('input[name="nome"]').val().trim()) {
+                            $("form")[0].submit();
+                        } else {
+                            $("#invalid-nome").text("Il nome della compagnia è già registrato. Inserire un nome diverso.");
+                            $("input[name='nome']").focus();
+                        }
+                    }
+                });
+            }
+
+
+        });
+
+    });
+
+</script>
 
 @endsection

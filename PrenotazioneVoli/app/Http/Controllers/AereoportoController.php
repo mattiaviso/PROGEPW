@@ -34,7 +34,7 @@ class AereoportoController extends Controller
     public function store(Request $request)
     {
         $dl = new DataLayer();
-        $dl->addAirport($request->input('nome'), $request->input('city'), $request->input('country'), $request->input('code'), $request->input('lat'), $request->input('lon'));
+        $dl->addAirport($request->input('nome'), $request->input('city'), $request->input('country'), strtoupper($request->input('code')), $request->input('lat'), $request->input('lon'));
         return Redirect::to(route('aereoporti.index'));
     }
 
@@ -69,7 +69,7 @@ class AereoportoController extends Controller
     public function update(Request $request, string $id)
     {
         $dl = new DataLayer();
-        $dl->editAirport($id, $request->input('nome'), $request->input('city'), $request->input('country'), $request->input('code'), $request->input('lat'), $request->input('lon'));
+        $dl->editAirport($id, $request->input('nome'), $request->input('city'), $request->input('country'), strtoupper($request->input('code')), $request->input('lat'), $request->input('lon'));
         return Redirect::to(route('aereoporti.index'));
     }
 

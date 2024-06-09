@@ -111,7 +111,7 @@ class DataLayer extends Model
 
     public function listCompagnie()
     {
-        $compagnie = Compagnie::orderBy('id', 'asc')->get();
+        $compagnie = Compagnie::orderBy('nome', 'asc')->get();
         return $compagnie;
     }
 
@@ -273,9 +273,9 @@ class DataLayer extends Model
         return $compagnia;
     }
 
-    public function listVoliByCompagniaId($compagnia_id)
+    public function listVolibyCompagniaID($idCompagnia)
     {
-        $voli = Voli::where('compagnia_id', $compagnia_id)->orderBy('numeroVolo', 'asc')->get();
+        $voli = Voli::where('compagnia_id', $idCompagnia)->orderBy('numeroVolo', 'asc')->get();
         return $voli;
     }
 
@@ -342,6 +342,18 @@ class DataLayer extends Model
         return $utenti;
     }
 
+    public function listaClienti()
+    {
+        $utenti = Clienti::where('ruolo', 'cliente')->orderBy('nome', 'asc')->orderBy('cognome', 'asc')->get();
+        return $utenti;
+    }
+
+    public function deleteAddetto($id)
+    {
+        $addetto = Clienti::find($id);
+        $addetto->delete();
+    }
+
     public function findAddettoById($id)
     {
         $addetto = Clienti::find($id);
@@ -356,11 +368,32 @@ class DataLayer extends Model
         $addetto->dataNascita = $dataNascita;
         $addetto->luogoNascita = $luogoNascita;
         $addetto->email = $email;
-        $addetto->password = Hash::make($password);
+        if ($addetto->password != $password) {
+            $addetto->password = Hash::make($password);
+        }
         $addetto->compagnia_id = $compagnia_id;
         $addetto->ruolo = $ruolo;
         $addetto->save();
     }
+    public function updateAddettiNoPassword($id, $nome, $cognome, $dataNascita, $luogoNascita, $email)
+    {
+        $addetto = Clienti::find($id);
+        $addetto->nome = $nome;
+        $addetto->cognome = $cognome;
+        $addetto->dataNascita = $dataNascita;
+        $addetto->luogoNascita = $luogoNascita;
+        $addetto->email = $email;
+        $addetto->save();
+    }
+
+    public function updatePassword($id, $password)
+    {
+        $addetto = Clienti::find($id);
+        $addetto->password = Hash::make($password);
+        $addetto->save();
+    }
+
+
 
     public function addCliente($nome, $cognome, $dataNascita, $luogoNascita, $email, $password)
     {
@@ -386,6 +419,35 @@ class DataLayer extends Model
         }
     }
 
+    public function checkPrenotazione($idVolo, $idCliente)
+    {
+        $prenotazioni = Prenotazioni::where('volo_id', $idVolo)->where('cliente_id', $idCliente)->get();
+        if (count($prenotazioni) == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    //ritorna true se ci sono posti a sufficienza capienzaaereo-occupati >= passengerCount
+    public function checkPosti($idVolo, $passCount)
+    {
+
+        $voli = Voli::where('id', $idVolo)->get();
+        $capienza = $voli[0]->aereo->capacita;
+        $prenotazioni = $voli[0]->prenotazioni->reduce(function ($carry, $prenotazione) {
+            return $carry + $prenotazione->passeggeri->count();
+        }, 0);
+
+        if ($capienza - $prenotazioni >= $passCount) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     public function getUserID($email)
     {
         $users = Clienti::where('email', $email)->get(['id']);
@@ -409,6 +471,37 @@ class DataLayer extends Model
         $users = Clienti::where('email', $email)->get();
 
         if (count($users) == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    public function aereoEPresente($nome)
+    {
+        $aerei = Aerei::where('nomeModello', $nome)->get();
+        if (count($aerei) == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function codeGiaPresente($code)
+    {
+        $aeroporti = Aereoporti::where('codice_iata', $code)->get();
+        if (count($aeroporti) == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function compagniaEPresente($nome)
+    {
+        $compagnie = Compagnie::where('nome', $nome)->get();
+        if (count($compagnie) == 0) {
             return false;
         } else {
             return true;

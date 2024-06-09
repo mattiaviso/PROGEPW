@@ -16,7 +16,7 @@ class isAdmin
     public function handle(Request $request, Closure $next): Response
     {
         if ((!isset($_SESSION['ruolo'])) || ($_SESSION['ruolo'] != 'admin')) {
-            return response()->view('errors.404', ['message' => 'Only admin can view this page!']);
+            return response()->view('errors.404', ['message' => 'Solo l\'admin può accedere a questa pagina!']);
         }
         return $next($request);
     }

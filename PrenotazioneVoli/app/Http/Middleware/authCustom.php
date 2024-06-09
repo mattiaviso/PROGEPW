@@ -17,7 +17,6 @@ class authCustom
     public function handle(Request $request, Closure $next): Response
     {
         session_start();
-
         if (!isset($_SESSION['logged'])) {
             return Redirect::to(route('user.login'));
         }

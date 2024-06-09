@@ -23,11 +23,12 @@ class VoliController extends Controller
 
     public function search(string $city)
     {
+
         $dl = new DataLayer();
-        $voli = $dl->cercaVoliPerCity($city);
+        $voli = $dl->listVoli();
         $aeroportiPartenza = $dl->listAirportPartenza();
-        $aeroportiArrivo = $dl->listAirportInCity($city);
-        return view('voli.index')->with('voli', $voli)->with('aeroportiPartenza', $aeroportiPartenza)->with('aeroportiArrivo', $aeroportiArrivo);
+        $aeroportiArrivo = $dl->listAirportArrivo();
+        return view('voli.index')->with('voli', $voli)->with('aeroportiPartenza', $aeroportiPartenza)->with('aeroportiArrivo', $aeroportiArrivo)->with('city', $city);
     }
 
     /**
@@ -68,7 +69,13 @@ class VoliController extends Controller
     {
         $dl = new DataLayer();
         $volo = $dl->findFlightByID($id);
-        return view('voli.show')->with('volo', $volo);
+        $compagniaId_Logged_User = $dl->findCompagniaByUserID($_SESSION['loggedID']);
+
+        if (!$volo) {
+            return response()->view('errors.404', ['message' => 'Volo non trovato']);
+        }
+
+        return view('voli.show')->with('volo', $volo)->with('compagniaUser', $compagniaId_Logged_User);
     }
 
     /**

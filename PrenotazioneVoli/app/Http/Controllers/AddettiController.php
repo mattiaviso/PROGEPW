@@ -28,6 +28,14 @@ class AddettiController extends Controller
         return view('addetti.indexAdPrenotazioni')->with('utenti', $utenti);
     }
 
+    public function clienti()
+    {
+        $dl = new DataLayer();
+        $utenti = $dl->listaClienti();
+        
+        return view('addetti.indexClienti')->with('utenti', $utenti);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -107,6 +115,15 @@ class AddettiController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $dl = new DataLayer();
+        $dl->deleteAddetto($id);
+        return Redirect::to(route('home'));
+    }
+
+    public function confirmDestroy(string $id)
+    {
+        $dl = new DataLayer();
+        $utente = $dl->findAddettoById($id);
+        return view('addetti.delete')->with('utente', $utente);
     }
 }

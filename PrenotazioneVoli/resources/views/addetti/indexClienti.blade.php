@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Lista Addetti alle Prenotazioni')
+@section('title', 'Lista Clienti')
 
 @section('breadcrumb')
 <div class="container mt-3">
@@ -11,7 +11,7 @@
             </li>
 
             <li class="breadcrumb-item active" aria-current="page">
-                Lista Addetti alle Prenotazioni
+                Lista Utenti
             </li>
         </ol>
     </nav>
@@ -20,18 +20,11 @@
 
 
 @section('body')
-<div class="container mt-4 ">
-    <div class="col-xs-6 d-flex justify-content-end">
-        <a href="{{route("addetti.create") }}" class="btn btn-success"><i class="bi bi-plus-circle-fill"></i>
-            Aggiungi Account Personale</a>
-    </div>
-</div>
 
 <div class="container mt-4">
     <div class="col-md-12">
         <table class="table table-hover">
-            <col width='10%'>
-            <col width='10%'>
+            <col width='20%'>
             <col width='20%'>
             <col width='30%'>
             <col width='15%'>
@@ -40,7 +33,6 @@
                 <tr>
                     <th>Nome</th>
                     <th>Cognome</th>
-                    <th>Compagnia</th>
                     <th>E-Mail</th>
                     <th></th>
                     <th></th>
@@ -56,9 +48,6 @@
                             <h6>{{$addetto->cognome}}</h6>
                         </td>
                         <td>
-                            <h6>{{$addetto->compagnia->nome}}</h6>
-                        </td>
-                        <td>
                             <h6>{{$addetto->email}}</h6>
                         </td>
 
@@ -67,8 +56,14 @@
                                     class="bi bi-pencil-square"></i> Edit</a>
                         </td>
                         <td>
-                            <a class="btn btn-danger" href="{{route("addetti.delete", $addetto->id)}}"><i
-                                    class="bi bi-trash"></i> Delete</a>
+                            @if($addetto->prenotazioni->count() < 1)
+                                <a class="btn btn-danger" href="{{route('addetti.delete', $addetto->id)}}"><i
+                                        class="bi bi-trash"></i>
+                                    Delete</a>
+                            @else
+                                <a class="btn btn-secondary" disabled="disabled"><i class="bi bi-ban"></i> Elimina</a>
+                            @endif
+
                         </td>
                     </tr>
                 @endforeach

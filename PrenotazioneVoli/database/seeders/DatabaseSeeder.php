@@ -5,11 +5,16 @@ namespace Database\Seeders;
 use App\Models\Aerei;
 use App\Models\Aereoporti;
 use App\Models\Passeggeri;
+use App\Models\Prenotazioni;
 use App\Models\User;
 use App\Models\Compagnie;
 use App\Models\Voli;
+use App\Models\Clienti;
+use Illuminate\Support\Facades\Hash;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use DateInterval;
+use DateTime;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,7 +31,6 @@ class DatabaseSeeder extends Seeder
             'country' => 'Italia',
             'lat' => '45.6306',
             'lon' => '8.7281'
-
         ]);
 
         Aereoporti::create([
@@ -56,14 +60,6 @@ class DatabaseSeeder extends Seeder
             'lon' => '11.2887'
         ]);
 
-        Aereoporti::create([
-            'nome' => 'Napoli Capodichino Airport',
-            'codice_iata' => 'NAP',
-            'city' => 'Napoli',
-            'country' => 'Italia',
-            'lat' => '40.8842',
-            'lon' => '14.2908'
-        ]);
 
         Aereoporti::create([
             'nome' => 'San Francisco International Airport',
@@ -129,15 +125,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Aereoporti::create([
-            'nome' => 'Beijing Capital International Airport',
-            'codice_iata' => 'PEK',
-            'city' => 'Beijing',
-            'country' => 'China',
-            'lat' => '40.0799',
-            'lon' => '116.6031'
-        ]);
-
-        Aereoporti::create([
             'nome' => 'Moscow Sheremetyevo International Airport',
             'codice_iata' => 'SVO',
             'city' => 'Moscow',
@@ -165,14 +152,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-
-
-        Compagnie::create([
-            'nome' => 'Air France',
-            'anno_fondazione' => 1933,
-            'sede' => 'Parigi',
-            'country' => 'Francia',
-        ]);
 
         Compagnie::create([
             'nome' => 'Ita Airways',
@@ -238,23 +217,34 @@ class DatabaseSeeder extends Seeder
 
 
 
-        Passeggeri::factory(5)->create();
+        for ($i = 0; $i < 10; $i++) {
+            $veivolo = Aerei::inRandomOrder()->value('id');
+            $comp = Compagnie::inRandomOrder()->value('id');
+
+            $p = Aereoporti::inRandomOrder()->value('id');
+            do {
+                $a = Aereoporti::inRandomOrder()->value('id');
+            } while ($a === $p);
+
+            $lettera1 = chr(rand(65, 90)); // Genera una lettera maiuscola ASCII
+            $lettera2 = chr(rand(65, 90)); // Genera una lettera maiuscola ASCII
+
+            $now = new DateTime();
+            $interval1 = new DateInterval('PT' . rand(0, 16) . 'H');
+            $intervalDays = new DateInterval('P' . rand(0, 30) . 'D');
+            $date1 = clone $now;
+            $date1->add($interval1)->add($intervalDays);
+            $interval2 = new DateInterval('PT' . rand(0, 16) . 'H');
+            $date2 = clone $date1;
+            $date2->add($interval2);
 
 
-
-        $ae = Aereoporti::all()->count();
-
-
-        for ($i = 0; $i < 20; $i++) {
-            $veivolo = rand(1, 4);
-            $comp = rand(1, 5);
-            $p = rand(1, $ae);
-            $a = rand(1, $ae);
+            $numero = rand(1000, 9999);
 
             Voli::create([
-                'numeroVolo' => 'IT' . $i,
-                'orarioPartenza' => '2024-05-01 08:00:00',
-                'orarioArrivo' => '2024-05-01 10:00:00',
+                'numeroVolo' => $lettera1 . $lettera2 . $numero,
+                'orarioPartenza' => $date1->format('Y-m-d H:i:s'),
+                'orarioArrivo' => $date2->format('Y-m-d H:i:s'),
                 'aereoportoPartenza_id' => $p,
                 'aereoportoArrivo_id' => $a,
                 'aereo_id' => $veivolo,
@@ -262,9 +252,40 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        Clienti::create([
+            'nome' => 'Mattia',
+            'cognome' => 'Visini',
+            'dataNascita' => '1999-06-01',
+            'luogoNascita' => 'Brescia',
+            'email' => 'mattia@unibs.it',
+            'password' => Hash::make('password'),
+            'ruolo' => 'cliente',
+        ]);
+
+        Clienti::create([
+            'nome' => 'Luca',
+            'cognome' => 'Visini',
+            'dataNascita' => '2001-06-01',
+            'luogoNascita' => 'Brescia',
+            'email' => 'admin@unibs.it',
+            'password' => Hash::make('password'),
+            'ruolo' => 'admin',
+        ]);
 
 
+        Clienti::factory(5)->create();
 
+        Passeggeri::factory(10)->create();
+
+        Prenotazioni::factory(50)->create();
+
+
+        $prenotaazioni = Prenotazioni::all();
+
+        foreach ($prenotaazioni as $prenotazione) {
+            $passeggeri = Passeggeri::inRandomOrder()->limit(rand(1, 5))->get();
+            $prenotazione->passeggeri()->attach($passeggeri);
+        }
 
 
 

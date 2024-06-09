@@ -14,18 +14,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- jQuery e plugin JavaScript  -->
-    <script src="http://code.jquery.com/jquery.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="{{ url('/') }}/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 
-    <link href="../public/assets/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 
 
     <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Custom JavaScript -->
@@ -109,22 +107,10 @@
                     <div class="col-md-8 text-right">
                         <label class="text-white mr-2">BENTORNATO {{ strtoupper($_SESSION['loggedName']) }} !!!</label>
                     </div>
-
-                    @if((isset($_SESSION['logged'])) && ($_SESSION['ruolo'] === 'cliente'))
-
-
-                    @endif
-
-                    @if((isset($_SESSION['logged'])) && ($_SESSION['ruolo'] === 'prenotazioni'))
-                        <div class="col-md-5 text-right">
-                            <a href="#" class="text-white mr-2">prenotazioni</a>
-                        </div>
-                    @endif
                 @else
                     <div class="col-md-9 text-right">
                         <a type="button" class="btn btn-outline-light me-2" href="{{route('user.login')}}">LOGIN</a>
                         <a type="button" class="btn btn-outline-light me-2" href="{{route('user.register')}}">REGISTRATI</a>
-
                     </div>
                 @endif
             </div>
@@ -195,7 +181,7 @@
                                             Voli</a>
                                         <a class="dropdown-item" href="{{ route('addetti.indexPrenotazioni') }}">Addetti alle
                                             Prenotazioni</a>
-                                        <a class="dropdown-item" href="#">Clienti</a>
+                                        <a class="dropdown-item" href="{{route('addetti.clienti')}}">Clienti</a>
                                     </div>
                                 </div>
                             </li>
@@ -322,13 +308,14 @@
                     <h5 class="text-white">Link Utili</h5>
                     <ul class="nav flex-column">
                         <li class="nav-item mb-2">
-                            <a href="#" class="nav-link p-0 text-white">Chi siamo</a>
+                            <a href="{{route('altro.who')}}" class="nav-link p-0 text-white">Chi siamo</a>
                         </li>
                         <li class="nav-item mb-2">
-                            <a href="#" class="nav-link p-0 text-white">Privacy Policy</a>
+                            <a href="{{route('altro.privacy')}}" class="nav-link p-0 text-white">Privacy Policy</a>
                         </li>
                         <li class="nav-item mb-2">
-                            <a href="#" class="nav-link p-0 text-white">Termini e condizioni</a>
+                            <a href="{{route('altro.termini')}}" class="nav-link p-0 text-white">Termini e
+                                condizioni</a>
                         </li>
                     </ul>
                 </div>

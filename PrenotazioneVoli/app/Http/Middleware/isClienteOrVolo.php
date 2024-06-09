@@ -16,7 +16,16 @@ class isClienteOrVolo
     public function handle(Request $request, Closure $next): Response
     {
         if ((!isset($_SESSION['ruolo'])) || (($_SESSION['ruolo'] != 'cliente') && ($_SESSION['ruolo'] != 'inserimento'))) {
-            return response()->view('errors.404', ['message' => 'Only external registered users  or addetti can view this page!']);
+
+
+            if (!isset($_SESSION)) {
+                session_start();
+            }
+
+            if (!isset($_SESSION['ruolo']) || empty($_SESSION['ruolo'])) {
+                $_SESSION['ruolo'] = 'visitor';
+            }
+
         }
         return $next($request);
     }

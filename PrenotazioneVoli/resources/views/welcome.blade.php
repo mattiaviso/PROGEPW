@@ -18,96 +18,48 @@
 @endsection
 
 @section('body')
-
-<div class="container mt-3">
-  <!-- Barra di ricerca -->
-  <div class="row mb-4">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-body">
-          <form>
-            <div class="form-row">
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label for="from">Da:</label>
-                  <input type="text" class="form-control" id="from" placeholder="Città di partenza">
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label for="to">A:</label>
-                  <input type="text" class="form-control" id="to" placeholder="Città di arrivo">
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label for="departure-date">Data di partenza:</label>
-                  <input type="date" class="form-control" id="departure-date">
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label>Numero di passeggeri:</label>
-                  <div class="passengers-wrapper">
-                    <button type="button" class="btn btn-secondary passenger-btn"
-                      onclick="decreasePassenger()">-</button>
-                    <input type="text" class="form-control text-center" id="passengers" value="1" readonly>
-                    <button type="button" class="btn btn-secondary passenger-btn"
-                      onclick="increasePassenger()">+</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Cerca voli</button>
-          </form>
+<div class="container mt-3 mb-3">
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img class="d-block w-100" src="https://images2.alphacoders.com/102/1020217.jpg" alt="Dubai">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Dubai</h5>
+          <p>Scopri le bellezze di Dubai.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img class="d-block w-100" src="{{ url('/') }}/img/sanfra.jpg" alt="San Francisco">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>San Francisco</h5>
+          <p>Esplora la magnifica città di San Francisco.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img class="d-block w-100" src="https://i.pinimg.com/originals/33/21/f8/3321f81d342b9a23fb8ea910dc83e325.jpg"
+          alt="New York">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>New York</h5>
+          <p>Visita la città che non dorme mai, New York.</p>
         </div>
       </div>
     </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
   </div>
-
-  <!-- Lista dei voli disponibili -->
-  @foreach($voli as $flight)
-
-  <div class="flight-card p-3">
-    <h4 class="mb-3">{{$flight->compagnia->nome}} {{$flight->numeroVolo}}</h4>
-    <div class="flight-info">
-    <div class="row">
-      <div class="col-md-2 d-flex align-items-center justify-content-center">
-      <div class="flight-detail d-flex flex-column align-items-center justify-content-center">
-        <p class="mb-0"><strong>{{\Carbon\Carbon::parse($flight->orarioPartenza)->format('D')}}</strong></p>
-        <p class="mb-0"><strong>{{\Carbon\Carbon::parse($flight->orarioPartenza)->format('d/m/Y')}}</strong></p>
-      </div>
-      </div>
-      <div class="col-md-4">
-      <div class="flight-detail">
-        <h5 class="mb-3">Partenza</h5>
-        <p><strong>Da:</strong> {{$flight->aereoportoPartenza->city}}
-        ({{$flight->aereoportoPartenza->codice_iata}})</p>
-        <p><strong>Ora:</strong> {{\Carbon\Carbon::parse($flight->orarioPartenza)->format('H:i')}}</p>
-      </div>
-      </div>
-      <div class="col-md-4">
-      <div class="flight-detail">
-        <h5 class="mb-3">Arrivo</h5>
-        <p><strong>A:</strong> {{$flight->aereoportoArrivo->city}} ({{$flight->aereoportoArrivo->codice_iata}})
-        </p>
-        <p><strong>Ora:</strong> {{\Carbon\Carbon::parse($flight->orarioArrivo)->format('H:i') }}</p>
-      </div>
-      </div>
-      <div class="col-md-2 d-flex flex-column justify-content-center align-items-center mt-3 mt-md-0">
-      <div class="flight-detail text-center">
-        <button class="btn btn-lg btn-primary mb-2">Prenota</button>
-        <a href="#" class="btn btn-info mr-2"><i class="bi bi-search"></i>
-        Dettagli</a>
-      </div>
-      </div>
-    </div>
-    </div>
-  </div>
-
-  <div class="row mb-4"></div>
-@endforeach
-
 </div>
+
+
 
 @endsection

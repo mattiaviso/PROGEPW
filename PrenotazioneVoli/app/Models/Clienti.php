@@ -15,7 +15,7 @@ class Clienti extends Model
 
     public function prenotazioni()
     {
-        return $this->hasMany(Prenotazioni::class);
+        return $this->hasMany(Prenotazioni::class, 'cliente_id');
     }
 
     public function compagnia()

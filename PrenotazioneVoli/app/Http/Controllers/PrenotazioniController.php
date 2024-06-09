@@ -73,6 +73,10 @@ class PrenotazioniController extends Controller
     {
         $dl = new DataLayer();
         $volo = $dl->findFlightByID($id);
+        if (!$volo) {
+            return response()->view('errors.404', ['message' => 'Questo volo non esiste']);
+        }
+
         return view('prenotazioni.edit')->with('volo', $volo);
 
     }

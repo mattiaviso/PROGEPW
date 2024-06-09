@@ -24,12 +24,107 @@
 
 
 @section('body')
-<div class="container mt-3 mb-5">
+<script>
+    $(document).ready(function () {
+        $("#formPassengers").submit(function (event) {
+            var passengerCount = $('#passenger_count').val();
+            var idVolo = $('#idVolo').text();
+            var idCliente = $('#idCliente').text();
+            var isValid = true;
+            var nameRegex = /^[A-Za-z\s'À-ÖØ-öø-ÿ]+$/;
+            var inputs = document.querySelectorAll('input[type="text"]');
 
+            inputs.forEach(function (input) {
+                if (!input.value.match(nameRegex)) {
+                    isValid = false;
+                    input.classList.add('is-invalid');
+                    if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('text-danger')) {
+                        var errorDiv = document.createElement('span');
+                        errorDiv.className = 'text-danger error-text';
+                        errorDiv.innerText = 'Il campo deve contenere solo lettere.';
+                        input.parentNode.appendChild(errorDiv);
+                    }
+                } else {
+                    input.classList.remove('is-invalid');
+                    if (input.nextElementSibling && input.nextElementSibling.classList.contains('text-danger')) {
+                        input.nextElementSibling.remove();
+                    }
+                }
+            });
+
+            if (!isValid) {
+                event.preventDefault();
+            }
+            else {
+                event.preventDefault();
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/ajaxPostiDisponibili',
+                    data: {
+                        passengerCount: passengerCount,
+                        idVolo: idVolo
+                    },
+                    success: function (data) {
+                        if (data.found) {
+                            if (isValid) {
+                                isValid = true;
+                            }
+                        } else {
+                            isValid = false;
+                            $('#postiNonDisponibiliModal').modal('show').find('.modal-body').text('Non ci sono più posti disponibili.');
+                        }
+                    }
+                });
+            }
+
+            if (!isValid) {
+                event.preventDefault();
+            }
+            else {
+                event.preventDefault();
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/ajaxPrenotazioneGiaPresente',
+                    data: {
+                        idVolo: idVolo,
+                        idCliente: idCliente
+                    },
+                    success: function (data) {
+                        if (!data.found) {
+                            if (isValid) {
+                                $("form")[0].submit();
+                            }
+                        } else {
+                            $('#postiNonDisponibiliModal').modal('show').find('.modal-body').text('Hai già una prenotazione per questo volo.');
+                        }
+                    }
+                });
+            }
+
+        });
+
+        //chiusura modal al clicck sulla X oppure su chiudi
+        $('#chiudiModal').click(function () {
+            $('#postiNonDisponibiliModal').modal('hide');
+        });
+        $('#chiudi').click(function () {
+            $('#postiNonDisponibiliModal').modal('hide');
+        });
+
+
+
+    });
+
+</script>
+
+
+
+<div class="container mt-3 mb-5">
     <div class="row">
         <div class="col-md-12">
-
-            <form action="{{ route('prenotazioni.store') }}" method="post" class="form-horizontal">
+            <form id="formPassengers" action="{{ route('prenotazioni.store') }}" method="post" class="form-horizontal">
                 @csrf
                 <input type="hidden" name="volo_id" value="{{$volo->id}}">
                 <input type="hidden" name="utente_id" value="{{$_SESSION['loggedID']}}">
@@ -38,7 +133,9 @@
                         <strong><label for="title">Numero Volo</label></strong>
                     </div>
                     <div class="col-md-9">
-                        <label for="title">{{$volo->numeroVolo}}</label>
+                        <label for="title" id="numeroVolo">{{$volo->numeroVolo}}</label>
+                        <label for="title" hidden id="idVolo">{{$volo->id}}</label>
+                        <label for="title" hidden id="idCliente">{{$_SESSION['loggedID']}}</label>
                     </div>
                 </div>
                 <div class="form-group row mb-3">
@@ -62,7 +159,7 @@
                     </div>
                     <div class="col-md-9">
                         <select id="passenger_count" name="passenger_count" class="form-control"
-                            onchange="updatePassengerFields()" required>
+                            onchange="updatePassengerFields()" required aria-label="Default select example">
                             @for ($i = 1; $i <= 10; $i++)
                                 <option value="{{ $i }}">{{ $i }}</option>
                             @endfor
@@ -73,6 +170,9 @@
                 <div id="passenger_fields">
                     <!-- RICHIAMA JQUERY -->
                 </div>
+
+
+
                 <div class="form-group row mb-3">
                     <div class="col-md-9 offset-md-3">
                         <label for="mySubmit" class="btn btn-primary w-100"><i class="bi bi-calendar-plus"></i>
@@ -90,6 +190,29 @@
         </div>
     </div>
 </div>
+<div class="modal" id="postiNonDisponibiliModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <span class="bi bi-exclamation-triangle-fill" style="font-size: 1.5em; color: red;">
+                        Attenzione!</span>
+                </h5>
+                <button type="button" class="close" id="chiudiModal" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Non ci sono più posti disponibili.
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="chiudi" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 
 <script>

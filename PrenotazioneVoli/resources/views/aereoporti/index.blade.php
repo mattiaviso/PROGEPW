@@ -66,7 +66,7 @@
                             @if(count($airport->voliPartenza) < 1)
                                 @if ($airport->voliArrivo->count() < 1)
                                     <a class="btn btn-danger" href="{{ route("aereoporti.destroy.confirm", $airport->id) }}"><i
-                                            class="bi bi-trash"></i> Delete</a>
+                                            class="bi bi-trash"></i> Elimina</a>
                                 @else
                                     <a class="btn btn-secondary" disabled="disabled"><i class="bi bi-ban"></i> Elimina</a>
                                 @endif

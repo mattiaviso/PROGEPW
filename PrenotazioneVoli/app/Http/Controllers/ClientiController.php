@@ -76,6 +76,36 @@ class ClientiController extends Controller
         //
     }
 
+    public function aggiorna(Request $request)
+    {
+        $id = $_SESSION['loggedID'];
+        $nome = $request->input('nome');
+        $cognome = $request->input('cognome');
+        $dataNascita = $request->input('dataNascita');
+        $luogoNascita = $request->input('luogoNascita');
+        $email = $request->input('email');
+
+        $_SESSION['loggedName'] = $nome;
+
+        $dl = new DataLayer();
+        $dl->updateAddettiNoPassword($id, $nome, $cognome, $dataNascita, $luogoNascita, $email);
+
+        return Redirect::to(route('profilo'));
+    }
+
+    public function aggiornaPass(Request $request)
+    {
+
+        $id = $_SESSION['loggedID'];
+        $password = $request->input('passwordnew1');
+
+        $dl = new DataLayer();
+        $dl->updatePassword($id, $password);
+
+        return Redirect::to(route('profilo'));
+    }
+
+
     /**
      * Remove the specified resource from storage.
      */
