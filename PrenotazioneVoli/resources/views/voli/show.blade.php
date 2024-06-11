@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Dettagli del volo')
+@section('title', '{{trans("messages.dettagliVolo")}}')
 
 
 @section('breadcrumb')
@@ -8,18 +8,18 @@
     @if((isset($_SESSION['logged'])) && $volo->compagnia->id == $compagniaUser)
         <div class="container mt-3">
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
+                <ol class="breadcrumb justify-content-end">
                     <li class="breadcrumb-item">
                         <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
                     </li>
                     @if((isset($_SESSION['logged'])) && ($_SESSION['logged']))
                         @if ($_SESSION['ruolo'] == 'inserimento')
                             <li class="breadcrumb-item">
-                                <a href="{{route('addettoVoli')}}">Voli</a>
+                                <a href="{{route('addettoVoli')}}">{{trans('messages.lista_voli')}}</a>
                             </li>
                         @else
                             <li class="breadcrumb-item">
-                                <a href="{{route('voli.index')}}">Voli</a>
+                                <a href="{{route('voli.index')}}">{{trans('messages.lista_voli')}}</a>
                             </li>
                         @endif
                     @endif
@@ -34,22 +34,21 @@
 @else
     <div class="container mt-3">
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb justify-content-end">
                 <li class="breadcrumb-item">
                     <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
                 </li>
                 @if((isset($_SESSION['logged'])) && ($_SESSION['logged']))
                     @if ($_SESSION['ruolo'] == 'inserimento')
                         <li class="breadcrumb-item">
-                            <a href="{{route('addettoVoli')}}">Voli</a>
+                            <a href="{{route('addettoVoli')}}">{{trans('messages.lista_voli')}}</a>
                         </li>
                     @else
                         <li class="breadcrumb-item">
-                            <a href="{{route('voli.index')}}">Voli</a>
+                            <a href="{{route('voli.index')}}">{{trans('messages.lista_voli')}}</a>
                         </li>
                     @endif
                 @endif
-
                 <li class="breadcrumb-item active" aria-current="page">
                     {{$volo->numeroVolo}}
                 </li>
@@ -61,22 +60,25 @@
 
 
 @section('body')
-@if(($_SESSION['ruolo'] == 'cliente') || (isset($_SESSION['logged'])) && $volo->compagnia->id == $compagniaUser)
+@if(($compagniaUser == null) || (isset($_SESSION['logged'])) && $volo->compagnia->id == $compagniaUser)
     <div class="container mt-3 mb-3">
         <div class="row">
             <div class="col-md-5 text-left mr-5 my-4"
                 style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
-                <p><strong>Numero Volo:</strong> {{ $volo->numeroVolo }}</p>
-                <p><strong>Compagnia:</strong> {{ $volo->compagnia->nome }}</p>
-                <p><strong>Partenza:</strong> {{ $volo->aereoportoPartenza->nome }}</p>
-                <p><strong>Ora Partenza:</strong> {{ \Carbon\Carbon::parse($volo->orarioPartenza)->format('H:i') }}</p>
-                <p><strong>Arrivo:</strong> {{ $volo->aereoportoArrivo->nome }}</p>
-                <p><strong>Ora Arrivo:</strong> {{ \Carbon\Carbon::parse($volo->orarioArrivo)->format('H:i') }}
+                <p><strong>{{trans('messages.numero_volo')}}:</strong> {{ $volo->numeroVolo }}</p>
+                <p><strong>{{trans('messages.compagnie')}}:</strong> {{ $volo->compagnia->nome }}</p>
+                <p><strong>{{trans('messages.aeroportoP')}}:</strong> {{ $volo->aereoportoPartenza->nome }}</p>
+                <p><strong>{{trans('messages.oraPartenza')}}:</strong>
+                    {{ \Carbon\Carbon::parse($volo->orarioPartenza)->format('H:i') }}</p>
+                <p><strong>{{trans('messages.aeroportoA')}}:</strong> {{ $volo->aereoportoArrivo->nome }}</p>
+                <p><strong>{{trans('messages.oraArrivo')}}:</strong>
+                    {{ \Carbon\Carbon::parse($volo->orarioArrivo)->format('H:i') }}
                     @if(\Carbon\Carbon::parse($volo->orarioPartenza)->format('d/m') != \Carbon\Carbon::parse($volo->orarioArrivo)->format('d/m'))
                         <sup>+1</sup>
                     @endif
                 </p>
-                <p><strong>Data Partenza:</strong> {{ \Carbon\Carbon::parse($volo->orarioPartenza)->format('d/m/Y') }}</p>
+                <p><strong>{{trans('messages.dataPartenza')}}:</strong>
+                    {{ \Carbon\Carbon::parse($volo->orarioPartenza)->format('d/m/Y') }}</p>
 
                 @php
                     $orarioPartenza = \Carbon\Carbon::parse($volo->orarioPartenza);
@@ -84,13 +86,14 @@
                     $differenza = $orarioPartenza->diff($orarioArrivo);
                 @endphp
 
-                <p><strong>Distanza:</strong>
+                <p><strong>{{trans('messages.distanza')}}:</strong>
                     @php
                         $distance = calculateDistance($volo->aereoportoPartenza, $volo->aereoportoArrivo);
                         echo $distance;
                     @endphp
                 </p>
-                <p><strong>Durata Volo:</strong> {{ $differenza->format('%h ore e %I minuti') }} </p>
+                <p><strong>{{trans('messages.durata_delVolo')}}:</strong> {{ $differenza->format('%h ore e %I minuti') }}
+                </p>
             </div>
 
             <div id="map" class="col-md-6 text-right my-4" style="width: 500px; height: 400px">
@@ -107,17 +110,18 @@
                             <div class="col-md-12">
                                 <a href="{{route("voli.edit", $volo->id)}}" class="btn btn-warning btn-block"><i
                                         class="bi bi-pencil-square"></i>
-                                    Modifica</a>
+                                    {{trans('messages.modifica')}}</a>
                             </div>
                         </div>
                         <div class="form-group row mb-3">
                             <div class="col-md-12">
                                 @if($volo->prenotazioni->count() > 0)
-                                    <a class="btn btn-secondary btn-block" disabled="disabled"><i class="bi bi-ban"></i> Elimina</a>
+                                    <a class="btn btn-secondary btn-block" disabled="disabled"><i class="bi bi-ban"></i>
+                                        {{trans('messages.elimina')}}</a>
                                 @else
                                     <a class="btn btn-danger btn-block" href="{{route('voli.destroy.confirm', $volo->id)}}"><i
                                             class="bi bi-trash"></i>
-                                        Elimina</a>
+                                        {{trans('messages.elimina')}}</a>
                                 @endif
                             </div>
                         </div>
@@ -128,7 +132,7 @@
                         <div class="form-group row mb-3">
                             <div class="col-md-12">
                                 <a href="{{ route("prenotazioni.edit", $volo->id) }}" class="btn btn-primary btn-block">
-                                    <i class="bi bi-calendar-plus"></i> Prenota
+                                    <i class="bi bi-calendar-plus"></i> {{trans('messages.prenota')}}
                                 </a>
 
                             </div>
@@ -144,9 +148,9 @@
             <div class="col-md-6">
                 <div class="alert alert-danger text-center" role="alert">
                     <span class="bi bi-lock-fill" style="font-size: 2rem;"></span>
-                    <h4 class="alert-heading">Accesso Negato!</h4>
-                    Non hai i permessi per visualizzare questa pagina.<br>
-                    Questo volo non è gestito dalla tua compagnia.</p>
+                    <h4 class="alert-heading">{{trans('messages.access_denied')}}!</h4>
+                    {{trans('messages.noPermessi')}}<br>
+                    {{trans('messages.vologestitoNondatuaCompagnia')}}</p>
                 </div>
             </div>
         </div>

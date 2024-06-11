@@ -6,12 +6,12 @@
 
 <div class="container mt-3">
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
+        <ol class="breadcrumb justify-content-end">
             <li class="breadcrumb-item">
                 <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                Home Addetto Voli
+                {{trans('messages.lista_voli')}} {{ $voli->first()->compagnia->nome }}
             </li>
         </ol>
     </nav>
@@ -24,8 +24,7 @@
 <div class="container mt-4 ">
     <div class="col-xs-6 d-flex justify-content-end">
         <a href="{{ route("voli.create") }}" class="btn btn-success"><i class="bi bi-plus-circle-fill"></i>
-            Aggiungi nuovo
-            volo</a>
+            {{trans('messages.aggiungiVolo')}}</a>
     </div>
 </div>
 

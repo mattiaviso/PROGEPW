@@ -9,9 +9,19 @@
             <li class="breadcrumb-item">
                 <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">
-                Creazione Account Addetto
+            <li class="breadcrumb-item">
+                <a href="{{ url()->previous()}}">Lista Utenze</a>
             </li>
+            @if(isset($addetti->id))
+                <li class="breadcrumb-item active" aria-current="page">
+                    Modifica Account
+                </li>
+            @else
+                <li class="breadcrumb-item active" aria-current="page">
+                    Creazione Account Addetto
+                </li>
+            @endif
+
         </ol>
     </nav>
 </div>

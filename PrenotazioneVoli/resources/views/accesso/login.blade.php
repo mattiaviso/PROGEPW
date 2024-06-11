@@ -1,6 +1,21 @@
 @extends('layouts.master')
 
-@section('title', 'Login')
+@section('title', '{{trans("messages.login")}}')
+
+@section('breadcrumb')
+<div class="container mt-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb justify-content-end">
+            <li class="breadcrumb-item">
+                <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                {{trans('messages.login')}}
+            </li>
+        </ol>
+    </nav>
+</div>
+@endsection
 
 
 @section('body')
@@ -9,7 +24,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h2 class="card-title text-center mb-4">Accedi al tuo account</h2>
+                    <h2 class="card-title text-center mb-4">{{trans('messages.accediAltuoAccount')}}</h2>
                     @if(session('error'))
                         <div class="alert alert-danger">{{ session('error') }}</div>
                     @endif
@@ -34,12 +49,11 @@
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-block"><i
                                     class="bi bi-box-arrow-in-right"></i>
-                                Accedi</button>
+                                {{trans('messages.login')}}</button>
                         </div>
                     </form>
-                    <p class="text-center">Non hai un account? <a href="{{ route('user.register') }}">Crea un
-                            nuovo
-                            account</a></p>
+                    <p class="text-center">{{trans('messages.nonHaiAccount')}} <a
+                            href="{{ route('user.register') }}">{{trans('messages.registratiOra')}}</a></p>
                 </div>
             </div>
         </div>

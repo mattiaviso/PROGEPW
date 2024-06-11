@@ -10,7 +10,7 @@
                 <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                Aereoporti
+                Lista Aereoporti
             </li>
         </ol>
     </nav>

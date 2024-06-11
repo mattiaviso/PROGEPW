@@ -69,7 +69,13 @@ class VoliController extends Controller
     {
         $dl = new DataLayer();
         $volo = $dl->findFlightByID($id);
-        $compagniaId_Logged_User = $dl->findCompagniaByUserID($_SESSION['loggedID']);
+
+        if (isset($_SESSION) && $_SESSION['ruolo'] == "inserimento") {
+
+            $compagniaId_Logged_User = $dl->findCompagniaByUserID($_SESSION['loggedID']);
+        } else {
+            $compagniaId_Logged_User = null;
+        }
 
         if (!$volo) {
             return response()->view('errors.404', ['message' => 'Volo non trovato']);

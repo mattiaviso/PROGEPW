@@ -9,7 +9,6 @@
             <li class="breadcrumb-item">
                 <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
             </li>
-
             <li class="breadcrumb-item active" aria-current="page">
                 Lista Utenti
             </li>
@@ -53,13 +52,13 @@
 
                         <td>
                             <a class="btn btn-warning" href="{{route("addetti.edit", $addetto->id)}}"><i
-                                    class="bi bi-pencil-square"></i> Edit</a>
+                                    class="bi bi-pencil-square"></i> Modifica</a>
                         </td>
                         <td>
                             @if($addetto->prenotazioni->count() < 1)
                                 <a class="btn btn-danger" href="{{route('addetti.delete', $addetto->id)}}"><i
                                         class="bi bi-trash"></i>
-                                    Delete</a>
+                                    Elimina</a>
                             @else
                                 <a class="btn btn-secondary" disabled="disabled"><i class="bi bi-ban"></i> Elimina</a>
                             @endif

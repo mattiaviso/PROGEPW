@@ -11,16 +11,14 @@
                 <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                Home Addetto prenotazioni
+                Lista Voli con Prenotazione
             </li>
         </ol>
     </nav>
 </div>
-
 @endsection
 
 @section('body')
-
 <div class="container mt-3">
     <div class="form-group row">
         <label for="searchInput" class="col-sm-3 col-form-label">Filtra per Numero Volo:</label>

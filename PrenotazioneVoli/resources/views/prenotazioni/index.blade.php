@@ -2,8 +2,23 @@
 
 @section('title', 'Lista Prenotazioni')
 
-@section('body')
+@section('breadcrumb')
+<div class="container mt-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb justify-content-end">
+            <li class="breadcrumb-item">
+                <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Lista Prenotazioni
+            </li>
+        </ol>
+    </nav>
+</div>
+@endsection
 
+
+@section('body')
 <div class="container mt-5">
     <h2 class="mb-4">Lista delle Prenotazioni</h2>
     <div class="row">

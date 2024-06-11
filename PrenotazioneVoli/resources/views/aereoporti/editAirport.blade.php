@@ -12,7 +12,7 @@
             </li>
 
             <li class="breadcrumb-item">
-                <a href="{{route('aereoporti.index')}}">Aeroporti</a>
+                <a href="{{route('aereoporti.index')}}">Lista Aeroporti</a>
             </li>
             @if(isset($airport->id))
                 <li class="breadcrumb-item active" aria-current="page">Modifica Aeroporto</li>
@@ -155,7 +155,7 @@
         isValid = true;
 
         $('#formCrea').submit(function (event) {
-            
+
             if ($('input[name="nome"]').val().trim() === '') {
                 isValid = false;
                 $("#invalid-nome").text("Il campo nome non può essere vuoto.");

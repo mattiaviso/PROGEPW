@@ -5,8 +5,11 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 
-class isClienteOrVolo
+class language
 {
     /**
      * Handle an incoming request.
@@ -15,17 +18,10 @@ class isClienteOrVolo
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ((!isset($_SESSION['ruolo'])) || (($_SESSION['ruolo'] != 'cliente') && ($_SESSION['ruolo'] != 'inserimento'))) {
-
-
-            if (!isset($_SESSION)) {
-                //session_start();
-            }
-
-            if (!isset($_SESSION['ruolo']) || empty($_SESSION['ruolo'])) {
-                $_SESSION['ruolo'] = 'visitor';
-            }
-
+        Log::info('Setting language');
+        if (Session::has('language')) {
+            Log::info('Language set: ' . Session::get('language'));
+            App::setLocale(Session::get('language'));
         }
         return $next($request);
     }

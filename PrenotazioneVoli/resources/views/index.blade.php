@@ -2,9 +2,6 @@
 
 @section('title', 'HOMEPAGE')
 
-
-
-
 @section('breadcrumb')
 <div class="container mt-3">
   <nav aria-label="breadcrumb">
@@ -15,8 +12,9 @@
     </ol>
   </nav>
 </div>
-
 @endsection
+
+
 
 @section('body')
 
@@ -26,7 +24,7 @@
   <div class="row">
     <div class="col-12">
       <div class="text-center">
-        <p class="lead">Benvenuto su VolaFacile.it, il sito dove prenotare i tuoi voli è facile e veloce.</p>
+        <p class="lead">{{trans('messages.messaggio_inizio')}}</p>
         <a href="{{ route('voli.index') }}" class="btn btn-primary">Scopri i voli disponibili</a>
       </div>
     </div>
@@ -43,8 +41,8 @@
         <img class="d-block w-100" src="https://images2.alphacoders.com/102/1020217.jpg" alt="Dubai">
         <div class="carousel-caption d-none d-md-block">
           <h5>Dubai</h5>
-          <p><a href="{{ route('search', 'Dubai') }}" style="color: white; text-decoration: underline;">Esplora i voli
-              per Dubai</a></p>
+          <p><a href="{{ route('search', 'Dubai') }}"
+              style="color: white; text-decoration: underline;">{{trans('messages.voli_dubai')}}</a></p>
 
         </div>
       </div>
@@ -52,8 +50,8 @@
         <img class="d-block w-100" src="{{ url('/') }}/img/sanfra.jpg" alt="San Francisco">
         <div class="carousel-caption d-none d-md-block">
           <h5>San Francisco</h5>
-          <p><a href="{{ route('search', 'San Francisco') }}" style="color: white; text-decoration: underline;">Prenota
-              subito il tuo volo per San Francisco</a></p>
+          <p><a href="{{ route('search', 'San Francisco') }}"
+              style="color: white; text-decoration: underline;">{{trans('messages.voli_sanfra')}}</a></p>
         </div>
       </div>
       <div class="carousel-item">
@@ -61,18 +59,18 @@
           alt="New York">
         <div class="carousel-caption d-none d-md-block">
           <h5>New York</h5>
-          <p><a href="{{ route('search', 'New York') }}" style="color: white; text-decoration: underline;">Non perdere
-              l'occasione di prenotare il tuo volo per New York</a></p>
+          <p><a href="{{ route('search', 'New York') }}"
+              style="color: white; text-decoration: underline;">{{trans('messages.voli_ny')}}</a></p>
         </div>
       </div>
     </div>
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
+      <span class="sr-only">{{trans('messages.previous')}}</span>
     </a>
     <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
+      <span class="sr-only">{{trans('messages.next')}}</span>
     </a>
   </div>
 </div>

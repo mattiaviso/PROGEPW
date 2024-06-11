@@ -1,72 +1,61 @@
 @extends('layouts.master')
 
-@section('title', 'Termini e Condizioni')
+@section('title', '{{ trans("pagination.terms_and_conditions") }}')
+
+@section('breadcrumb')
+<div class="container mt-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb justify-content-end">
+            <li class="breadcrumb-item">
+                <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                {{ trans("pagination.terms_and_conditions") }}
+            </li>
+        </ol>
+    </nav>
+</div>
+@endsection
 
 @section('body')
 <div class="container mt-5">
     <div class="row">
         <div class="col-12">
-            <h1 class="mb-4">Termini e Condizioni</h1>
-            <p>Benvenuto su VolaFacile.it. Si prega di leggere attentamente i seguenti Termini e Condizioni prima di
-                utilizzare il nostro sito web.</p>
+            <h1 class="mb-4">{{ trans("pagination.terms_and_conditions") }}</h1>
+            <p>{{ trans("pagination.welcome_message") }}</p>
 
-            <h2>1. Accettazione dei Termini</h2>
-            <p>Utilizzando il nostro sito web, si accettano pienamente e senza riserve questi Termini e Condizioni.
-                L'uso del sito implica l'accettazione di tutte le disposizioni contenute in questo documento. Se non si
-                accettano questi Termini e Condizioni, si prega di non utilizzare il sito web.</p>
+            <h2>{{ trans("pagination.acceptance_of_terms") }}</h2>
+            <p>{{ trans("pagination.acceptance_of_terms_description") }}</p>
 
-            <h2>2. Utilizzo del Sito Web</h2>
-            <p>I contenuti del sito web sono forniti solo a scopo informativo e per l'uso personale degli utenti. È
-                vietato l'uso commerciale non autorizzato del sito web o dei suoi contenuti. Tutti i visitatori del sito
-                devono rispettare le leggi e le normative applicabili.</p>
+            <h2>{{ trans("pagination.use_of_website") }}</h2>
+            <p>{{ trans("pagination.use_of_website_description") }}</p>
 
-            <h2>3. Registrazione e Account</h2>
-            <p>Per accedere a determinate funzionalità del sito web, potrebbe essere richiesta la registrazione di un
-                account. Gli utenti sono responsabili della custodia delle proprie credenziali di accesso e dell'uso
-                sicuro del proprio account. Qualsiasi attività condotta con l'account è di esclusiva responsabilità
-                dell'utente registrato.</p>
+            <h2>{{ trans("pagination.registration_and_account") }}</h2>
+            <p>{{ trans("pagination.registration_and_account_description") }}</p>
 
-            <h2>4. Proprietà Intellettuale</h2>
-            <p>Tutti i contenuti presenti sul sito web, inclusi testi, grafica, loghi, immagini e software, sono di
-                proprietà di VolaFacile.it o dei suoi licenzianti e sono protetti dalle leggi sul diritto d'autore e
-                altre leggi applicabili. È vietato copiare, modificare, distribuire o riprodurre qualsiasi contenuto
-                senza autorizzazione.</p>
+            <h2>{{ trans("pagination.intellectual_property") }}</h2>
+            <p>{{ trans("pagination.intellectual_property_description") }}</p>
 
-            <h2>5. Limitazione di Responsabilità</h2>
-            <p>Il sito web è fornito "così com'è" e "come disponibile", senza garanzie di alcun tipo. Non ci assumiamo
-                alcuna responsabilità per eventuali perdite o danni derivanti dall'uso del sito web o dei suoi
-                contenuti. Ci impegniamo a fornire informazioni accurate e aggiornate, ma non possiamo garantire la
-                completezza o la precisione delle informazioni fornite.</p>
+            <h2>{{ trans("pagination.limitation_of_liability") }}</h2>
+            <p>{{ trans("pagination.limitation_of_liability_description") }}</p>
 
-            <h2>6. Modifiche ai Termini</h2>
-            <p>Ci riserviamo il diritto di modificare o aggiornare questi Termini e Condizioni in qualsiasi momento. Si
-                consiglia di controllare periodicamente questa pagina per eventuali modifiche. L'uso continuato del sito
-                web dopo la pubblicazione delle modifiche costituirà una conferma della vostra accettazione delle
-                modifiche. È responsabilità dell'utente essere consapevoli delle modifiche ai Termini e Condizioni.</p>
+            <h2>{{ trans("pagination.changes_to_terms") }}</h2>
+            <p>{{ trans("pagination.changes_to_terms_description") }}</p>
 
-            <h2>7. Legge Applicabile</h2>
-            <p>Questi Termini e Condizioni sono regolati e interpretati in conformità con le leggi dello Stato in cui è
-                registrata la società. In caso di controversia, le parti accettano di sottoporsi alla giurisdizione
-                esclusiva dei tribunali di tale Stato. L'interpretazione e l'applicazione di questi Termini e Condizioni
-                saranno conformi alle leggi applicabili.</p>
+            <h2>{{ trans("pagination.applicable_law") }}</h2>
+            <p>{{ trans("pagination.applicable_law_description") }}</p>
 
-            <h2>8. Disposizioni Generali</h2>
-            <p>Se una qualsiasi disposizione di questi Termini e Condizioni viene considerata non valida o non
-                applicabile da un tribunale competente, tale disposizione sarà limitata o eliminata nella misura minima
-                necessaria e le restanti disposizioni rimarranno pienamente valide ed efficaci. Nessuna rinuncia a
-                qualsiasi parte di questi Termini e Condizioni costituirà una rinuncia a eventuali diritti legali.</p>
+            <h2>{{ trans("pagination.general_provisions") }}</h2>
+            <p>{{ trans("pagination.general_provisions_description") }}</p>
 
-            <h2>9. Contattaci</h2>
-            <p>Se avete domande o dubbi sui nostri Termini e Condizioni, non esitate a contattarci. Siamo qui per
-                fornire assistenza e chiarimenti su qualsiasi aspetto dei nostri Termini e Condizioni. La vostra
-                soddisfazione è la nostra priorità.</p>
+            <h2>{{ trans("pagination.contact_us") }}</h2>
+            <p>{{ trans("pagination.contact_us_description") }}</p>
 
-            <p>VolaFacile.it si impegna a fornire ai suoi clienti un servizio di alta qualità e un'esperienza di viaggio
-                indimenticabile. Siamo qui per aiutarti a pianificare il tuo prossimo viaggio, rispondere alle tue
-                domande e assisterti in ogni fase del tuo viaggio. La tua soddisfazione è la nostra priorità.</p>
+            <p>{{ trans("pagination.customer_service_message") }}</p>
         </div>
     </div>
 </div>
+
 
 <!-- Bottone "Torna su" -->
 <button onclick="topFunction()" id="scrollBtn" title="Torna su" class="btn btn-light rounded-circle shadow"

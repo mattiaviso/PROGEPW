@@ -2,6 +2,24 @@
 
 @section('title', 'Elimina Utenza')
 
+@section('breadcrumb')
+<div class="container mt-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb justify-content-end">
+            <li class="breadcrumb-item">
+                <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{url()->previous()}}">Lista Utenze</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Elimina Utenza
+            </li>
+        </ol>
+    </nav>
+</div>
+@endsection
+
 @section('body')
 <div class="container mt-5 mb-5">
     <div class="row justify-content-center mt-5 mb-5">

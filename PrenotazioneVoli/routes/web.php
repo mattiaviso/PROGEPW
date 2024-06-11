@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddettiController;
 use App\Http\Controllers\AereoController;
 use App\Http\Controllers\ClientiController;
+use App\Http\Controllers\LangController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\AereoportoController;
@@ -13,11 +14,16 @@ use App\Models\DataLayer;
 use App\Http\Controllers\AuthController;
 
 
-Route::get('/', [FrontController::class, 'getHome'])->name('home');
 
-Route::get('/ChiSiamo', [FrontController::class, 'ChiSiamo'])->name('altro.who');
-Route::get('/PrivacyPolicy', [FrontController::class, 'privacy'])->name('altro.privacy');
-Route::get('/TerminiCondizioni', [FrontController::class, 'terms'])->name('altro.termini');
+
+Route::get('/lang/{lang}', [LangController::class, 'changeLanguage'])->name('setLang');
+
+Route::get('/', [FrontController::class, 'getHome'])->name('home')->middleware(['lang']);
+
+Route::get('/ChiSiamo', [FrontController::class, 'ChiSiamo'])->name('altro.who')->middleware(['lang']);
+;
+Route::get('/PrivacyPolicy', [FrontController::class, 'privacy'])->name('altro.privacy')->middleware('lang');
+Route::get('/TerminiCondizioni', [FrontController::class, 'terms'])->name('altro.termini')->middleware('lang');
 
 
 
@@ -29,10 +35,12 @@ Route::get('/welcome', function () {
 })->name('welcome');
 
 
-Route::get('/user/login', [AuthController::class, 'authentication'])->name('user.login');
+Route::get('/user/login', [AuthController::class, 'authentication'])->name('user.login')->middleware('lang');
+;
 Route::post('/user/login', [AuthController::class, 'login'])->name('user.login');
 
-Route::get('/user/register', [AuthController::class, 'registrazione'])->name('user.register');
+Route::get('/user/register', [AuthController::class, 'registrazione'])->name('user.register')->middleware('lang');
+;
 Route::post('/user/register', [AuthController::class, 'registration'])->name('user.register');
 Route::get('/user/logout', [AuthController::class, 'logout'])->name('user.logout');
 
@@ -47,7 +55,7 @@ Route::put('profilo/aggiorna', [ClientiController::class, 'aggiorna'])->name('us
 Route::put('profilo/changePSWD', [ClientiController::class, 'aggiornaPass'])->name('user.aggiornaPass')->middleware('authCustom');
 
 
-Route::group(['middleware' => ['authCustom', 'isCliente']], function () {
+Route::group(['middleware' => ['authCustom', 'isCliente', 'lang']], function () {
     //Route::resource('clienti', ClientiController::class);
     Route::resource('prenotazioni', PrenotazioniController::class);
     Route::post('/voli/aggiorna', [PrenotazioniController::class, 'aggiorna'])->name('aggiorna');
@@ -57,7 +65,7 @@ Route::group(['middleware' => ['authCustom', 'isCliente']], function () {
 
 });
 
-Route::group(['middleware' => ['authCustom', 'isAddettoVolo']], function () {
+Route::group(['middleware' => ['authCustom', 'isAddettoVolo', 'lang']], function () {
     Route::get('/addettoVoli', function () {
         $dl = new DataLayer();
         $compagnia_id = $dl->findCompagniaByUserID($_SESSION['loggedID']);
@@ -80,16 +88,19 @@ Route::group(['middleware' => ['authCustom', 'isAddettoVolo']], function () {
 //     //Route::get('/voli', [VoliController::class, 'index'])->name('voli.index');
 // });
 
-Route::get('voli/{volo}', [VoliController::class, 'show'])->name('voli.show')->middleware('isClienteOrVolo');
-Route::get('/voli', [VoliController::class, 'index'])->name('voli.index')->middleware('isClienteOrVolo');
+Route::get('voli/{volo}', [VoliController::class, 'show'])->name('voli.show')->middleware('isClienteOrVolo')->middleware('authCustom');
+;
+Route::get('/voli', [VoliController::class, 'index'])->name('voli.index')->middleware('isClienteOrVolo')->middleware('authCustom');
+;
 //Route::get('/profds', [VoliController::class, 'search'])->name('voli.search');
 
-Route::get('/search/{id}', [VoliController::class, 'search'])->name('search')->middleware('isClienteOrVolo');
+Route::get('/search/{id}', [VoliController::class, 'search'])->name('search')->middleware('isClienteOrVolo')->middleware('authCustom');
+;
 
 
 
 Route::group(
-    ['middleware' => ['authCustom', 'isAddettoPrenotazioni']],
+    ['middleware' => ['authCustom', 'isAddettoPrenotazioni', 'lang']],
     function () {
         Route::get('/addettoPrenotazioni', function () {
             $dl = new DataLayer();
@@ -102,11 +113,12 @@ Route::group(
 
 
 
-Route::get('/profilo', [ClientiController::class, 'profilo'])->name('profilo')->middleware('authCustom');
+Route::get('/profilo', [ClientiController::class, 'profilo'])->name('profilo')->middleware('authCustom')->middleware('authCustom');
+;
 
 
 
-Route::group(['middleware' => ['authCustom', 'isAdmin']], function () {
+Route::group(['middleware' => ['authCustom', 'isAdmin', 'lang']], function () {
     Route::resource('aereoporti', AereoportoController::class);
     Route::get('/aereoporti/{id}/destroy/confirm', [AereoportoController::class, 'confirmDestroy'])->name('aereoporti.destroy.confirm');
     Route::resource('compagnie', CompagniaController::class);
@@ -133,7 +145,7 @@ Route::group(['middleware' => ['authCustom', 'isAdmin']], function () {
 
 Route::fallback(function () {
     return view('errors.404')->with('message', 'Errore 404 - Pagina non trovata!');
-});
+})->middleware('lang');
 
 
 

@@ -1,16 +1,23 @@
 @extends('layouts.master')
 
 @section('titolo')
-Registrazione
+{{trans('messages.registrati')}}
 @endsection
 
 @section('breadcrumb')
-
+<div class="container mt-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb justify-content-end">
+            <li class="breadcrumb-item">
+                <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                {{trans('messages.registrati')}}
+            </li>
+        </ol>
+    </nav>
+</div>
 @endsection
-
-
-
-
 
 @section('body')
 <form id="register-form" action="{{ route('user.register') }}" method="post">
@@ -20,61 +27,72 @@ Registrazione
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="card-title text-center mb-4">Crea un nuovo account</h2>
+                        <h2 class="card-title text-center mb-4">{{trans('messages.creaNuovoAccount')}}</h2>
 
                         <div class="form-group row">
-                            <label for="nome" class="col-md-3 col-form-label">Nome</label>
+                            <label for="nome" class="col-md-3 col-form-label">{{trans('messages.nome')}}
+                            </label>
                             <div class="col-md-9">
-                                <input class="form-control" type="text" name="nome" placeholder="Nome">
+                                <input class="form-control" type="text" name="nome"
+                                    placeholder="{{trans('messages.nome')}}">
                                 <span class="text-danger error-text nome_error"></span>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="cognome" class="col-md-3 col-form-label">Cognome</label>
+                            <label for="cognome" class="col-md-3 col-form-label">{{trans('messages.cognome')}}
+                            </label>
                             <div class="col-md-9">
-                                <input class="form-control" type="text" name="cognome" placeholder="Cognome">
+                                <input class="form-control" type="text" name="cognome"
+                                    placeholder="{{trans('messages.registrati')}}">
                                 <span class="text-danger error-text cognome_error"></span>
                             </div>
                         </div>
                         <input type="hidden" name="ruolo" value="cliente">
 
                         <div class="form-group row">
-                            <label for="data" class="col-md-3 col-form-label">Data di Nascita</label>
+                            <label for="data" class="col-md-3 col-form-label">{{trans('messages.dataNascita')}}
+                            </label>
                             <div class="col-md-9">
-                                <input class="form-control" type="date" name="data" placeholder="Data di Nascita">
+                                <input class="form-control" type="date" name="data"
+                                    placeholder="{{trans('messages.dataNascita')}}">
                                 <span class="text-danger error-text data_error"></span>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="luogo" class="col-md-3 col-form-label">Luogo di Nascita</label>
+                            <label for="luogo"
+                                class="col-md-3 col-form-label">{{trans('messages.luogoaNascita')}}</label>
                             <div class="col-md-9">
-                                <input class="form-control" type="text" name="luogo" placeholder="Luogo di Nascita">
+                                <input class="form-control" type="text" name="luogo"
+                                    placeholder="{{trans('messages.luogoaNascita')}}">
                                 <span class="text-danger error-text luogo_error"></span>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="email" class="col-md-3 col-form-label">E-Mail</label>
+                            <label for="email" class="col-md-3 col-form-label">{{trans('messages.email')}}</label>
                             <div class="col-md-9">
-                                <input class="form-control" type="text" name="email" placeholder="E-Mail">
+                                <input class="form-control" type="text" name="email"
+                                    placeholder="{{trans('messages.email')}}">
                                 <span class="text-danger error-text email_error"></span>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="password" class="col-md-3 col-form-label">Password</label>
+                            <label for="password" class="col-md-3 col-form-label">{{trans('messages.password')}}</label>
                             <div class="col-md-9">
-                                <input class="form-control" type="password" name="password" placeholder="Password">
+                                <input class="form-control" type="password" name="password"
+                                    placeholder="{{trans('messages.password')}}">
                                 <span class="text-danger error-text password_error"></span>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="password_confirm" class="col-md-3 col-form-label">Conferma Password</label>
+                            <label for="password_confirm"
+                                class="col-md-3 col-form-label">{{trans('messages.confermaPassw')}}</label>
                             <div class="col-md-9">
                                 <input class="form-control" type="password" name="password_confirm"
-                                    id="password_confirm" placeholder="Conferma Password">
+                                    id="password_confirm" placeholder="{{trans('messages.confermaPassw')}}">
                                 <span class="text-danger error-text password_confirm_error"></span>
                             </div>
                         </div>
@@ -82,14 +100,14 @@ Registrazione
                         <div class="form-group row">
                             <div class="col-md-9 offset-md-3">
                                 <button type="submit" class="btn btn-primary btn-block"><i
-                                        class="bi bi-floppy2-fill"></i> Salva</button>
+                                        class="bi bi-floppy2-fill"></i> {{trans('messages.salva')}}</button>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <div class="col-md-9 offset-md-3">
                                 <a href="{{ url()->previous() }}" class="btn btn-secondary btn-block"><i
-                                        class="bi bi-box-arrow-left"></i> Cancella</a>
+                                        class="bi bi-box-arrow-left"></i> {{trans('messages.cancella')}}</a>
                             </div>
                         </div>
                     </div>
@@ -123,12 +141,12 @@ Registrazione
 
 
             if (nome === '') {
-                $('.nome_error').text('Il campo nome è obbligatorio.');
+                $('.nome_error').text('{{trans('messages.campoObbligatorio')}}');
                 $('input[name="nome"]').focus();
                 isValid = false;
                 event.preventDefault();
             } else if (!countryRegex.test(nome)) {
-                $('.nome_error').text('Il campo nome deve contenere solo lettere.');
+                $('.nome_error').text('{{trans('messages.soloLettere')}}');
                 $('input[name="nome"]').focus();
                 isValid = false;
                 event.preventDefault();
@@ -136,19 +154,19 @@ Registrazione
 
 
             if (cognome === '') {
-                $('.cognome_error').text('Il campo cognome è obbligatorio.');
+                $('.cognome_error').text('{{trans('messages.campoObbligatorio')}}');
                 $('input[name="cognome"]').focus();
                 isValid = false;
                 event.preventDefault();
             } else if (!countryRegex.test(cognome)) {
-                $('.cognome_error').text('Il campo cognome deve contenere solo lettere.');
+                $('.cognome_error').text('{{trans('messages.soloLettere')}}');
                 $('input[name="cognome"]').focus();
                 isValid = false;
                 event.preventDefault();
             }
 
             if (data.trim() === '') {
-                $(".data_error").text("Il campo data di nascita è obbligatorio.");
+                $(".data_error").text("{{trans('messages.dataNascitaObbigatoria')}}");
                 event.preventDefault();
                 $("input[name='data']").focus();
             } else {
@@ -156,7 +174,7 @@ Registrazione
                 var tomorrow = new Date();
                 tomorrow.setDate(tomorrow.getDate() + 1);
                 if (inputDate >= tomorrow) {
-                    $(".data_error").text("La data di nascita non può essere futura.");
+                    $(".data_error").text("{{trans('messages.dataNscitaNonFuture')}}");
                     event.preventDefault();
                     $("input[name='data']").focus();
                 } else {
@@ -165,12 +183,12 @@ Registrazione
             }
 
             if (luogo === '') {
-                $('.luogo_error').text('Il campo luogo di nascita è obbligatorio.');
+                $('.luogo_error').text('{{trans('messages.luogoNascitaObbligatorio')}}');
                 $('input[name="luogo"]').focus();
                 isValid = false;
                 event.preventDefault();
             } else if (!countryRegex.test(luogo)) {
-                $('.luogo_error').text('Il campo luogo di nascita deve contenere solo lettere.');
+                $('.luogo_error').text('{{trans('messages.soloLettere')}}');
                 $('input[name="luogo"]').focus();
                 isValid = false;
                 event.preventDefault();
@@ -182,13 +200,13 @@ Registrazione
             const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
             if (!passwordPattern.test(password)) {
-                $('.password_error').text('La password deve essere lunga almeno 8 caratteri, contenere almeno una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale.');
+                $('.password_error').text('{{trans('messages.passwordNonValida')}}');
                 isValid = false;
                 event.preventDefault();
             }
 
             if (password !== password_confirm) {
-                $('.password_confirm_error').text('Le password non corrispondono.');
+                $('.password_confirm_error').text('{{trans('messages.passwordNonCorrispondono')}}');
                 isValid = false;
                 event.preventDefault();
             }
@@ -196,7 +214,7 @@ Registrazione
 
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailPattern.test(email)) {
-                $('.email_error').text('Inserisci un indirizzo email valido.');
+                $('.email_error').text('{{trans('messages.erroreEmail')}}');
                 isValid = false;
                 event.preventDefault();
             }
@@ -213,7 +231,7 @@ Registrazione
                     data: { email: email },
                     success: function (data) {
                         if (data.found) {
-                            $('.email_error').text('L\'indirizzo email inserito è già associato a un account. Inserisci un indirizzo email diverso.');
+                            $('.email_error').text('{{trans('messages.emailEsistente')}}');
                         } else {
                             // Invia il form
                             $("form")[0].submit();

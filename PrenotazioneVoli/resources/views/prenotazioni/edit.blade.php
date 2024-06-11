@@ -4,7 +4,7 @@
 @section('breadcrumb')
 <div class="container mt-3">
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
+        <ol class="breadcrumb justify-content-end">
             <li class="breadcrumb-item">
                 <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
             </li>

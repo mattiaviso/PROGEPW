@@ -11,7 +11,7 @@
             </li>
 
             <li class="breadcrumb-item">
-                <a href="{{route('aereoporti.index')}}">Aeroporti</a>
+                <a href="{{route('aereoporti.index')}}">Lista Aeroporti</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 {{$airport->nome}}

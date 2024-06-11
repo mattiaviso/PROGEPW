@@ -64,11 +64,11 @@
 
                         <td>
                             <a class="btn btn-warning" href="{{route("addetti.edit", $addetto->id)}}"><i
-                                    class="bi bi-pencil-square"></i> Edit</a>
+                                    class="bi bi-pencil-square"></i> Modifica</a>
                         </td>
                         <td>
                             <a class="btn btn-danger" href="{{route("addetti.delete", $addetto->id)}}"><i
-                                    class="bi bi-trash"></i> Delete</a>
+                                    class="bi bi-trash"></i> Elimina</a>
                         </td>
                     </tr>
                 @endforeach

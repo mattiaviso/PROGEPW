@@ -20,6 +20,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'isAddettoVolo' => \App\Http\Middleware\isAddettoVolo::class,
             'isAddettoPrenotazioni' => \App\Http\Middleware\isAddettoPrenotazioni::class,
             'isClienteOrVolo' => \App\Http\Middleware\isClienteOrVolo::class,
+            'lang' => \App\Http\Middleware\language::class,
+
         ]);
 
     })

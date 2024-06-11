@@ -1,22 +1,19 @@
 @extends('layouts.master')
 
-@section('title', 'Cancella Volo')
+@section('title', '{{trans("messages.cancella_volo")}}')
 
 @section('breadcrumb')
 <div class="container mt-3">
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
+        <ol class="breadcrumb justify-content-end">
             <li class="breadcrumb-item">
                 <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{{route('addettoVoli')}}">Home Addetto Voli</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="{{route("voli.show", $volo->id)}}">{{$volo->numeroVolo}}</a>
+                <a href="{{route('addettoVoli')}}">{{trans('messages.lista_voli')}}</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                Cancella Volo
+                {{trans('messages.cancella_volo')}}
             </li>
         </ol>
     </nav>
@@ -25,19 +22,19 @@
 @endsection
 
 @section('body')
-
 <div class="container mt-5 mb-5">
     <div class="row justify-content-center mt-5 mb-5">
         <div class="col-md-6 text-center mt-5 mb-5">
-            <h3>Sei sicuro di voler eliminare {{$volo->numeroVolo}}?</h3>
-            <p>Una volta eseguita, questa operazione non può essere cambiata.</p>
+            <h3>{{trans('messages.sureEliminare')}} {{$volo->numeroVolo}}?</h3>
+            <p>{{trans('messages.unaVoltaEseguita')}}</p>
 
             <form name="volo" method="post" action="{{ route('voli.destroy', ['voli' => $volo->id]) }}">
                 @method('DELETE')
                 @csrf
-                <a href="{{route('addettoVoli')}}" class="btn btn-secondary"><i class="bi bi-box-arrow-left"></i>
-                    Annulla</a>
-                <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i> Elimina</button>
+                <a href="{{url()->previous()}}" class="btn btn-secondary"><i class="bi bi-box-arrow-left"></i>
+                    {{trans('messages.cancella')}}</a>
+                <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i>
+                    {{trans('messages.elimina')}}</button>
 
             </form>
 

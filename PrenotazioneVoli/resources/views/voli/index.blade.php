@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Lista dei voli')
+@section('title', '{{trans("messages.lista_voli")}}')
 
 @section('breadcrumb')
 <div class="container mt-3">
@@ -10,7 +10,7 @@
         <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
       </li>
       <li class="breadcrumb-item active" aria-current="page">
-        Voli
+      {{trans('messages.voli')}}
       </li>
     </ol>
   </nav>
@@ -18,8 +18,6 @@
 @endsection
 
 @section('body')
-
-
 
 <div class="container mt-3">
   <!-- Barra di ricerca -->
@@ -31,10 +29,10 @@
             <div class="form-row">
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="from">Da:</label>
+                  <label for="from">{{trans('messages.da')}}:</label>
                   <select class="form-select form-control" aria-label="Seleziona l'aeroporto di partenza" id="partenza"
                     name="partenza">
-                    <option value="-1" selected disabled>Aeroporto Partenza</option>
+                    <option value="-1" selected disabled>{{trans('messages.aereoporto_partenza')}}</option>
                     @foreach ($aeroportiPartenza as $aer)
             <option value="{{ $aer->id }}">{{ $aer->city }}</option>
           @endforeach
@@ -43,11 +41,11 @@
               </div>
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="to">A:</label>
+                  <label for="to">{{trans('messages.a')}}:</label>
                   <select class="form-select form-control" aria-label="Seleziona l'aeroporto di arrivo" id="arrivo"
                     name="arrivo">
 
-                    <option selected value="-1" disabled>Aeroporto Arrivo</option>
+                    <option selected value="-1" disabled>{{trans('messages.aereoporto_arrivo')}}</option>
                     @foreach ($aeroportiArrivo as $aer)
                     @if(isset($city) && $aer->city == $city)
         <option selected value="{{$aer->id}}">{{$aer->city}}</option>
@@ -64,13 +62,13 @@
 
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="departure-date">Data di partenza:</label>
+                  <label for="departure-date">{{trans('messages.dataPartenza')}}:</label>
                   <input type="date" class="form-control" id="departure_date" name="departure_date">
                 </div>
               </div>
             </div>
-            <button type="submit" onclick="resetFiltri()" class="btn btn-primary btn-block cercaVolo">Resetta
-              Filtri</button>
+            <button type="submit" onclick="resetFiltri()" class="btn btn-primary btn-block cercaVolo">{{trans('messages.resettaFiltri')}}
+            </button>
           </form>
         </div>
       </div>
@@ -95,19 +93,19 @@
         </div>
         <div class="col-md-3">
         <div class="flight-detail">
-          <h5 class="mb-3">Partenza</h5>
-          <p><strong>Da:</strong><span id="partenzaCity">{{$flight->aereoportoPartenza->city}}</span>
+          <h5 class="mb-3">{{trans('messages.aeroportoP')}}</h5>
+          <p><strong>{{trans('messages.da')}}:</strong><span id="partenzaCity">{{$flight->aereoportoPartenza->city}}</span>
           ({{$flight->aereoportoPartenza->codice_iata}})</p>
-          <p><strong>Ora:</strong> {{\Carbon\Carbon::parse($flight->orarioPartenza)->format('H:i')}}</p>
+          <p><strong>{{trans('messages.oraPartenza')}}:</strong> {{\Carbon\Carbon::parse($flight->orarioPartenza)->format('H:i')}}</p>
         </div>
         </div>
         <div class="col-md-4">
         <div class="flight-detail">
-          <h5 class="mb-3">Arrivo</h5>
-          <p><strong>A:</strong> <span id="arrivoCity">{{$flight->aereoportoArrivo->city}}</span>
+          <h5 class="mb-3">{{trans('messages.aeroportoA')}}</h5>
+          <p><strong>{{trans('messages.a')}}:</strong> <span id="arrivoCity">{{$flight->aereoportoArrivo->city}}</span>
           ({{$flight->aereoportoArrivo->codice_iata}})
           </p>
-          <p><strong>Ora:</strong> {{\Carbon\Carbon::parse($flight->orarioArrivo)->format('H:i')}}
+          <p><strong>{{trans('messages.oraArrivo')}}:</strong> {{\Carbon\Carbon::parse($flight->orarioArrivo)->format('H:i')}}
           @if(\Carbon\Carbon::parse($flight->orarioPartenza)->format('d/m') != \Carbon\Carbon::parse($flight->orarioArrivo)->format('d/m'))
         <sup>+1</sup>
       @endif
@@ -118,10 +116,10 @@
         <div class="flight-detail ">
 
           <a href="{{ route("prenotazioni.edit", $flight->id) }}" class="btn btn-primary mb-1 w-100"><i class="bi bi-calendar-plus"></i>
-          Prenota Ora</a>
+          {{trans('messages.prenota_ora')}}</a>
 
           <a href="{{ route("voli.show", $flight->id) }}" class="btn btn-info mt-1 w-100"><i class="bi bi-search"></i>
-          Dettagli</a>
+          {{trans('messages.dettagli')}}</a>
 
         </div>
         </div>
