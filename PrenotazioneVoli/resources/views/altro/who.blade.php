@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
-@section('title', 'Chi siamo')
+@section('title')
+{{ trans("about_us.about_us_title") }}
+@endsection
 
 @section('breadcrumb')
 <div class="container mt-3">
@@ -10,7 +12,7 @@
                 <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                Chi siamo
+                {{ trans("about_us.about_us_title") }}
             </li>
         </ol>
     </nav>

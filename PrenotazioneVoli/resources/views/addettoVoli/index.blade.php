@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
-@section('title', 'Inserimento Nuovi Voli')
+@section('title')
+{{trans("messages.lista_voli")}}
+@endsection
 
 @section('breadcrumb')
 
@@ -41,10 +43,10 @@
             <col width='16%'>
             <thead>
                 <tr>
-                    <th>Codice Volo</th>
-                    <th>Partenza</th>
-                    <th>Arrivo</th>
-                    <th>Data</th>
+                    <th>{{trans("messages.numero_volo")}}</th>
+                    <th>{{trans("messages.aeroportoP")}}</th>
+                    <th>{{trans("messages.aeroportoA")}}</th>
+                    <th>{{trans("messages.dataPartenza")}}</th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -67,19 +69,20 @@
                         </td>
                         <td>
                             <a href="{{route('voli.show', $volo->id)}}" class="btn btn-info mr-2"><i
-                                    class="bi bi-search"></i> Dettagli</a>
+                                    class="bi bi-search"></i> {{trans("messages.dettagli")}}</a>
                         </td>
                         <td>
                             <a href="{{route("voli.edit", $volo->id)}}" class="btn btn-warning mr-2"><i
-                                    class="bi bi-pencil-square"></i> Modifica</a>
+                                    class="bi bi-pencil-square"></i> {{trans("messages.modifica")}}</a>
                         </td>
                         <td>
                             @if($volo->prenotazioni->count() > 0)
-                                <a class="btn btn-secondary" disabled="disabled"><i class="bi bi-ban"></i> Elimina</a>
+                                <a class="btn btn-secondary" disabled="disabled"><i class="bi bi-ban"></i>
+                                    {{trans("messages.elimina")}}</a>
                             @else
                                 <a class="btn btn-danger" href="{{route('voli.destroy.confirm', $volo->id)}}"><i
                                         class="bi bi-trash"></i>
-                                    Elimina</a>
+                                    {{trans("messages.elimina")}}</a>
                             @endif
 
                         </td>

@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
-@section('title', '{{trans("messages.dettagliVolo")}}')
+@section('title')
+{{trans("messages.dettagliVolo")}}
+@endsection
 
 
 @section('breadcrumb')

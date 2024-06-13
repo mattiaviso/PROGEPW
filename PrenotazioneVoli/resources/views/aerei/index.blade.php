@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
-@section('title', 'Admin Page')
+@section('title')
+{{trans("messages.lista_aerei")}}
+@endsection
 
 @section('breadcrumb')
 <div class="container mt-3">
@@ -10,7 +12,7 @@
                 <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                Modelli Aerei
+                {{trans("messages.lista_aerei")}}
             </li>
         </ol>
     </nav>
@@ -22,7 +24,7 @@
 <div class="container mt-4 ">
     <div class="col-xs-6 d-flex justify-content-end">
         <a href="{{ route("aerei.create") }}" class="btn btn-success"><i class="bi bi-plus-circle-fill"></i>
-            Aggiungi Nuovo Aereo</a>
+            {{trans("messages.aggiungiAereo")}}</a>
     </div>
 </div>
 
@@ -34,8 +36,8 @@
             <col width='20%'>
             <thead>
                 <tr>
-                    <th>Nome Modello</th>
-                    <th class="text-center">Posti Disponibili</th>
+                    <th>{{trans("messages.nomeModello")}}</th>
+                    <th class="text-center">{{trans("messages.capacitaPosti")}}</th>
                     <th></th>
                 </tr>
             </thead>
@@ -50,10 +52,11 @@
                         </td>
                         <td>
                             @if($aereo->voli->count() > 0)
-                                <a class="btn btn-secondary" disabled="disabled"><i class="bi bi-ban"></i> Elimina</a>
+                                <a class="btn btn-secondary" disabled="disabled"><i class="bi bi-ban"></i>
+                                    {{trans("messages.elimina")}}</a>
                             @else
                                 <a class="btn btn-danger" href="{{route("aerei.destroy.confirm", $aereo->id)}}"><i
-                                        class="bi bi-trash"></i> Elimina</a>
+                                        class="bi bi-trash"></i> {{trans("messages.elimina")}}</a>
 
                             @endif
                         </td>
@@ -64,6 +67,4 @@
         </table>
     </div>
 </div>
-
-
 @endsection

@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
-@section('title', '{{trans("pagination.privacy")}}')
+@section('title')
+{{trans("pagination.privacy")}}
+@endsection
 
 @section('breadcrumb')
 <div class="container mt-3">

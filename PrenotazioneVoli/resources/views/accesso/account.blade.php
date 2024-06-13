@@ -185,6 +185,7 @@
 
             var dataValue = $("input[name='dataNascita']").val();
             if (dataValue.trim() === '') {
+                isValid = false;
                 $("#invalid-data").text("{{trans("messages.dataNascitaObbigatoria")}}");
                 event.preventDefault();
                 $("input[name='dataNascita']").focus();
@@ -193,6 +194,7 @@
                 var tomorrow = new Date();
                 tomorrow.setDate(tomorrow.getDate() + 1);
                 if (inputDate >= tomorrow) {
+                    isValid = false;
                     $("#invalid-data").text("{{trans("messages.dataNscitaNonFuture")}}");
                     event.preventDefault();
                     $("input[name='dataNascita']").focus();

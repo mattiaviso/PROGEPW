@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
-@section('title', 'Lista Clienti')
+@section('title')
+{{trans("messages.clientiLista")}}
+@endsection
 
 @section('breadcrumb')
 <div class="container mt-3">
@@ -10,7 +12,7 @@
                 <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                Lista Utenti
+                {{trans("messages.clientiLista")}}
             </li>
         </ol>
     </nav>
@@ -19,7 +21,6 @@
 
 
 @section('body')
-
 <div class="container mt-4">
     <div class="col-md-12">
         <table class="table table-hover">
@@ -30,9 +31,9 @@
             <col width='15%'>
             <thead>
                 <tr>
-                    <th>Nome</th>
-                    <th>Cognome</th>
-                    <th>E-Mail</th>
+                    <th>{{trans("messages.nome")}}</th>
+                    <th>{{trans("messages.cognome")}}</th>
+                    <th>{{trans("messages.email")}}</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -52,15 +53,16 @@
 
                         <td>
                             <a class="btn btn-warning" href="{{route("addetti.edit", $addetto->id)}}"><i
-                                    class="bi bi-pencil-square"></i> Modifica</a>
+                                    class="bi bi-pencil-square"></i> {{trans("messages.modifica")}}</a>
                         </td>
                         <td>
                             @if($addetto->prenotazioni->count() < 1)
                                 <a class="btn btn-danger" href="{{route('addetti.delete', $addetto->id)}}"><i
                                         class="bi bi-trash"></i>
-                                    Elimina</a>
+                                    {{trans("messages.delete")}}</a>
                             @else
-                                <a class="btn btn-secondary" disabled="disabled"><i class="bi bi-ban"></i> Elimina</a>
+                                <a class="btn btn-secondary" disabled="disabled"><i class="bi bi-ban"></i>
+                                    {{trans("messages.delete")}}</a>
                             @endif
 
                         </td>
@@ -70,6 +72,4 @@
         </table>
     </div>
 </div>
-
-
 @endsection

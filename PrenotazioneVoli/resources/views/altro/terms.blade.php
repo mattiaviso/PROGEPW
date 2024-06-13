@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
-@section('title', '{{ trans("pagination.terms_and_conditions") }}')
+@section('title')
+{{ trans("pagination.terms_and_conditions")}}
+@endsection
 
 @section('breadcrumb')
 <div class="container mt-3">

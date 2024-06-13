@@ -23,7 +23,7 @@
 <div class="container mt-4 ">
     <div class="col-xs-6 d-flex justify-content-end">
         <a href="{{route("addetti.create") }}" class="btn btn-success"><i class="bi bi-plus-circle-fill"></i>
-            Aggiungi Account Personale</a>
+            {{trans("messages.aggiungiAccountAddetto")}}</a>
     </div>
 </div>
 
@@ -38,10 +38,10 @@
             <col width='15%'>
             <thead>
                 <tr>
-                    <th>Nome</th>
-                    <th>Cognome</th>
-                    <th>Compagnia</th>
-                    <th>E-Mail</th>
+                    <th>{{trans("messages.nome")}}</th>
+                    <th>{{trans("messages.cognome")}}</th>
+                    <th>{{trans("messages.nomeCompagnia")}}</th>
+                    <th>{{trans("messages.email")}}</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -64,11 +64,11 @@
 
                         <td>
                             <a class="btn btn-warning" href="{{route("addetti.edit", $addetto->id)}}"><i
-                                    class="bi bi-pencil-square"></i> Modifica</a>
+                                    class="bi bi-pencil-square"></i> {{trans("messages.modifica")}}</a>
                         </td>
                         <td>
                             <a class="btn btn-danger" href="{{route("addetti.delete", $addetto->id)}}"><i
-                                    class="bi bi-trash"></i> Elimina</a>
+                                    class="bi bi-trash"></i> {{trans("messages.elimina")}}</a>
                         </td>
                     </tr>
                 @endforeach
@@ -76,6 +76,4 @@
         </table>
     </div>
 </div>
-
-
 @endsection

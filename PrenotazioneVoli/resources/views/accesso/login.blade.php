@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
-@section('title', '{{trans("messages.login")}}')
+@section('title')
+{{trans("messages.login")}}
+@endsection
 
 @section('breadcrumb')
 <div class="container mt-3">

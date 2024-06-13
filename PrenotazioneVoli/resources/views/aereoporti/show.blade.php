@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
-@section('title', 'Dettagli Aeroporto')
+@section('title')
+{{trans("messages.airportDetails")}}
+@endsection
 
 @section('breadcrumb')
 <div class="container mt-3">
@@ -11,7 +13,7 @@
             </li>
 
             <li class="breadcrumb-item">
-                <a href="{{route('aereoporti.index')}}">Lista Aeroporti</a>
+                <a href="{{route('aereoporti.index')}}">{{trans("messages.lista_aeroporti")}}</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 {{$airport->nome}}
@@ -28,14 +30,14 @@
     <div class="row">
         <div class="col-md-5 text-left mr-5 my-4"
             style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
-            <p><strong>Nome:</strong> {{ $airport->nome}}</p>
-            <p><strong>Città:</strong> {{ $airport->city}}</p>
-            <p><strong>Stato:</strong> {{ $airport->country}}</p>
-            <p><strong>Codice IATA:</strong> {{ $airport->codice_iata}}</p>
-            <p><strong>Latitudine:</strong> {{ $airport->lat}}</p>
-            <p><strong>Longitudine:</strong> {{ $airport->lon}}</p><br>
-            <p><strong>Voli partenza:</strong> {{ count($airport->voliPartenza) }}</p>
-            <p><strong>Voli arrivo:</strong> {{ count($airport->voliArrivo)  }}</p>
+            <p><strong>{{trans("messages.nomeAeroporto")}}:</strong> {{ $airport->nome}}</p>
+            <p><strong>{{trans("messages.citta")}}:</strong> {{ $airport->city}}</p>
+            <p><strong>{{trans("messages.stato")}}:</strong> {{ $airport->country}}</p>
+            <p><strong>{{trans("messages.codice_IATa")}}:</strong> {{ $airport->codice_iata}}</p>
+            <p><strong>{{trans("messages.latitudine")}}:</strong> {{ $airport->lat}}</p>
+            <p><strong>{{trans("messages.longitudine")}}:</strong> {{ $airport->lon}}</p><br>
+            <p><strong>{{trans("messages.numberVoliPartenza")}}:</strong> {{ count($airport->voliPartenza) }}</p>
+            <p><strong>{{trans("messages.numberVoliArrivo")}}:</strong> {{ count($airport->voliArrivo)  }}</p>
 
         </div>
 
@@ -46,7 +48,7 @@
     <div class="form-group row mb-3">
         <div class="col-md-12 offset-md-0">
             <a href="{{ route("aereoporti.edit", $airport->id) }}" class="btn btn-warning w-100"><i
-                    class="bi bi-pencil-fill"></i> Modifica</a>
+                    class="bi bi-pencil-fill"></i> {{trans("messages.modificaAeroporto")}}</a>
         </div>
     </div>
     <div class="form-group row mb-3">
@@ -54,13 +56,15 @@
             @if(count($airport->voliPartenza) < 1)
                 @if ($airport->voliArrivo->count() < 1)
                     <a class="btn btn-danger w-100" href="{{ route("aereoporti.destroy.confirm", $airport->id) }}"><i
-                            class="bi bi-trash"></i> Delete</a>
+                            class="bi bi-trash"></i> {{trans("messages.elimina")}}</a>
                 @else
-                    <a class="btn btn-secondary w-100" disabled="disabled"><i class="bi bi-ban"></i> Elimina</a>
+                    <a class="btn btn-secondary w-100" disabled="disabled"><i class="bi bi-ban"></i>
+                        {{trans("messages.elimina")}}</a>
                 @endif
 
             @else
-                <a class="btn btn-secondary w-100" disabled="disabled"><i class="bi bi-ban"></i> Elimina</a>
+                <a class="btn btn-secondary w-100" disabled="disabled"><i class="bi bi-ban"></i>
+                    {{trans("messages.elimina")}}</a>
             @endif
         </div>
     </div>

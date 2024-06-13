@@ -25,7 +25,7 @@
     <div class="col-12">
       <div class="text-center">
         <p class="lead">{{trans('messages.messaggio_inizio')}}</p>
-        <a href="{{ route('voli.index') }}" class="btn btn-primary">Scopri i voli disponibili</a>
+        <a href="{{ route('voli.index') }}" class="btn btn-primary">{{trans('messages.scopriVoliDisponibili')}}</a>
       </div>
     </div>
   </div>

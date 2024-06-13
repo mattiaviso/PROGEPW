@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
-@section('title', 'Aereoporti')
+@section('title')
+{{trans("messages.lista_aeroporti")}}
+@endsection
 
 @section('breadcrumb')
 <div class="container mt-3">
@@ -10,27 +12,21 @@
                 <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                Lista Aereoporti
+                {{trans("messages.lista_aeroporti")}}
             </li>
         </ol>
     </nav>
 </div>
-
 @endsection
 
 
-
-
 @section('body')
-
 <div class="container mt-4 ">
     <div class="col-xs-6 d-flex justify-content-end">
         <a href="{{ route("aereoporti.create") }}" class="btn btn-success"><i class="bi bi-plus-circle-fill"></i>
-            Aggiungi nuovo
-            aeroporto</a>
+            {{trans("messages.aggiungiAeroporto")}}</a>
     </div>
 </div>
-
 
 <div class="container mt-4">
     <div class="col-md-12">
@@ -41,7 +37,7 @@
             <col width='20%'>
             <thead>
                 <tr>
-                    <th>Nome Aereoporto</th>
+                    <th>{{trans("messages.nomeAeroporto")}}</th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -55,24 +51,26 @@
                         </td>
                         <td>
                             <a href="{{ route("aereoporti.show", $airport->id) }}" class="btn btn-info mr-2"><i
-                                    class="bi bi-search"></i> Dettagli</a>
+                                    class="bi bi-search"></i> {{trans("messages.dettagli")}}</a>
                         </td>
                         <td>
                             <a href="{{ route("aereoporti.edit", $airport->id) }}" class="btn btn-warning mr-2"><i
-                                    class="bi bi-pencil-square"></i> Modifica</a>
+                                    class="bi bi-pencil-square"></i> {{trans("messages.modifica")}}</a>
                         </td>
                         <td>
                             <!-- fai if se un aereoporto ha in arrivo o in partenza un volo allora permetti di eliminare l'aereoporto -->
                             @if(count($airport->voliPartenza) < 1)
                                 @if ($airport->voliArrivo->count() < 1)
                                     <a class="btn btn-danger" href="{{ route("aereoporti.destroy.confirm", $airport->id) }}"><i
-                                            class="bi bi-trash"></i> Elimina</a>
+                                            class="bi bi-trash"></i> {{trans("messages.elimina")}}</a>
                                 @else
-                                    <a class="btn btn-secondary" disabled="disabled"><i class="bi bi-ban"></i> Elimina</a>
+                                    <a class="btn btn-secondary" disabled="disabled"><i class="bi bi-ban"></i>
+                                        {{trans("messages.elimina")}}</a>
                                 @endif
 
                             @else
-                                <a class="btn btn-secondary" disabled="disabled"><i class="bi bi-ban"></i> Elimina</a>
+                                <a class="btn btn-secondary" disabled="disabled"><i class="bi bi-ban"></i>
+                                    {{trans("messages.elimina")}}</a>
                             @endif
 
                         </td>

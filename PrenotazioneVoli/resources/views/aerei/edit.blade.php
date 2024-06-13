@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
-@section('title', 'Aggiungi Aereo')
+@section('title')
+{{trans("messages.aggiungiAereo")}}
+@endsection
 
 @section('breadcrumb')
 <div class="container mt-3">
@@ -11,10 +13,10 @@
             </li>
 
             <li class="breadcrumb-item">
-                <a href="{{route('aerei.index')}}">Lista Aerei</a>
+                <a href="{{route('aerei.index')}}">{{trans("messages.lista_aerei")}}</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                Aggiungi Aereo
+                {{trans("messages.aggiungiAereo")}}
             </li>
         </ol>
     </nav>
@@ -27,16 +29,16 @@
         <form id="myForm" action="{{route('aerei.store')}}" method="post">
             @csrf
             <div class="mb-3">
-                <label for="nomeModello" class="form-label">Nome Modello</label>
+                <label for="nomeModello" class="form-label">{{trans("messages.nomeModello")}}</label>
                 <input type="text" class="form-control" id="nome" name="nome">
                 <span id="nomeError" class="text-danger"></span> <!-- Span per il messaggio di errore -->
             </div>
             <div class="mb-3">
-                <label for="capacita" id="posti" class="form-label">Capacità</label>
+                <label for="capacita" id="posti" class="form-label">{{trans("messages.capacitaPosti")}}</label>
                 <input type="number" class="form-control" id="postiInput" name="posti" min="0" value="0">
                 <span id="postiError" class="text-danger"></span> <!-- Span per il messaggio di errore -->
             </div>
-            <button type="submit" class="btn btn-primary">Aggiungi</button>
+            <button type="submit" class="btn btn-primary">{{trans("messages.aggiungi")}}</button>
         </form>
     </div>
 </div>
@@ -48,7 +50,7 @@
         $('#myForm').submit(function (event) {
             if ($('#nome').val().trim() === '') {
                 isValid = false;
-                $('#nomeError').text('Il campo non può essere vuoto.');
+                $('#nomeError').text('{{trans("messages.campoObbligatorio")}}');
                 event.preventDefault();
             } else {
                 $('#nomeError').text('');
@@ -56,7 +58,7 @@
 
             if (parseInt($('#postiInput').val()) <= 0) {
                 isValid = false;
-                $('#postiError').text('Il campo deve essere maggiore di zero.');
+                $('#postiError').text('{{trans("messages.campoMaggioDiZero")}}');
                 event.preventDefault();
             } else {
                 $('#postiError').text('');
@@ -73,7 +75,7 @@
                     data: { nome: $('#nome').val().trim() },
                     success: function (data) {
                         if (data.found) {
-                            $('#nomeError').text('Questo aereo è gia\' presente. Inserire un nome diverso.');
+                            $('#nomeError').text('{{trans("messages.aereoGiaInserito")}}');
                         } else {
                             $("form")[0].submit();
                         }

@@ -19,7 +19,6 @@
     <script src="{{ url('/') }}/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 
 
@@ -219,7 +218,7 @@
                                     <div class="dropdown">
                                         <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Categorie Utenti
+                                            {{trans('messages.userCategory')}}
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <a class="dropdown-item"

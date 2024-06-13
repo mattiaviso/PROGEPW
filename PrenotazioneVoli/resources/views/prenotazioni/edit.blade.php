@@ -1,5 +1,7 @@
 @extends('layouts.master')
-@section('title', 'Prenotazione Volo')
+@section('title')
+{{trans("messages.prenotazioneVolo")}}
+@endsection
 
 @section('breadcrumb')
 <div class="container mt-3">
@@ -15,7 +17,7 @@
                 {{ $volo->numeroVolo }}
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                Nuova Prenotazione
+                {{trans("messages.nuovaPrenotazione")}}
             </li>
         </ol>
     </nav>
@@ -41,7 +43,7 @@
                     if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('text-danger')) {
                         var errorDiv = document.createElement('span');
                         errorDiv.className = 'text-danger error-text';
-                        errorDiv.innerText = 'Il campo deve contenere solo lettere.';
+                        errorDiv.innerText = '    {{trans("messages.campoSoloLettere")}}';
                         input.parentNode.appendChild(errorDiv);
                     }
                 } else {
@@ -72,7 +74,7 @@
                             }
                         } else {
                             isValid = false;
-                            $('#postiNonDisponibiliModal').modal('show').find('.modal-body').text('Non ci sono più posti disponibili.');
+                            $('#postiNonDisponibiliModal').modal('show').find('.modal-body').text('{{trans("messages.noMoreSeats")}}');
                         }
                     }
                 });
@@ -97,7 +99,7 @@
                                 $("form")[0].submit();
                             }
                         } else {
-                            $('#postiNonDisponibiliModal').modal('show').find('.modal-body').text('Hai già una prenotazione per questo volo.');
+                            $('#postiNonDisponibiliModal').modal('show').find('.modal-body').text('{{trans("messages.giaBooking")}}');
                         }
                     }
                 });
@@ -130,7 +132,7 @@
                 <input type="hidden" name="utente_id" value="{{$_SESSION['loggedID']}}">
                 <div class="form-group row mb-3">
                     <div class="col-md-3">
-                        <strong><label for="title">Numero Volo</label></strong>
+                        <strong><label for="title">{{trans("messages.numero_volo")}}</label></strong>
                     </div>
                     <div class="col-md-9">
                         <label for="title" id="numeroVolo">{{$volo->numeroVolo}}</label>
@@ -140,13 +142,13 @@
                 </div>
                 <div class="form-group row mb-3">
                     <div class="col-md-3">
-                        <strong><label for="title">Aeroporto Partenza</label></strong>
+                        <strong><label for="title">{{trans("messages.aereoporto_partenza")}}</label></strong>
                     </div>
                     <div class="col-md-3">
                         <label for="title">{{$volo->aereoportoPartenza->nome }}</label>
                     </div>
                     <div class="col-md-3">
-                        <strong><label for="title">Aeroporto Arrivo</label></strong>
+                        <strong><label for="title">{{trans("messages.aereoporto_arrivo")}}</label></strong>
                     </div>
                     <div class="col-md-3">
                         <label for="title">{{$volo->aereoportoArrivo->nome }}</label>
@@ -155,7 +157,7 @@
 
                 <div class="form-group row mb-3">
                     <div class="col-md-3">
-                        <strong><label for="title">Numero Passeggeri</label></strong>
+                        <strong><label for="title">{{trans("messages.numero_passeggeri")}}</label></strong>
                     </div>
                     <div class="col-md-9">
                         <select id="passenger_count" name="passenger_count" class="form-control"
@@ -172,18 +174,17 @@
                 </div>
 
 
-
                 <div class="form-group row mb-3">
                     <div class="col-md-9 offset-md-3">
                         <label for="mySubmit" class="btn btn-primary w-100"><i class="bi bi-calendar-plus"></i>
-                            Prenota</label>
+                            {{trans("messages.prenota")}}</label>
                         <input id="mySubmit" class="d-none" type="submit" value="Prenota">
                     </div>
                 </div>
                 <div class="form-group row mb-3">
                     <div class="col-md-9 offset-md-3">
                         <a class="btn btn-secondary w-100" href="{{ url()->previous() }}"><i
-                                class="bi bi-box-arrow-left"></i> Indietro</a>
+                                class="bi bi-box-arrow-left"></i> {{trans("messages.indietro")}}</a>
                     </div>
                 </div>
             </form>
@@ -196,14 +197,14 @@
             <div class="modal-header">
                 <h5 class="modal-title">
                     <span class="bi bi-exclamation-triangle-fill" style="font-size: 1.5em; color: red;">
-                        Attenzione!</span>
+                        {{trans("messages.attenzione")}}!</span>
                 </h5>
                 <button type="button" class="close" id="chiudiModal" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                Non ci sono più posti disponibili.
+                {{trans("messages.noMoreSeats")}}
             </div>
             <div class="modal-footer">
                 <button type="button" id="chiudi" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
@@ -236,7 +237,7 @@
 
             var firstNameLabel = document.createElement('label');
             var strongText = document.createElement('strong');
-            strongText.innerText = 'Nome passeggero ' + i + ':';
+            strongText.innerText = '{{trans("messages.nome_passenger")}} ' + i + ':';
             firstNameLabel.appendChild(strongText);
             firstNameLabel.className = 'col-md-3';
             firstNameLabel.setAttribute('for', 'passenger_' + (i - 1) + '_first_name');
@@ -261,7 +262,7 @@
             lastNameLabel.className = 'col-md-3 mt-3';
             lastNameLabel.setAttribute('for', 'passenger_' + (i - 1) + '_last_name');
             var lastNameStrong = document.createElement('strong');
-            lastNameStrong.innerText = 'Cognome passeggero ' + i + ':';
+            lastNameStrong.innerText = '{{trans("messages.cognome_passenger")}} ' + i + ':';
             lastNameLabel.appendChild(lastNameStrong);
 
             fieldset.appendChild(lastNameLabel);
@@ -288,8 +289,6 @@
     // Chiama la funzione una volta per impostare il campo predefinito per il primo passeggero
     updatePassengerFields();
 </script>
-
-
 
 
 @endsection

@@ -45,7 +45,6 @@ Route::post('/user/register', [AuthController::class, 'registration'])->name('us
 Route::get('/user/logout', [AuthController::class, 'logout'])->name('user.logout');
 
 
-
 Route::get('/ajaxMail', [AuthController::class, 'ajaxCheckForEmail']);
 
 
@@ -83,19 +82,14 @@ Route::group(['middleware' => ['authCustom', 'isAddettoVolo', 'lang']], function
 });
 
 // Route::group(['middleware' => ['authCustom', 'isClienteOrVolo']], function () {
-//     //Route::resource('voli', VoliController::class);
+//     Route::resource('voli', VoliController::class);
 //     Route::get('voli/{volo}', [VoliController::class, 'show'])->name('voli.show');
-//     //Route::get('/voli', [VoliController::class, 'index'])->name('voli.index');
+//     Route::get('/voli', [VoliController::class, 'index'])->name('voli.index');
 // });
 
-Route::get('voli/{volo}', [VoliController::class, 'show'])->name('voli.show')->middleware('isClienteOrVolo')->middleware('authCustom');
-;
-Route::get('/voli', [VoliController::class, 'index'])->name('voli.index')->middleware('isClienteOrVolo')->middleware('authCustom');
-;
-//Route::get('/profds', [VoliController::class, 'search'])->name('voli.search');
-
-Route::get('/search/{id}', [VoliController::class, 'search'])->name('search')->middleware('isClienteOrVolo')->middleware('authCustom');
-;
+Route::get('voli/{volo}', [VoliController::class, 'show'])->name('voli.show')->middleware('authCustom')->middleware('lang');
+Route::get('/voli', [VoliController::class, 'index'])->name('voli.index')->middleware('lang');
+Route::get('/search/{id}', [VoliController::class, 'search'])->name('search')->middleware('lang');
 
 
 
@@ -113,9 +107,7 @@ Route::group(
 
 
 
-Route::get('/profilo', [ClientiController::class, 'profilo'])->name('profilo')->middleware('authCustom')->middleware('authCustom');
-;
-
+Route::get('/profilo', [ClientiController::class, 'profilo'])->name('profilo')->middleware('authCustom')->middleware('lang');
 
 
 Route::group(['middleware' => ['authCustom', 'isAdmin', 'lang']], function () {

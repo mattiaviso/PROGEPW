@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
-@section('title', 'Admin Page')
+@section('title')
+{{trans("messages.lista_compagnie")}}
+@endsection
 
 @section('breadcrumb')
 <div class="container mt-3">
@@ -11,7 +13,7 @@
             </li>
 
             <li class="breadcrumb-item active" aria-current="page">
-                Lista Compagnie
+                {{trans("messages.lista_compagnie")}}
             </li>
         </ol>
     </nav>
@@ -23,7 +25,7 @@
 <div class="container mt-4 ">
     <div class="col-xs-6 d-flex justify-content-end">
         <a href="{{ route("compagnie.create") }}" class="btn btn-success"><i class="bi bi-plus-circle-fill"></i>
-            Aggiungi nuova compagnia</a>
+            {{trans("messages.aggiungiCompagnia")}}</a>
     </div>
 </div>
 
@@ -36,7 +38,7 @@
             <col width='20%'>
             <thead>
                 <tr>
-                    <th>Nome Compagnia</th>
+                    <th>{{trans("messages.nomeCompagnia")}}</th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -50,28 +52,26 @@
                         </td>
                         <td>
                             <a href="{{ route("compagnie.show", $compagnia->id) }}" class="btn btn-info mr-2"><i
-                                    class="bi bi-search"></i> Dettagli</a>
+                                    class="bi bi-search"></i> {{trans("messages.dettagli")}}</a>
                         </td>
                         <td>
                             <a href="{{ route("compagnie.edit", $compagnia->id) }}" class="btn btn-warning mr-2"><i
-                                    class="bi bi-pencil-square"></i> Modifica</a>
+                                    class="bi bi-pencil-square"></i> {{trans("messages.modifica")}}</a>
                         </td>
                         <td>
                             @if($compagnia->voli->count() > 0)
-                                <a class="btn btn-secondary" disabled="disabled"><i class="bi bi-ban"></i> Elimina</a>
+                                <a class="btn btn-secondary" disabled="disabled"><i class="bi bi-ban"></i>
+                                    {{trans("messages.elimina")}}</a>
                             @else
                                 <a class="btn btn-danger" href="{{route("compagnie.destroy.confirm", $compagnia->id)}}"><i
-                                        class="bi bi-trash"></i> Elimina</a>
+                                        class="bi bi-trash"></i> {{trans("messages.elimina")}}</a>
 
                             @endif
                         </td>
                     </tr>
-
                 @endforeach
             </tbody>
         </table>
     </div>
 </div>
-
-
 @endsection

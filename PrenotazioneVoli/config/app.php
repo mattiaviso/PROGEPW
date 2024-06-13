@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    'locale' => env('APP_LOCALE', 'it'),
 
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 
@@ -86,7 +86,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Encryption Key
+
     |--------------------------------------------------------------------------
     |
     | This key is utilized by Laravel's encryption services and should be set

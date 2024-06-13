@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
-@section('title', '{{trans("messages.lista_voli")}}')
+@section('title')
+{{trans("messages.lista_voli")}}
+@endsection
 
 @section('breadcrumb')
 <div class="container mt-3">
@@ -57,9 +59,6 @@
                   </select>                
                 </div>
               </div>
-
-              
-
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="departure-date">{{trans('messages.dataPartenza')}}:</label>
@@ -74,6 +73,16 @@
       </div>
     </div>
   </div>
+
+
+  <nav aria-label="Page navigation example" id="paginationNav">
+  <ul class="pagination justify-content-center">
+    <li class="page-item" id="previousPage"><a class="page-link" href="#">Previous</a></li>
+    <!-- Numeri di pagina verranno inseriti dinamicamente -->
+    <li class="page-item" id="nextPage"><a class="page-link" href="#">Next</a></li>
+  </ul>
+</nav>
+
 
   <!-- Lista dei voli disponibili -->
   <div id="risultati-voli">
@@ -112,15 +121,12 @@
           </p>
         </div>
         </div>
-        <div class="col-md-2 d-flex flex-column justify-content-center ">
+        <div class="col-md-3 d-flex flex-column justify-content-center ">
         <div class="flight-detail ">
-
           <a href="{{ route("prenotazioni.edit", $flight->id) }}" class="btn btn-primary mb-1 w-100"><i class="bi bi-calendar-plus"></i>
           {{trans('messages.prenota_ora')}}</a>
-
           <a href="{{ route("voli.show", $flight->id) }}" class="btn btn-info mt-1 w-100"><i class="bi bi-search"></i>
           {{trans('messages.dettagli')}}</a>
-
         </div>
         </div>
       </div>
@@ -131,12 +137,13 @@
   @endforeach
 
   </div>
+  
 </div>
+
 
 @if (isset($city))
 <script>
-
-var selectedValue = $('#partenza').find('option:selected').text();
+      var selectedValue = $('#partenza').find('option:selected').text();
       var partenzaId = $('#partenza').find('option:selected').val();
       var arrivoValue = $('#arrivo').find('option:selected').text();
       var arrivoId = $('#arrivo').find('option:selected').val();
@@ -169,12 +176,9 @@ var selectedValue = $('#partenza').find('option:selected').text();
       });
 
 </script>
-
-
 @endif
 
 <script>
-
   $(document).ready(function () {
     function filterFlights() {
       var selectedValue = $('#partenza').find('option:selected').text();
@@ -209,8 +213,6 @@ var selectedValue = $('#partenza').find('option:selected').text();
         }
       });
     }
-
-
 
     // Evento change per la selezione della partenza
     $('#partenza').change(function () {
@@ -252,7 +254,5 @@ var selectedValue = $('#partenza').find('option:selected').text();
 
 
 </script>
-
-
 
 @endsection

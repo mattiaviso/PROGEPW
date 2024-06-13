@@ -1,7 +1,9 @@
 @extends('layouts.master')
 
 
-@section('title', 'Modifica Aeroporto')
+@section('title')
+{{trans("messages.modificaAeroporto")}}
+@endsection
 
 @section('breadcrumb')
 <div class="container mt-3">
@@ -12,12 +14,12 @@
             </li>
 
             <li class="breadcrumb-item">
-                <a href="{{route('aereoporti.index')}}">Lista Aeroporti</a>
+                <a href="{{route('aereoporti.index')}}">{{trans("messages.lista_aeroporti")}}</a>
             </li>
             @if(isset($airport->id))
-                <li class="breadcrumb-item active" aria-current="page">Modifica Aeroporto</li>
+                <li class="breadcrumb-item active" aria-current="page">{{trans("messages.modificaAeroporto")}}</li>
             @else
-                <li class="breadcrumb-item active" aria-current="page">Aggiungi Aeroporto</li>
+                <li class="breadcrumb-item active" aria-current="page">{{trans("messages.aggiungiAeroporto")}}</li>
             @endif
         </ol>
     </nav>
@@ -41,14 +43,15 @@
                     @csrf
                     <div class="form-group row mb-3">
                         <div class="col-md-2">
-                            <label for="title">Nome Aeroporto</label>
+                            <label for="title">{{trans("messages.nomeAeroporto")}}</label>
                         </div>
                         <div class="col-md-10">
                             @if(isset($airport->id))
-                                <input class="form-control" type="text" name="nome" placeholder="Nome Aeroporto"
-                                    value="{{ $airport->nome }}" />
+                                <input class="form-control" type="text" name="nome"
+                                    placeholder="{{trans("messages.nomeAeroporto")}}" value="{{ $airport->nome }}" />
                             @else
-                                <input class="form-control" type="text" name="nome" placeholder="Nome Aeroporto" />
+                                <input class="form-control" type="text" name="nome"
+                                    placeholder="{{trans("messages.nomeAeroporto")}}" />
                             @endif
                             <span class="text-danger" id="invalid-nome"></span>
 
@@ -56,14 +59,15 @@
                     </div>
                     <div class="form-group row mb-3">
                         <div class="col-md-2">
-                            <label for="title">Città</label>
+                            <label for="title">{{trans("messages.citta")}}</label>
                         </div>
                         <div class="col-md-10">
                             @if(isset($airport->id))
-                                <input class="form-control" type="text" name="city" placeholder="Città"
-                                    value="{{ $airport->city }}" />
+                                <input class="form-control" type="text" name="city"
+                                    placeholder="{{trans("messages.citta")}}" value="{{ $airport->city }}" />
                             @else
-                                <input class="form-control" type="text" name="city" placeholder="Città" />
+                                <input class="form-control" type="text" name="city"
+                                    placeholder="{{trans("messages.citta")}}" />
                             @endif
                             <span class="text-danger" id="invalid-city"></span>
 
@@ -71,14 +75,15 @@
                     </div>
                     <div class="form-group row mb-3">
                         <div class="col-md-2">
-                            <label for="title">Nazione</label>
+                            <label for="title">{{trans("messages.stato")}}</label>
                         </div>
                         <div class="col-md-10">
                             @if(isset($airport->id))
-                                <input class="form-control" type="text" name="country" placeholder="Nazione"
-                                    value="{{ $airport->country }}" />
+                                <input class="form-control" type="text" name="country"
+                                    placeholder="{{trans("messages.stato")}}" value="{{ $airport->country }}" />
                             @else
-                                <input class="form-control" type="text" name="country" placeholder="Nazione" />
+                                <input class="form-control" type="text" name="country"
+                                    placeholder="{{trans("messages.stato")}}" />
                             @endif
                             <span class="text-danger" id="invalid-country"></span>
 
@@ -86,15 +91,16 @@
                     </div>
                     <div class="form-group row mb-3">
                         <div class="col-md-2">
-                            <label for="title">Codice IATA</label>
+                            <label for="title">{{trans("messages.codice_IATa")}}</label>
                         </div>
                         <div class="col-md-10">
                             @if(isset($airport->id))
-                                <input class="form-control" type="text" name="code" placeholder="Codice IATA"
-                                    value="{{ $airport->codice_iata }}" />
+                                <input class="form-control" type="text" name="code"
+                                    placeholder="{{trans("messages.codice_IATa")}}" value="{{ $airport->codice_iata }}" />
                                 <input type="hidden" name="old_code" value="{{ $airport->codice_iata }}">
                             @else
-                                <input class="form-control" type="text" name="code" placeholder="Codice IATA" />
+                                <input class="form-control" type="text" name="code"
+                                    placeholder="{{trans("messages.codice_IATa")}}" />
                             @endif
                             <span class="text-danger" id="invalid-code"></span>
 
@@ -102,14 +108,15 @@
                     </div>
                     <div class="form-group row mb-3">
                         <div class="col-md-2">
-                            <label for="title">Latitudine</label>
+                            <label for="title">{{trans("messages.latitudine")}}</label>
                         </div>
                         <div class="col-md-10">
                             @if(isset($airport->id))
-                                <input class="form-control" type="text" name="lat" placeholder="Latitudine"
-                                    value="{{ $airport->lat }}" />
+                                <input class="form-control" type="text" name="lat"
+                                    placeholder="{{trans("messages.latitudine")}}" value="{{ $airport->lat }}" />
                             @else
-                                <input class="form-control" type="text" name="lat" placeholder="Latitudine" />
+                                <input class="form-control" type="text" name="lat"
+                                    placeholder="{{trans("messages.latitudine")}}" />
                             @endif
                             <span class="text-danger" id="invalid-lat"></span>
 
@@ -117,14 +124,15 @@
                     </div>
                     <div class="form-group row mb-3">
                         <div class="col-md-2">
-                            <label for="title">Longitudine</label>
+                            <label for="title">{{trans("messages.longitudine")}}</label>
                         </div>
                         <div class="col-md-10">
                             @if(isset($airport->id))
-                                <input class="form-control" type="text" name="lon" placeholder="Longitudine"
-                                    value="{{ $airport->lon }}" />
+                                <input class="form-control" type="text" name="lon"
+                                    placeholder="{{trans("messages.longitudine")}}" value="{{ $airport->lon }}" />
                             @else
-                                <input class="form-control" type="text" name="lon" placeholder="Longitudine" />
+                                <input class="form-control" type="text" name="lon"
+                                    placeholder="{{trans("messages.longitudine")}}" />
                             @endif
                             <span class="text-danger" id="invalid-lon"></span>
 
@@ -134,14 +142,14 @@
                     <div class="form-group row mb-3">
                         <div class="col-md-10 offset-md-2">
                             <label for="mySubmit" class="btn btn-primary w-100"><i class="bi bi-floppy2-fill"></i>
-                                Salva</label>
+                                {{trans("messages.salva")}}</label>
                             <input id="mySubmit" class="d-none" type="submit" value="Save">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
                         <div class="col-md-10 offset-md-2">
                             <a class="btn btn-secondary w-100" href="{{ url()->previous() }}"><i
-                                    class="bi bi-box-arrow-left"></i> Cancella</a>
+                                    class="bi bi-box-arrow-left"></i> {{trans("messages.annulla")}}</a>
                         </div>
                     </div>
                 </form>
@@ -158,7 +166,7 @@
 
             if ($('input[name="nome"]').val().trim() === '') {
                 isValid = false;
-                $("#invalid-nome").text("Il campo nome non può essere vuoto.");
+                $("#invalid-nome").text("{{trans("messages.campoObbligatorio")}}");
                 event.preventDefault();
                 $("input[name='nome']").focus();
             } else {
@@ -169,7 +177,7 @@
             var cityRegex = /^[a-zA-ZÀ-ÿ\s]+$/;
             if (!cityRegex.test(cityValue)) {
                 isValid = false;
-                $("#invalid-city").text("Il campo città può contenere solo lettere e accenti.");
+                $("#invalid-city").text("{{trans("messages.campoSoloLettere")}}");
                 event.preventDefault();
                 $("input[name='city']").focus();
             } else {
@@ -181,7 +189,7 @@
             var countryRegex = /^[a-zA-ZÀ-ÿ\s]+$/;
             if (!countryRegex.test(countryValue)) {
                 isValid = false;
-                $("#invalid-country").text("Il campo nazione può contenere solo lettere e accenti.");
+                $("#invalid-country").text("{{trans("messages.campoSoloLettere")}}");
                 event.preventDefault();
                 $("input[name='country']").focus();
             } else {
@@ -193,7 +201,7 @@
             var codeRegex = /^[a-zA-Z]{3}$/;
             if (!codeRegex.test(codeValue)) {
                 isValid = false;
-                $("#invalid-code").text("Il campo codice IATA deve contenere esattamente tre lettere.");
+                $("#invalid-code").text("{{trans("messages.iatathreelettere")}}");
                 event.preventDefault();
                 $("input[name='code']").focus();
             } else {
@@ -205,14 +213,14 @@
             var latRegex = /^-?\d+(\.\d+)?$/;
             if (!latRegex.test(latValue)) {
                 isValid = false;
-                $("#invalid-lat").text("Inserire un valore numerico valido per la latitudine.");
+                $("#invalid-lat").text("{{trans("messages.inserireVlaoreLatitudine")}}");
                 event.preventDefault();
                 $("input[name='lat']").focus();
             } else {
                 var latFloat = parseFloat(latValue);
                 if (latFloat < -90 || latFloat > 90) {
                     isValid = false;
-                    $("#invalid-lat").text("Il valore della latitudine deve essere compreso tra -90 e 90.");
+                    $("#invalid-lat").text("{{trans("messages.valoreCompresoTra")}}");
                     event.preventDefault();
                     $("input[name='lat']").focus();
                 } else {
@@ -225,14 +233,14 @@
             var lonRegex = /^-?\d+(\.\d+)?$/;
             if (!lonRegex.test(lonValue)) {
                 isValid = false;
-                $("#invalid-lon").text("Inserire un valore numerico valido per la longitudine.");
+                $("#invalid-lon").text("{{trans("messages.inserireVlaoreLongitudine")}}");
                 event.preventDefault();
                 $("input[name='lon']").focus();
             } else {
                 var lonFloat = parseFloat(lonValue);
                 if (lonFloat < -180 || lonFloat > 180) {
                     isValid = false;
-                    $("#invalid-lon").text("Il valore della longitudine deve essere compreso tra -180 e 180.");
+                    $("#invalid-lon").text("{{trans("messages.valoreCompresoTraLOn")}}");
                     event.preventDefault();
                     $("input[name='lon']").focus();
                 } else {
@@ -253,7 +261,7 @@
                         if (!data.found || old_code === $('input[name="code"]').val().trim()) {
                             $("form")[0].submit();
                         } else {
-                            $("#invalid-code").text("Il codice IATA inserito è già presente nel database.");
+                            $("#invalid-code").text("{{trans("messages.iataEsistente")}}");
 
                         }
                     }
@@ -263,6 +271,4 @@
 
     });
 </script>
-
-
 @endsection

@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
-@section('title', '{{trans("messages.cancella_volo")}}')
+@section('title')
+{{trans("messages.cancella_volo")}}
+@endsection
 
 @section('breadcrumb')
 <div class="container mt-3">

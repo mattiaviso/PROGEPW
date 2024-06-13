@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\DataLayer;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Log;
 
 class VoliController extends Controller
 {
@@ -75,6 +76,7 @@ class VoliController extends Controller
             $compagniaId_Logged_User = $dl->findCompagniaByUserID($_SESSION['loggedID']);
         } else {
             $compagniaId_Logged_User = null;
+
         }
 
         if (!$volo) {
