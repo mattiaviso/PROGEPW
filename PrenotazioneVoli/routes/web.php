@@ -27,14 +27,6 @@ Route::get('/TerminiCondizioni', [FrontController::class, 'terms'])->name('altro
 
 
 
-//fammi la rotta che mostra la view welcome
-Route::get('/welcome', function () {
-    $dl = new DataLayer();
-    $voli = $dl->listVoli();
-    return view('welcome')->with('voli', $voli);
-})->name('welcome');
-
-
 Route::get('/user/login', [AuthController::class, 'authentication'])->name('user.login')->middleware('lang');
 ;
 Route::post('/user/login', [AuthController::class, 'login'])->name('user.login');
@@ -52,11 +44,20 @@ Route::get('/ajaxMail', [AuthController::class, 'ajaxCheckForEmail']);
 Route::resource('clienti', ClientiController::class)->middleware('authCustom');
 Route::put('profilo/aggiorna', [ClientiController::class, 'aggiorna'])->name('user.aggiorna')->middleware('authCustom');
 Route::put('profilo/changePSWD', [ClientiController::class, 'aggiornaPass'])->name('user.aggiornaPass')->middleware('authCustom');
+Route::put('utenze/changePSWD', [ClientiController::class, 'aggiornaPassAdmin'])->name('admin.aggiornaPass')->middleware('authCustom');
 
 
 Route::group(['middleware' => ['authCustom', 'isCliente', 'lang']], function () {
     //Route::resource('clienti', ClientiController::class);
     Route::resource('prenotazioni', PrenotazioniController::class);
+
+
+    Route::delete('/prenotazioni/{prenotazione}/passeggeri/{passeggero}', [PrenotazioniController::class, 'eliminaPasseggero'])
+        ->name('passeggeri.elimina');
+
+    Route::get('/prenotazioni/{prenotazione}/passeggeri/{passeggero}/destroy/confirm', [PrenotazioniController::class, 'eliminaPasseggeroConfirm'])
+        ->name('passeggeri.elimina.conferma');
+
     Route::post('/voli/aggiorna', [PrenotazioniController::class, 'aggiorna'])->name('aggiorna');
 
     Route::get('/ajaxPostiDisponibili', [AuthController::class, 'ajaxCheckForPosti']);
@@ -87,9 +88,9 @@ Route::group(['middleware' => ['authCustom', 'isAddettoVolo', 'lang']], function
 //     Route::get('/voli', [VoliController::class, 'index'])->name('voli.index');
 // });
 
-Route::get('voli/{volo}', [VoliController::class, 'show'])->name('voli.show')->middleware('authCustom')->middleware('lang');
-Route::get('/voli', [VoliController::class, 'index'])->name('voli.index')->middleware('lang');
-Route::get('/search/{id}', [VoliController::class, 'search'])->name('search')->middleware('lang');
+Route::get('voli/{volo}', [VoliController::class, 'show'])->name('voli.show')->middleware('isClienteOrVolo')->middleware('lang');
+Route::get('/voli', [VoliController::class, 'index'])->name('voli.index')->middleware('lang')->middleware('isClienteOrVolo');
+Route::get('/search/{id}', [VoliController::class, 'search'])->name('search')->middleware('lang')->middleware('isClienteOrVolo');
 
 
 

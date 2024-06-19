@@ -32,40 +32,40 @@
     }
 </style>
 <div class="container mt-3 mb-5">
-    <div class="row">
-        <div class="col-md-6 text-left my-4" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
-            <p><strong>{{trans("messages.nomeCompagnia")}}:</strong> {{ $compagnia->nome}}</p>
-            <p><strong>{{trans("messages.sede_centrale")}}:</strong> {{ $compagnia->sede}}</p>
-            <p><strong>{{trans("messages.nazioneRegistrazione")}}:</strong> {{ $compagnia->country}}</p>
-            <p><strong>{{trans("messages.annoFondazione")}}:</strong> {{ $compagnia->anno_fondazione}}</p>
-        </div>
-    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card text-left shadow-sm" style="border-radius: 10px; border: 3px solid #827E7E;">
+                <div class="card-body" style="background-color: #f8f9fa; padding: 20px;">
+                    <p class="mb-2"><strong>{{trans("messages.nomeCompagnia")}}:</strong> {{ $compagnia->nome}}</p>
+                    <p class="mb-2"><strong>{{trans("messages.sede_centrale")}}:</strong> {{ $compagnia->sede}}</p>
+                    <p class="mb-2"><strong>{{trans("messages.nazioneRegistrazione")}}:</strong>
+                        {{ $compagnia->country}}</p>
+                    <p class="mb-2"><strong>{{trans("messages.annoFondazione")}}:</strong>
+                        {{ $compagnia->anno_fondazione}}</p>
+                    <p class="mb-0"><strong>{{trans("messages.voliInseriti")}}:</strong> {{$compagnia->voli->count()}}
+                    </p>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <a href="{{ route("compagnie.index") }}" class="btn btn-secondary">
+                        <i class="bi bi-box-arrow-left"></i> {{trans("messages.indietro")}}
+                    </a>
 
-    <div class="form-group row mb-3">
-        <div class="col-md-12 offset-md-0">
-            <a href="{{ route("compagnie.index") }}" class="btn btn-outline-primary btn-block btn-lg"><i
-                    class="bi bi-box-arrow-left"></i>
-                {{trans("messages.indietro")}}</a>
-        </div>
-    </div>
-
-    <div class="form-group row mb-3">
-        <div class="col-md-12 offset-md-0">
-            <a href="{{ route("compagnie.edit", $compagnia->id) }}" class="btn btn-warning btn-block btn-lg"><i
-                    class="bi bi-pencil-square"></i> {{trans("messages.modifica")}}</a>
-        </div>
-    </div>
-    <div class="form-group row mb-3">
-        <div class="col-md-12 offset-md-0">
-
-            @if($compagnia->voli->count() > 0)
-                <a class="btn btn-secondary btn-block btn-lg" disabled="disabled"><i class="bi bi-ban"></i>
-                    {{trans("messages.elimina")}}</a>
-            @else
-                <a class="btn btn-danger btn-block btn-lg" href="{{route("compagnie.destroy.confirm", $compagnia->id)}}"><i
-                        class="bi bi-trash"></i> {{trans("messages.elimina")}}</a>
-            @endif
+                    <a href="{{ route("compagnie.edit", $compagnia->id) }}" class="btn btn-warning">
+                        <i class="bi bi-pencil-square"></i> {{trans("messages.modifica")}}
+                    </a>
+                    @if($compagnia->voli->count() > 0)
+                        <button class="btn btn-secondary" disabled>
+                            <i class="bi bi-ban"></i> {{trans("messages.elimina")}}
+                        </button>
+                    @else
+                        <a href="{{route("compagnie.destroy.confirm", $compagnia->id)}}" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> {{trans("messages.elimina")}}
+                        </a>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
 @endsection

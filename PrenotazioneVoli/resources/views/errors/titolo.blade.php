@@ -18,23 +18,21 @@
 @endsection
 
 @section('body')
-
 <div class="container mt-5 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card text-center shadow">
-                <div class="card-header text-left bg-danger text-white">
-                    <i class="bi bi-exclamation-triangle-fill"></i> {{ trans("messages.error404") }}
+                <div class="card-header bg-warning text-white">
+                    <h4><i class="bi bi-exclamation-triangle-fill"></i> {{ trans('messages.attenzione') }}</h4>
                 </div>
                 <div class="card-body">
-                    <h1><i class="bi bi-exclamation-triangle-fill text-danger"></i> {{ trans("messages.pagenotfound") }}
-                    </h1>
+                    <h1><i class="bi bi-exclamation-circle text-danger"></i> {{ trans('messages.errore') }}</h1>
                     @if (isset($message))
                         <p>{{ $message }}</p>
                     @else
-                        <p>{{ trans("messages.paginaNonTrovata") }}</p>
+                        <p>{{ trans('messages.paginaNonTrovata') }}</p>
                     @endif
-                    <a href="{{ route('home') }}" class="btn btn-primary">{{ trans("messages.tornallaHome") }}</a>
+                    <a href="{{ route('home') }}" class="btn btn-primary">{{ trans('messages.tornallaHome') }}</a>
                 </div>
             </div>
         </div>

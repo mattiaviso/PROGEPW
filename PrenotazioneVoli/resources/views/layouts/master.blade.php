@@ -45,7 +45,7 @@
 
     <style>
         body {
-            background-color: #f0f0f0;
+            background-color: #EFECEC;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -53,9 +53,9 @@
 
         .flight-card {
             background-color: #ffffff;
-            border-radius: 10px;
+            border-radius: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             position: relative;
         }
 
@@ -77,6 +77,7 @@
             align-items: center;
         }
 
+
         .passenger-btn {
             margin: 0 5px;
         }
@@ -87,6 +88,16 @@
 
         .wrapper {
             flex: 1;
+        }
+
+
+
+        .breadcrumb {
+            background-color: transparent;
+            margin-top: 0px;
+            margin-bottom: 10px;
+            padding-top: 0;
+            padding-bottom: 0;
         }
     </style>
 </head>
@@ -116,21 +127,19 @@
                             </li>
                             <li>
                                 <a class="dropdown-item" href="{{route('setLang', ['lang' => 'en'])}}">
-                                    <img src="{{ asset('img/flags/us.svg') }}" width="20" alt="Italian Flag"
-                                        class="me-2">
+                                    <img src="{{ asset('img/flags/us.svg') }}" width="20" alt="Us Flag" class="me-2">
                                     English
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="{{route('setLang', ['lang' => 'es'])}}">
-                                    <img src="{{ asset('img/flags/es.svg') }}" width="20" alt="Italian Flag"
-                                        class="me-2">
+                                    <img src="{{ asset('img/flags/es.svg') }}" width="20" alt="Spain Flag" class="me-2">
                                     Español
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="{{route('setLang', ['lang' => 'de'])}}">
-                                    <img src="{{ asset('img/flags/de.svg') }}" width="20" alt="Italian Flag"
+                                    <img src="{{ asset('img/flags/de.svg') }}" width="20" alt="Germany Flag"
                                         class="me-2">
                                     Deutsch
                                 </a>
@@ -138,9 +147,9 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-5 text-md-right text-center mt-2 mt-md-0">
+                <div class="col-md-5 text-md-right text-right mt-2 mt-md-0">
                     @if((isset($_SESSION['logged'])) && ($_SESSION['logged']))
-                        <label class="text-white">{{trans('messages.welcome')}} {{session('language')}}
+                        <label class="text-white">{{trans('messages.welcome')}}
                             {{ strtoupper($_SESSION['loggedName']) }}
                             !!!</label>
                     @else
@@ -156,7 +165,6 @@
 
 
     <div>
-
         @if((isset($_SESSION['logged'])) && ($_SESSION['logged']))
             @if ($_SESSION['ruolo'] == 'cliente')
                 <div class="container mt-3">
@@ -169,7 +177,7 @@
                         </button>
 
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav me-auto  mb-lg-0">
+                            <ul class="navbar-nav me-auto mb-lg-0">
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{route('voli.index')}}">{{trans('messages.prenota_volo')}}</a>
                                 </li>
@@ -191,7 +199,7 @@
                 </div>
             @endif
             @if ($_SESSION['ruolo'] == 'admin')
-                <div class="container mt-3">
+                <div class="container mt-3 ">
                     <nav class="navbar navbar-expand-md navbar-light bg-light">
                         <a class="navbar-brand" href="{{route('home')}}">Home</a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -315,9 +323,9 @@
 
 
         <div class="wrapper">
-            <!-- il tuo contenuto va qui -->
         </div>
-        <footer class="bg-dark text-white border-top">
+
+        <footer class="bg-dark text-white border-top footer py-3 mt-auto">
             <div class="container py-4">
                 <div class="row">
                     <div class="col-md-4 mb-3">
@@ -328,7 +336,7 @@
                         <p class="text-muted">{{trans('messages.foot')}}</p>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <h5 class="text-white">Contatti</h5>
+                        <h5 class="text-white">{{trans('messages.contatti')}}</h5>
                         <ul class="nav flex-column">
                             <li class="nav-item mb-2">
                                 <span class="nav-link p-0 text-white">{{trans('messages.telefono')}}: 0123456789</span>
@@ -344,7 +352,7 @@
                         </ul>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <h5 class="text-white">Link Utili</h5>
+                        <h5 class="text-white">{{trans('messages.linkUtili')}}</h5>
                         <ul class="nav flex-column">
                             <li class="nav-item mb-2">
                                 <a href="{{route('altro.who')}}"
@@ -376,7 +384,6 @@
             </div>
         </footer>
     </div>
-
 
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>

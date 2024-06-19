@@ -160,9 +160,10 @@
 <script>
     $(document).ready(function () {
 
-        isValid = true;
 
         $('#formCrea').submit(function (event) {
+            isValid = true;
+
 
             if ($('input[name="nome"]').val().trim() === '') {
                 isValid = false;

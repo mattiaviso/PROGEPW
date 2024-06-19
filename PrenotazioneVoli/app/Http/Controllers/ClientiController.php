@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\DataLayer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\App;
 use PHPUnit\Framework\MockObject\Stub\ReturnArgument;
+
 
 
 
@@ -18,7 +20,7 @@ class ClientiController extends Controller
      */
     public function index()
     {
-
+        return view('errors.404')->with('message', 'Errore 404 - Pagina non trovata!');
     }
 
     public function profilo()
@@ -61,7 +63,7 @@ class ClientiController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('errors.404')->with('message', 'Errore 404 - Pagina non trovata!');
     }
 
     /**
@@ -69,7 +71,7 @@ class ClientiController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('errors.404')->with('message', 'Errore 404 - Pagina non trovata!');
     }
 
     /**
@@ -109,12 +111,28 @@ class ClientiController extends Controller
         return Redirect::to(route('profilo'));
     }
 
+    public function aggiornaPassAdmin(Request $request)
+    {
+
+        $id = $request->input('idCliente');
+        $password = $request->input('passwordnew1');
+
+        //write log
+        Log::info('Aggiornamento password cliente con id: ' . $id . ' e ' . $password);
+
+        $dl = new DataLayer();
+        $dl->updatePassword($id, $password);
+
+        return Redirect::to(route('home'));
+    }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        return view('errors.404')->with('message', 'Errore 404 - Pagina non trovata!');
+
     }
 }

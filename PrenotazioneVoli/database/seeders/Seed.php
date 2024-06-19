@@ -18,35 +18,14 @@ class Seed extends Seeder
      */
     public function run(): void
     {
-        Clienti::create([
-            'nome' => 'Mattia',
-            'cognome' => 'Visini',
-            'dataNascita' => '1999-06-01',
-            'luogoNascita' => 'Brescia',
-            'email' => 'mattia@unibs.it',
-            'password' => Hash::make('password'),
-            'ruolo' => 'cliente',
-        ]);
 
-        Clienti::create([
-            'nome' => 'Luca',
-            'cognome' => 'Visini',
-            'dataNascita' => '2001-06-01',
-            'luogoNascita' => 'Brescia',
-            'email' => 'admin@unibs.it',
-            'password' => Hash::make('password'),
-            'ruolo' => 'admin',
-        ]);
-
-
-        Clienti::factory(5)->create();
-
-
-        Passeggeri::factory(100)->create();
+        Clienti::factory(10)->create();
+        Passeggeri::factory(10)->create();
 
         $volitot = Voli::all();
         foreach ($volitot as $volo) {
-            //per ogni volo fai un numero casuale di prenotazioni
+            
+            
             $n = rand(1, 3);
             for ($i = 0; $i < $n; $i++) {
                 Prenotazioni::factory()->create([
@@ -57,7 +36,6 @@ class Seed extends Seeder
         }
 
         Prenotazioni::factory(5)->create();
-
 
         $prenotaazioni = Prenotazioni::all();
 

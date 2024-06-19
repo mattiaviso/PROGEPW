@@ -151,6 +151,15 @@ class DatabaseSeeder extends Seeder
             'lon' => '18.6022'
         ]);
 
+        Aereoporti::create([
+            'nome' => 'New York John F. Kennedy International Airport',
+            'codice_iata' => 'JFK',
+            'city' => 'New York',
+            'country' => 'USA',
+            'lat' => '40.6413',
+            'lon' => '-73.7781'
+        ]);
+
 
 
         Compagnie::create([
@@ -226,17 +235,21 @@ class DatabaseSeeder extends Seeder
                 $a = Aereoporti::inRandomOrder()->value('id');
             } while ($a === $p);
 
-            $lettera1 = chr(rand(65, 90)); // Genera una lettera maiuscola ASCII
-            $lettera2 = chr(rand(65, 90)); // Genera una lettera maiuscola ASCII
+            $lettera1 = chr(rand(65, 90));
+            $lettera2 = chr(rand(65, 90)); 
 
             $now = new DateTime();
             $interval1 = new DateInterval('PT' . rand(0, 16) . 'H');
             $intervalDays = new DateInterval('P' . rand(0, 30) . 'D');
+            //intevall3 in minutes
+            $interval3 = new DateInterval('PT' . rand(0, 59) . 'M');
+            $interval4 = new DateInterval('PT' . rand(0, 59) . 'M');
+
             $date1 = clone $now;
-            $date1->add($interval1)->add($intervalDays);
+            $date1->add($interval1)->add($intervalDays)->add($interval3);
             $interval2 = new DateInterval('PT' . rand(0, 16) . 'H');
             $date2 = clone $date1;
-            $date2->add($interval2);
+            $date2->add($interval2)->add($interval4);
 
 
             $numero = rand(1000, 9999);
@@ -252,32 +265,11 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        Clienti::create([
-            'nome' => 'Mattia',
-            'cognome' => 'Visini',
-            'dataNascita' => '1999-06-01',
-            'luogoNascita' => 'Brescia',
-            'email' => 'mattia@unibs.it',
-            'password' => Hash::make('password'),
-            'ruolo' => 'cliente',
-        ]);
+        Clienti::factory(3)->create();
 
-        Clienti::create([
-            'nome' => 'Luca',
-            'cognome' => 'Visini',
-            'dataNascita' => '2001-06-01',
-            'luogoNascita' => 'Brescia',
-            'email' => 'admin@unibs.it',
-            'password' => Hash::make('password'),
-            'ruolo' => 'admin',
-        ]);
+        Passeggeri::factory(20)->create();
 
-
-        Clienti::factory(5)->create();
-
-        Passeggeri::factory(10)->create();
-
-        Prenotazioni::factory(50)->create();
+        Prenotazioni::factory(5)->create();
 
 
         $prenotaazioni = Prenotazioni::all();
@@ -286,10 +278,5 @@ class DatabaseSeeder extends Seeder
             $passeggeri = Passeggeri::inRandomOrder()->limit(rand(1, 5))->get();
             $prenotazione->passeggeri()->attach($passeggeri);
         }
-
-
-
-
-
     }
 }

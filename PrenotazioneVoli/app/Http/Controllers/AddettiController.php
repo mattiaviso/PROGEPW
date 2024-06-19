@@ -32,7 +32,7 @@ class AddettiController extends Controller
     {
         $dl = new DataLayer();
         $utenti = $dl->listaClienti();
-        
+
         return view('addetti.indexClienti')->with('utenti', $utenti);
     }
 
@@ -65,8 +65,6 @@ class AddettiController extends Controller
 
         return Redirect::to(route('home'));
 
-
-
     }
 
     /**
@@ -74,6 +72,7 @@ class AddettiController extends Controller
      */
     public function show(string $id)
     {
+        return view('errors.404')->with('message', 'Errore 404 - Pagina non trovata!');
 
     }
 
@@ -85,7 +84,11 @@ class AddettiController extends Controller
         $dl = new DataLayer();
         $utente = $dl->findAddettoById($id);
         $compagnie = $dl->listCompagnie();
-        return view('addetti.create')->with('addetti', $utente)->with('companies', $compagnie);
+        if ($utente == null)
+            return view('errors.404')->with('message', 'Wrong ID! Addetto not found! ');
+        else {
+            return view('addetti.create')->with('addetti', $utente)->with('companies', $compagnie);
+        }
     }
 
     /**
@@ -124,6 +127,10 @@ class AddettiController extends Controller
     {
         $dl = new DataLayer();
         $utente = $dl->findAddettoById($id);
-        return view('addetti.delete')->with('utente', $utente);
+        if ($utente == null)
+            return view('errors.404')->with('message', 'Wrong ID! Addetto not found! ');
+        else {
+            return view('addetti.delete')->with('utente', $utente);
+        }
     }
 }

@@ -88,8 +88,8 @@ return [
     'luogoNascitaObbligatorio' => 'Il luogo di nascita è obbligatorio.',
     'passwordNonValida' => 'La password deve contenere almeno una lettera minuscola, una maiuscola, un numero e un carattere speciale e deve essere più lunga di 8 caratteri.',
     'passwordNonCorrispondono' => 'Le password non corrispondono.',
-    'erroreEmail' => 'L\'indirizzo email non è valido. Inserisci un indirizzo valido.',
-    'emailEsistente' => 'L\'indirizzo email è già associato a un account. Inserisci un indirizzo diverso.',
+    'erroreEmail' => 'L indirizzo email non è valido. Inserisci un indirizzo valido.',
+    'emailEsistente' => 'L indirizzo email è già associato a un account. Inserisci un indirizzo diverso.',
     'nomeCompagnia' => 'Nome della compagnia aerea',
     'resetta' => 'Resetta',
     'nuovaPassword' => 'Nuova Password',
@@ -167,6 +167,7 @@ return [
     'listaUtenze' => 'Lista degli utenti',
     'clientiLista' => 'Lista dei clienti',
     'listaAddettiInsermientoVoli' => 'Lista degli operatori di inserimento voli',
+    'listaAddettiPrenotazioni' => 'Lista degli operatori di prenotazioni',
     'aggiungiAccountAddetto' => 'Aggiungi account operatore',
     'modificaAccountAddetto' => 'Modifica account',
     'ruolo' => 'Ruolo',
@@ -175,6 +176,56 @@ return [
     'obbligatorioEsololettereeAccenti' => 'Questo campo è obbligatorio e può contenere solo lettere e accenti.',
     'passwordObbligatoria' => 'La password è obbligatoria.',
     'scopriVoliDisponibili' => 'Scopri i voli disponibili',
+    'ultimoPasseggero' => 'Impossibile eliminare l unico passeggero rimanente.',
+    'searchNomeComapgnia' => 'Cerca per nome della compagnia aerea...',
+    'Search_by' => 'Cerca per',
+    'country' => 'Nazione',
+    'search_by_name' => 'Cerca per nome...',
+    'SearchNomeModello' => 'Cerca per nome modello...',
+    'cittaPartenza' => 'Città Partenza',
+    'cittaArrivo' => 'Città Arrivo',
+    'tuttiICampi' => 'Tutti i campi',
+    'SearchEverywhere' => 'Cerca ovunque...',
+    'contatti' => 'Contatti',
+    'linkUtili' => 'Link utili',
+    'ore' => 'Ore',
+    'minuti' => 'Minuti',
+    'e' => 'e',
+    'flight_per_page' => 'Voli per pagina',
+    'chiudi' => 'Chiudi',
+
+
+
+
+
+    'cancellaPasseggeroPrenotazione' => 'CANCELLA PASSEGGERO',
+    'dallaPrenotazione' => 'dalla prenotazione?',
+    'nessunPostoDiposinibile' => 'Nessun posto disponibile',
+    'confermaRimozionePasseggero' => 'Conferma rimozione passeggero',
+    'seiSicuroRimuoverePasseggero' => 'Sei sicuro di voler rimuovere il passeggero dalla prenotazione?',
+    'voliInseriti' => 'Voli inseriti',
+    'errore404' => 'Errore 404 - Pagina non trovata!',
+    'errore' => 'Errore',
+    'modificaAereo' => 'Modifica aereo',
+    'erroreCapacitaSbaglaito' => 'E presente un volo con piu passeggeri su questo volo!',
+    'accessoBloccato' => 'Accesso Bloccato',
+    'MEXNOPERMESSI' => 'NON HAI I PERMESSI PER ACCEDERE A QUESTA PAGINA',
+    'voloNonTrovato' => 'Volo non trovato',
+
+
+
+    'selezionaCompagnia' => 'Seleziona una compagnia',
+    'selezionaAeroporto' => 'Seleziona un aeroporto',
+    'selezionaVelivolo' => 'Seleziona un velivolo',
+
+
+
+
+
+
+
+
+
 
 ];
 

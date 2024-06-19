@@ -76,6 +76,8 @@
                             @else
                                 <input class="form-control" type="text" name="city"
                                     placeholder="{{trans("messages.sede_centrale")}}" />
+                                <input type="hidden" name="old_code" value="-1">
+
                             @endif
                             <span class="text-danger" id="invalid-city"></span>
                         </div>
@@ -135,9 +137,10 @@
 
 <script>
     $(document).ready(function () {
-        isValid = true;
 
         $('#formCrea').submit(function (event) {
+            isValid = true;
+
 
             if ($('input[name="nome"]').val().trim() === '') {
                 isValid = false;

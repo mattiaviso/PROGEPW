@@ -16,7 +16,7 @@ class isAddettoPrenotazioni
     public function handle(Request $request, Closure $next): Response
     {
         if ((!isset($_SESSION['ruolo'])) || ($_SESSION['ruolo'] != 'prenotazioni')) {
-            return response()->view('errors.404', ['message' => 'Solo gli addetti alle prenotazioni possono accedere a questa pagina!']);
+            return response()->view('errors.noAuth');
         }
         return $next($request);
     }

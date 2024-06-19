@@ -19,7 +19,7 @@ class isClienteOrVolo
 
 
             if (!isset($_SESSION)) {
-                //session_start();
+                session_start();
             }
 
             if (!isset($_SESSION['ruolo']) || empty($_SESSION['ruolo'])) {

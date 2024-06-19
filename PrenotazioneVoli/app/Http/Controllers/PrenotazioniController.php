@@ -25,7 +25,7 @@ class PrenotazioniController extends Controller
      */
     public function create()
     {
-
+        return view('errors.404')->with('message', 'Errore 404 - Pagina non trovata!');
     }
 
     /**
@@ -63,8 +63,37 @@ class PrenotazioniController extends Controller
      */
     public function show(string $id)
     {
+        return view('errors.404')->with('message', 'Errore 404 - Pagina non trovata!');
+    }
+
+    public function eliminaPasseggeroConfirm($prenotazioneId, $passeggeroid)
+    {
+        $dl = new DataLayer();
+        $passeggero = $dl->findPasseggeroByid($passeggeroid);
+        $prenotazione = $dl->findPrenotazioneById($prenotazioneId);
+        $countPasseggeri = $prenotazione->passeggeri->count();
+
+
+        if (!$passeggero || !$prenotazione) {
+            return response()->view('errors.404', ['message' => 'Passeggero per questa prenotazione non trovato']);
+        } elseif ($prenotazione->cliente_id != $_SESSION['loggedID']) {
+            return response()->view('errors.404', ['message' => 'NON HAI ACCESSO A QUESTA PAGINA']);
+        } elseif ($countPasseggeri == 1) {
+            return response()->view('errors.404', ['message' => 'NON PUOI ELIMINARE l UNICO PASSEGGERO DI QUESTA PRENOTAZIONE']);
+        } else {
+            return view('prenotazioni.deleteConfirm')->with('prenotazione', $prenotazione)->with('passeggero', $passeggero);
+        }
 
     }
+
+    public function eliminaPasseggero($prenotazioneId, $passeggero)
+    {
+        $dl = new DataLayer();
+        $dl->deletePasseggeroFromPrenotazione($prenotazioneId, $passeggero);
+
+        return Redirect::to(route('prenotazioni.index'));
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -75,9 +104,10 @@ class PrenotazioniController extends Controller
         $volo = $dl->findFlightByID($id);
         if (!$volo) {
             return response()->view('errors.404', ['message' => 'Questo volo non esiste']);
+        } else {
+            return view('prenotazioni.edit')->with('volo', $volo);
         }
 
-        return view('prenotazioni.edit')->with('volo', $volo);
 
     }
 
@@ -86,7 +116,7 @@ class PrenotazioniController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
+        return view('errors.404')->with('message', 'Errore 404 - Pagina non trovata!');
     }
 
     /**

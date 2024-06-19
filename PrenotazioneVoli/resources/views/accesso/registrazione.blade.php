@@ -62,10 +62,10 @@
 
                         <div class="form-group row">
                             <label for="luogo"
-                                class="col-md-3 col-form-label">{{trans('messages.luogoaNascita')}}</label>
+                                class="col-md-3 col-form-label">{{trans('messages.luogoNascita')}}</label>
                             <div class="col-md-9">
                                 <input class="form-control" type="text" name="luogo"
-                                    placeholder="{{trans('messages.luogoaNascita')}}">
+                                    placeholder="{{trans('messages.luogoNascita')}}">
                                 <span class="text-danger error-text luogo_error"></span>
                             </div>
                         </div>
@@ -80,10 +80,10 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password" class="col-md-3 col-form-label">{{trans('messages.password')}}</label>
+                            <label for="password" class="col-md-3 col-form-label">{{trans('messages.passw')}}</label>
                             <div class="col-md-9">
                                 <input class="form-control" type="password" name="password"
-                                    placeholder="{{trans('messages.password')}}">
+                                    placeholder="{{trans('messages.passw')}}">
                                 <span class="text-danger error-text password_error"></span>
                             </div>
                         </div>

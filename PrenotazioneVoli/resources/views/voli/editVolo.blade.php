@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
 @section('title')
-    @if(isset($volo->id))
-        {{trans('messages.modificaVolo')}}
-    @else
-        {{trans('messages.aggiungiVolo')}}
-    @endif
+@if(isset($volo->id))
+    {{trans('messages.modificaVolo')}}
+@else
+    {{trans('messages.aggiungiVolo')}}
+@endif
 @endsection
 
 @section('breadcrumb')
@@ -72,7 +72,9 @@
                             <label for="title">{{trans('messages.aereoporto_partenza')}}</label>
                         </div>
                         <div class="col-md-9">
-                            <select class="form-control" name="partenza">
+                            <select class="form-control" name="partenza" id="partenzaSelect">
+                                <option value="" selected disabled>{{ trans('messages.selezionaAeroporto') }}</option>
+
                                 @foreach($aeroporti as $aeroporto)
                                     @if((isset($volo->id)) && ($volo->aereoportoPartenza_id == $aeroporto->id))
                                         <option value="{{ $aeroporto->id }}" selected="selected">
@@ -84,6 +86,7 @@
                                     @endif
                                 @endforeach
                             </select>
+                            <span id="partenzaError" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -91,7 +94,9 @@
                             <label for="title">{{trans('messages.aereoporto_arrivo')}}</label>
                         </div>
                         <div class="col-md-9">
-                            <select class="form-control" name="arrivo">
+                            <select class="form-control" name="arrivo" id="arrivoSelect">
+                                <option value="" selected disabled>{{ trans('messages.selezionaAeroporto') }}</option>
+
                                 @foreach($aeroporti as $aeroporto)
                                     @if((isset($volo->id)) && ($volo->aereoportoArrivo_id == $aeroporto->id))
                                         <option value="{{ $aeroporto->id }}" selected="selected">{{ $aeroporto->nome }}
@@ -103,7 +108,7 @@
                                 @endforeach
                             </select>
                             <span class="text-danger" id="invalid-arrivo"></span>
-
+                            <span id="arrivoError" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -146,7 +151,8 @@
                             <label for="title">{{trans('messages.velivolo')}}</label>
                         </div>
                         <div class="col-md-9">
-                            <select class="form-control" name="velivolo">
+                            <select class="form-control" name="velivolo" id="velivoloSelect">
+                                <option value="" selected disabled>{{ trans('messages.selezionaVelivolo') }}</option>
                                 @foreach($velivoli as $velivolo)
                                     @if((isset($volo->id)) && ($volo->aereo_id == $velivolo->id))
                                         <option value="{{ $velivolo->id }}" selected="selected">{{ $velivolo->nomeModello }}
@@ -156,6 +162,8 @@
                                     @endif
                                 @endforeach
                             </select>
+                            <span id="velivoloError" class="text-danger"></span>
+
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -178,9 +186,9 @@
 
 <script>
     $(document).ready(function () {
-        isValid = true;
 
         $('#creaVolo').submit(function (event) {
+            isValid = true;
 
             //Ora faccio i controlli sugli input
             var numeroValue = $('input[name="numero"]').val().trim();
@@ -198,8 +206,37 @@
                 $("#invalid-numero").text("");
             }
 
-            var arrivoValue = $('select[name="arrivo"]').val();
-            var partenzaValue = $('select[name="partenza"]').val();
+
+            if ($('#partenzaSelect').val() === "" || $('#partenzaSelect').val() === null) {
+                isValid = false;
+                event.preventDefault();
+                $('#partenzaError').text('{{ trans("messages.campoObbligatorio") }}');
+            } else {
+                $('#partenzaError').text('');
+            }
+
+            if ($('#arrivoSelect').val() === "" || $('#arrivoSelect').val() === null) {
+                isValid = false;
+                event.preventDefault();
+                $('#arrivoError').text('{{ trans("messages.campoObbligatorio") }}');
+            } else {
+                $('#arrivoError').text('');
+            }
+
+            if ($('#velivoloSelect').val() === "" || $('#velivoloSelect').val() === null) {
+                isValid = false;
+                $('#velivoloError').text('{{ trans("messages.campoObbligatorio") }}');
+                event.preventDefault();
+
+            } else {
+                $('#velivoloError').text('');
+            }
+
+
+
+
+            var arrivoValue = $('#partenzaSelect').val()
+            var partenzaValue = $('#arrivoSelect').val()
 
             if (arrivoValue === partenzaValue) {
                 isValid = false;

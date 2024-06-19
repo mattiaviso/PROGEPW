@@ -207,7 +207,8 @@
                 {{trans("messages.noMoreSeats")}}
             </div>
             <div class="modal-footer">
-                <button type="button" id="chiudi" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+                <button type="button" id="chiudi" class="btn btn-secondary"
+                    data-dismiss="modal">{{trans('messages.chiudi')}}</button>
             </div>
         </div>
     </div>

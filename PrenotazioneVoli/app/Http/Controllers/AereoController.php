@@ -43,7 +43,7 @@ class AereoController extends Controller
      */
     public function show(string $id)
     {
-
+        return view('errors.404')->with('message', 'Errore 404 - Pagina non trovata!');
     }
 
     /**
@@ -51,7 +51,14 @@ class AereoController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $dl = new DataLayer();
+        $aereo = $dl->findAereoById($id);
+        $maxPassengers = $dl->getMaxPassengers($id);
+        if ($aereo !== null) {
+            return view('aerei.edit')->with('aereo', $aereo)->with('maxPassengers', $maxPassengers);
+        } else {
+            return view('errors.404')->with('message', 'Wrong aereo ID has been used!');
+        }
     }
 
     /**
@@ -59,7 +66,9 @@ class AereoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $dl = new DataLayer();
+        $dl->updateAereo($id, $request->input('nome'), $request->input('posti'));
+        return redirect()->route('aerei.index');
     }
 
     /**
@@ -77,7 +86,11 @@ class AereoController extends Controller
         $dl = new DataLayer();
         $aereo = $dl->findAereoById($id);
         if ($aereo !== null) {
-            return view('aerei.delete')->with('aereo', $aereo);
+            if ($aereo->voli->count() > 0) {
+                return view('errors.titolo')->with('message', 'Non puoi eliminare questo aereo perché ha dei voli associati!');
+            } else {
+                return view('aerei.delete')->with('aereo', $aereo);
+            }
         } else {
             return view('errors.404')->with('message', 'Wrong aereo ID has been used!');
         }

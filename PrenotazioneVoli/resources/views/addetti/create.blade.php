@@ -119,7 +119,9 @@
                                     <label for="title">{{trans("messages.nomeCompagnia")}}</label>
                                 </div>
                                 <div class="col-md-10">
-                                    <select class="form-control" name="compagnia">
+                                    <select class="form-control" name="compagnia" id="compagniaSelect">
+                                        <option value="" selected disabled>{{ trans('messages.selezionaCompagnia') }}
+                                        </option>
                                         @foreach($companies as $comp)
                                             @if((isset($addetti->id)) && ($addetti->compagnia_id == $comp->id))
                                                 <option value="{{ $comp->id }}" selected="selected">
@@ -132,6 +134,7 @@
                                             @endif
                                         @endforeach
                                     </select>
+                                    <span class="text-danger" id="invalid-compagnia"></span>
                                 </div>
                             </div>
                     @endif
@@ -189,11 +192,16 @@
 
                         <div class="form-group row mb-3">
                             <div class="col-md-2">
-                                <label for="title">{{trans("messages.passw")}}</label>
+                                @if(isset($addetti->id))
+                                    <label hidden for="title">{{trans("messages.passw")}}</label>
+                                @else
+                                    <label for="title">{{trans("messages.passw")}}</label>
+                                @endif
+
                             </div>
                             <div class="col-md-10">
                                 @if(isset($addetti->id))
-                                    <input class="form-control" type="password" name="password"
+                                    <input hidden class="form-control" type="password" name="password"
                                         placeholder="{{trans("messages.passw")}}" value="{{ $addetti->password }}" />
                                     <input type="hidden" name="old_password" value="{{ $addetti->password }}">
                                 @else
@@ -214,13 +222,59 @@
                                 <input id="mySubmit" class="d-none" type="submit" value="Save">
                             </div>
                         </div>
-                        <div class="form-group row mb-3">
-                            <div class="col-md-10 offset-md-2">
-                                <a class="btn btn-secondary w-100" href="{{ url()->previous() }}"><i
-                                        class="bi bi-box-arrow-left"></i> {{trans("messages.cancella")}}</a>
-                            </div>
-                        </div>
+
                 </form>
+
+                @if(isset($addetti->id))
+                    <div class="container mb-3">
+                        <form id="changePasswordForm" action="{{route('admin.aggiornaPass')}}" method="post">
+                            @method('PUT')
+                            @csrf
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <strong><label for="passwordnew1">{{trans("messages.nuovaPassword")}}</label></strong>
+                                    <input type="hidden" class="form-control" id="passwordnew1" name="idCliente"
+                                        placeholder="id" value="{{$addetti->id}}">
+                                </div>
+                                <div class="form-group col-md-9">
+                                    <input type="password" class="form-control" id="passwordnew1" name="passwordnew1"
+                                        placeholder="{{trans("messages.nuovaPassword")}}">
+                                    <span class="text-danger error-text password_error"></span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <strong><label
+                                            for="passwordnew2">{{trans("messages.confermaNuovaPassword")}}</label></strong>
+                                </div>
+                                <div class="form-group col-md-9">
+
+                                    <input type="password" class="form-control" id="passwordnew2" name="passwordnew2"
+                                        placeholder="{{trans("messages.confermaNuovaPassword")}}">
+                                    <span class="text-danger error-text password_confirm_error"></span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12 text-right">
+                                    <button type="submit" class="btn btn-primary col-md-4" id="salva"><i
+                                            class="bi bi-floppy2-fill"></i>
+                                        {{trans("messages.SalvaCambioPassword")}}</button>
+                                </div>
+                            </div>
+                    </div>
+                @endif
+
+
+
+
+
+
+                <div class="form-group row mb-3">
+                    <div class="col-md-10 offset-md-2">
+                        <a class="btn btn-secondary w-100" href="{{ url()->previous() }}"><i
+                                class="bi bi-box-arrow-left"></i> {{trans("messages.cancella")}}</a>
+                    </div>
+                </div>
         </div>
     </div>
 </div>
@@ -229,9 +283,11 @@
 <script>
 
     $(document).ready(function () {
-        isValid = true;
 
         $("#formCrea").submit(function (event) {
+
+            isValid = true;
+
 
             var countryValue = $('input[name="nome"]').val().trim();
             var countryRegex = /^[a-zA-ZÀ-ÿ\s]+$/;
@@ -268,6 +324,18 @@
             }
 
 
+            //CONTROLLO SU COMPAGNIA DIVERSO DA ''
+            var compagniaValue = $('#compagniaSelect').val();
+            if (compagniaValue === "" || compagniaValue === null) {
+                isValid = false;
+                $("#invalid-compagnia").text("{{trans("messages.campoObbligatorio")}}");
+                event.preventDefault();
+                $('#compagniaSelect').focus();
+            } else {
+                $("#invalid-compagnia").text("");
+            }
+
+
 
             var dataValue = $("input[name='data']").val();
             if (dataValue.trim() === '') {
@@ -299,30 +367,30 @@
                 $("#invalid-email").text("");
             }
 
-            var password = $('input[name="password"]').val().trim();
-            var old;
-            if ($('input[name="old_email"]').length) {
-                old = $('input[name="old_password"]').val().trim();
-            }
+            // var password = $('input[name="password"]').val().trim();
+            // var old;
+            // if ($('input[name="old_email"]').length) {
+            //     old = $('input[name="old_password"]').val().trim();
+            // }
 
 
-            if (old !== password) {
-                const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-                if (password == "") {
-                    isValid = false;
-                    $("#invalid-password").text("{{trans("messages.passwordObbligatoria")}}");
-                    event.preventDefault();
-                    $("input[name='password']").focus();
-                }
-                else if (!passwordPattern.test(password)) {
-                    isValid = false;
-                    $("#invalid-password").text("{{trans("messages.passwordNonValida")}}");
-                    event.preventDefault();
-                    $("input[name='password']").focus();
-                } else {
-                    $("#invalid-password").text("");
-                }
-            }
+            // if (old !== password) {
+            //     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            //     if (password == "") {
+            //         isValid = false;
+            //         $("#invalid-password").text("{{trans("messages.passwordObbligatoria")}}");
+            //         event.preventDefault();
+            //         $("input[name='password']").focus();
+            //     }
+            //     else if (!passwordPattern.test(password)) {
+            //         isValid = false;
+            //         $("#invalid-password").text("{{trans("messages.passwordNonValida")}}");
+            //         event.preventDefault();
+            //         $("input[name='password']").focus();
+            //     } else {
+            //         $("#invalid-password").text("");
+            //     }
+            // }
 
             if (isValid) {
                 var old_code = $('input[name="old_email"]').val();
@@ -344,6 +412,40 @@
                 });
             }
         });
+
+
+        $('#changePasswordForm').submit(function (e) {
+            isvVA = true;
+
+            var password = $('input[name="passwordnew1"]').val().trim();
+            var password_confirm = $('input[name="passwordnew2"]').val().trim();
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            if (!passwordPattern.test(password)) {
+                $('.password_error').text('{{trans("messages.passwordNonValida")}}');
+                isvVA = false;
+                $('input[name="passwordnew1"]').focus();
+                event.preventDefault();
+            }
+
+            if (password !== password_confirm) {
+                $('.password_confirm_error').text('{{trans("messages.passwordNonCorrispondono")}}');
+                isvVA = false;
+                $('input[name="passwordnew2"]').focus();
+
+                event.preventDefault();
+            }
+
+            if (isvVA) {
+                $("form")[1].submit();
+            } else {
+                event.preventDefault();
+            }
+        });
+
+
+
+
     });
 </script>
 </div>

@@ -80,7 +80,7 @@ class VoliController extends Controller
         }
 
         if (!$volo) {
-            return response()->view('errors.404', ['message' => 'Volo non trovato']);
+            return response()->view('errors.404', ['message' => 'Wrong ID! Flight not found!']);
         }
 
         return view('voli.show')->with('volo', $volo)->with('compagniaUser', $compagniaId_Logged_User);
@@ -95,6 +95,15 @@ class VoliController extends Controller
         $volo = $dl->findFlightByID($id);
         $airports = $dl->listAirport();
         $velivoli = $dl->listAerei();
+        $compagniaId_Logged_User = $dl->findCompagniaByUserID($_SESSION['loggedID']);
+
+        if ($volo == null) {
+            return response()->view('errors.404', ['message' => 'Wrong ID! Flight not found!']);
+        }
+        if ($compagniaId_Logged_User != $volo->compagnia_id) {
+            return response()->view('errors.titolo', ['message' => 'Questo volo non appartiene alla tua compagnia!']);
+        }
+
         return view('voli.editVolo')->with('volo', $volo)->with('aeroporti', $airports)->with('velivoli', $velivoli);
     }
 
@@ -132,6 +141,14 @@ class VoliController extends Controller
     {
         $dl = new DataLayer();
         $volo = $dl->findFlightByID($id);
+        $compagniaId_Logged_User = $dl->findCompagniaByUserID($_SESSION['loggedID']);
+
+        if ($volo == null) {
+            return response()->view('errors.404', ['message' => 'Wrong ID! Flight not found!']);
+        }
+        if ($compagniaId_Logged_User != $volo->compagnia_id) {
+            return response()->view('errors.titolo', ['message' => 'Questo volo non appartiene alla tua compagnia!']);
+        }
         return view('voli.deleteVolo')->with('volo', $volo);
     }
 }

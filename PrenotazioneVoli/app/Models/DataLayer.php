@@ -26,9 +26,10 @@ class DataLayer extends Model
 
     public function listVoli()
     {
-        $voli = Voli::orderBy('numeroVolo', 'asc')->get();
+        $voli = Voli::orderBy('orarioPartenza', 'asc')->get();
         return $voli;
     }
+
 
     public function findFlightByID($id)
     {
@@ -46,8 +47,36 @@ class DataLayer extends Model
     {
         $voli = Voli::whereHas('aereoportoArrivo', function ($query) use ($city) {
             $query->where('city', $city);
-        })->get();
+        })->orderBy('orariopartenza', 'desc')->get();
+
         return $voli;
+    }
+
+    public function updateAereo($id, $nome, $posti)
+    {
+        $aereo = Aerei::find($id);
+        $aereo->nomeModello = $nome;
+        $aereo->capacita = $posti;
+        $aereo->save();
+    }
+
+
+    public function getMaxPassengers($id)
+    {
+        //cerca il numero massimo di passeggeri sui voli con aereo_id = id
+        $voli = Voli::where('aereo_id', $id)->get();
+        $maxPassengers = 0;
+        foreach ($voli as $volo) {
+            $passengers = 0;
+            $prenotazioni = $volo->prenotazioni;
+            foreach ($prenotazioni as $prenotazione) {
+                $passengers += $prenotazione->passeggeri->count();
+            }
+            if ($passengers > $maxPassengers) {
+                $maxPassengers = $passengers;
+            }
+        }
+        return $maxPassengers;
     }
 
 
@@ -259,6 +288,12 @@ class DataLayer extends Model
         }
     }
 
+    public function findPasseggeroByid($id)
+    {
+        $passeggero = Passeggeri::find($id);
+        return $passeggero;
+    }
+
     public function addAereo($nome, $posti)
     {
         $aereo = new Aerei;
@@ -315,6 +350,12 @@ class DataLayer extends Model
         $prenotazione = Prenotazioni::find($id_prenotazione);
         $passeggero = Passeggeri::find($id_Pass);
         $prenotazione->passeggeri()->attach($passeggero->id);
+    }
+
+    public function deletePasseggeroFromPrenotazione($prenotazioneId, $passeggero)
+    {
+        $prenotazione = Prenotazioni::find($prenotazioneId);
+        $prenotazione->passeggeri()->detach($passeggero);
     }
 
     public function listPrenotazioni()
@@ -392,7 +433,6 @@ class DataLayer extends Model
         $addetto->password = Hash::make($password);
         $addetto->save();
     }
-
 
 
     public function addCliente($nome, $cognome, $dataNascita, $luogoNascita, $email, $password)
@@ -506,6 +546,13 @@ class DataLayer extends Model
         } else {
             return true;
         }
+    }
+
+
+    public function countVoliByAirportId($idAeroporto)
+    {
+        $voli = Voli::where('aereoportoPartenza_id', $idAeroporto)->orWhere('aereoportoArrivo_id', $idAeroporto)->get();
+        return count($voli);
     }
 
 

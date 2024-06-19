@@ -16,7 +16,7 @@ class isAddettoVolo
     public function handle(Request $request, Closure $next): Response
     {
         if ((!isset($_SESSION['ruolo'])) || ($_SESSION['ruolo'] != 'inserimento')) {
-            return response()->view('errors.404', ['message' => 'Solo gli addetti al volo possono accedere a questa pagina!']);
+            return response()->view('errors.noAuth');
         }
         return $next($request);
     }

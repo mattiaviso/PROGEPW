@@ -12,7 +12,7 @@
         <a href="{{route('home')}}"><i class="fas fa-home me-1"></i>Home</a>
       </li>
       <li class="breadcrumb-item active" aria-current="page">
-      {{trans('messages.voli')}}
+        {{trans('messages.voli')}}
       </li>
     </ol>
   </nav>
@@ -31,7 +31,7 @@
             <div class="form-row">
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="from">{{trans('messages.da')}}:</label>
+                  <label for="from">{{trans('messages.da')}}</label>
                   <select class="form-select form-control" aria-label="Seleziona l'aeroporto di partenza" id="partenza"
                     name="partenza">
                     <option value="-1" selected disabled>{{trans('messages.aereoporto_partenza')}}</option>
@@ -43,30 +43,32 @@
               </div>
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="to">{{trans('messages.a')}}:</label>
+                  <label for="to">{{trans('messages.a')}}</label>
                   <select class="form-select form-control" aria-label="Seleziona l'aeroporto di arrivo" id="arrivo"
                     name="arrivo">
 
                     <option selected value="-1" disabled>{{trans('messages.aereoporto_arrivo')}}</option>
                     @foreach ($aeroportiArrivo as $aer)
-                    @if(isset($city) && $aer->city == $city)
+            @if(isset($city) && $aer->city == $city)
         <option selected value="{{$aer->id}}">{{$aer->city}}</option>
       @else
     <option value="{{ $aer->id }}">{{ $aer->city }}</option>
-  @endif          
-  @endforeach
-                  
-                  </select>                
+  @endif  
+
+
+            @endforeach  
+                  </select>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="departure-date">{{trans('messages.dataPartenza')}}:</label>
+                  <label for="departure-date">{{trans('messages.dataPartenza')}}</label>
                   <input type="date" class="form-control" id="departure_date" name="departure_date">
                 </div>
               </div>
             </div>
-            <button type="submit" onclick="resetFiltri()" class="btn btn-primary btn-block cercaVolo">{{trans('messages.resettaFiltri')}}
+            <button type="submit" id="resettaFiltri"
+              class="btn btn-primary btn-block cercaVolo">{{trans('messages.resettaFiltri')}}
             </button>
           </form>
         </div>
@@ -75,157 +77,247 @@
   </div>
 
 
-  <nav aria-label="Page navigation example" id="paginationNav">
-  <ul class="pagination justify-content-center">
-    <li class="page-item" id="previousPage"><a class="page-link" href="#">Previous</a></li>
-    <!-- Numeri di pagina verranno inseriti dinamicamente -->
-    <li class="page-item" id="nextPage"><a class="page-link" href="#">Next</a></li>
-  </ul>
-</nav>
-
-
+  <div class="row">
+    <div class="col-md-3 text-left mb-3">
+      <select id="rowsPerPage" class="form-control justify-content-end">
+        <option value="5">5 {{trans('messages.flight_per_page')}}</option>
+        <option value="10">10 {{trans('messages.flight_per_page')}}</option>
+        <option value="15">15 {{trans('messages.flight_per_page')}}</option>
+        <option value="20">20 {{trans('messages.flight_per_page')}}</option>
+      </select>
+    </div>
+    <div class="col-md-6 mb-3">
+      <nav aria-label="Page navigation example" id="paginationNav">
+        <ul class="pagination justify-content-center mb-0">
+          <li class="page-item" id="firstPage"><a class="page-link" href="#">
+              << </a>
+          </li>
+          <li class="page-item" id="previousPage"><a class="page-link" href="#">
+              < </a>
+          </li>
+          <!-- Numeri di pagina verranno inseriti dinamicamente -->
+          <li class="page-item" id="nextPage"><a class="page-link" href="#">></a></li>
+          <li class="page-item" id="lastPage"><a class="page-link" href="#">>></a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
   <!-- Lista dei voli disponibili -->
   <div id="risultati-voli">
-    @foreach($voli as $flight)
-
-    <div class="flight-card p-3">
-      <h4 class="mb-3">{{$flight->compagnia->nome}} {{$flight->numeroVolo}}</h4>
-      <div class="flight-info">
+    @foreach ($voli as $volo)
+    <div class="card mb-3 flight-card bg-white">
+      <div class="card-body">
       <div class="row">
-        <div class="col-md-2 d-flex align-items-center justify-content-center">
-        <div class="flight-detail d-flex flex-column align-items-center justify-content-center">
-          <p class="mb-0"><strong>{{\Carbon\Carbon::parse($flight->orarioPartenza)->format('D')}}</strong></p>
-          <p class="mb-0"><strong><span
-            id="departureDate">{{\Carbon\Carbon::parse($flight->orarioPartenza)->format('Y-m-d')}}</span></strong>
-          </p>
-        </div>
-        </div>
-        <div class="col-md-3">
-        <div class="flight-detail">
-          <h5 class="mb-3">{{trans('messages.aeroportoP')}}</h5>
-          <p><strong>{{trans('messages.da')}}:</strong><span id="partenzaCity">{{$flight->aereoportoPartenza->city}}</span>
-          ({{$flight->aereoportoPartenza->codice_iata}})</p>
-          <p><strong>{{trans('messages.oraPartenza')}}:</strong> {{\Carbon\Carbon::parse($flight->orarioPartenza)->format('H:i')}}</p>
-        </div>
-        </div>
         <div class="col-md-4">
-        <div class="flight-detail">
-          <h5 class="mb-3">{{trans('messages.aeroportoA')}}</h5>
-          <p><strong>{{trans('messages.a')}}:</strong> <span id="arrivoCity">{{$flight->aereoportoArrivo->city}}</span>
-          ({{$flight->aereoportoArrivo->codice_iata}})
-          </p>
-          <p><strong>{{trans('messages.oraArrivo')}}:</strong> {{\Carbon\Carbon::parse($flight->orarioArrivo)->format('H:i')}}
-          @if(\Carbon\Carbon::parse($flight->orarioPartenza)->format('d/m') != \Carbon\Carbon::parse($flight->orarioArrivo)->format('d/m'))
+        <h4 class="card-title">{{ trans('messages.numero_volo') }}: <span
+          class="numeroVoloId">{{ $volo->numeroVolo }}</span></h4>
+        <h5 class="mb-3">{{trans('messages.aeroportoP')}}</h5>
+
+        <p><strong>{{ trans('messages.da') }}:</strong> <span
+          class="cittaPartenza">{{$volo->aereoportoPartenza->city }} </span>
+          ({{$volo->aereoportoPartenza->codice_iata}})
+        </p>
+        <p><strong>{{trans('messages.oraPartenza')}}:</strong> <span
+          class="partenza">{{ \Carbon\Carbon::parse($volo->orarioPartenza)->format('H:i') }}</span>
+        </p>
+        </div>
+        <div class="col-md-5">
+        <h5 class="card-title">{{trans('messages.dataPartenza')}}: <span
+          class="dataPartenza">{{\Carbon\Carbon::parse($volo->orarioPartenza)->format('d-m-Y')}}</span></h5>
+
+        <h5 class="mb-3">{{trans('messages.aeroportoA')}}</h5>
+
+
+        <p><strong>{{ trans('messages.a') }}:</strong> <span
+          class="cittaArrivo">{{ $volo->aereoportoArrivo->city }}</span>
+          ({{$volo->aereoportoArrivo->codice_iata}})
+        </p>
+
+        <p><strong>{{trans('messages.oraArrivo')}}:</strong>
+          {{\Carbon\Carbon::parse($volo->orarioArrivo)->format('H:i')}}
+          @if(\Carbon\Carbon::parse($volo->orarioPartenza)->format('d/m') != \Carbon\Carbon::parse($volo->orarioArrivo)->format('d/m'))
         <sup>+1</sup>
       @endif
-          </p>
+        </p>
+
         </div>
-        </div>
-        <div class="col-md-3 d-flex flex-column justify-content-center ">
-        <div class="flight-detail ">
-          <a href="{{ route("prenotazioni.edit", $flight->id) }}" class="btn btn-primary mb-1 w-100"><i class="bi bi-calendar-plus"></i>
+        <div class="col-md-3 justify-content-center d-flex flex-column ">
+        <div class="mb-2">
+          <a href="{{ route("prenotazioni.edit", $volo->id) }}" class="btn btn-primary mb-1 w-100"><i
+            class="bi bi-calendar-plus"></i>
           {{trans('messages.prenota_ora')}}</a>
-          <a href="{{ route("voli.show", $flight->id) }}" class="btn btn-info mt-1 w-100"><i class="bi bi-search"></i>
+        </div>
+        <div class="mb-2">
+          <a href="{{ route("voli.show", $volo->id) }}" class="btn btn-info mt-1 w-100"><i class="bi bi-search"></i>
           {{trans('messages.dettagli')}}</a>
         </div>
         </div>
       </div>
       </div>
     </div>
-
-    <div class="row mb-4"></div>
   @endforeach
-
   </div>
-  
+
 </div>
 
 
 @if (isset($city))
-<script>
-      var selectedValue = $('#partenza').find('option:selected').text();
-      var partenzaId = $('#partenza').find('option:selected').val();
-      var arrivoValue = $('#arrivo').find('option:selected').text();
-      var arrivoId = $('#arrivo').find('option:selected').val();
-      var departureDate = $('#departure_date').val();
+  <script>
+    $(document).ready(function () {
+    var textArrivo = $('#arrivo').find('option:selected').text();
+    var valueArrivo = $('#arrivo').find('option:selected').val();
 
-      if (partenzaId == -1) {
-        selectedValue = null;
+    $(".flight-card").each(function () {
+      var flightArrival = $(this).find(".cittaArrivo").text().trim();
+
+      var filterArrivo = (valueArrivo == -1 || flightArrival == textArrivo);
+
+      if (filterArrivo) {
+      $(this).show();
+      } else {
+      $(this).hide();
       }
-      if (arrivoId == -1) {
-        arrivoValue = null;
-      }
+    });
 
-      $('.flight-card').hide();
+    $("#paginationNav").hide();
+    $("#rowsPerPage").hide();
+    });
 
-      $('.flight-card').each(function () {
-        var partenzaCity = $(this).find('span#partenzaCity').text().trim();
-        var arrivoCity = $(this).find('span#arrivoCity').text().trim();
-        var flightDepartureDate = $(this).find('span#departureDate').text().trim(); // Utilizziamo text() per ottenere il valore dallo span
-
-        var filterPartenza = (selectedValue === null || partenzaCity === selectedValue);
-        var filterArrivo = (arrivoValue === null || arrivoCity === arrivoValue);
-
-
-        // Confronto solo giorno, mese e anno ignorando l'orario
-        var filterDate = (!departureDate || flightDepartureDate === departureDate);
-
-        if (filterPartenza && filterArrivo && filterDate) {
-          $(this).show();
-        }
-      });
-
-</script>
+  </script>
 @endif
 
 <script>
   $(document).ready(function () {
+    var currentPage = 1;
+    var rowsPerPage = parseInt($("#rowsPerPage").val());
+    var flightCards = $(".flight-card");
+    var totalPages = Math.ceil(flightCards.length / rowsPerPage);
+
+    showPage(currentPage);
+
+
+    $("#rowsPerPage").on("change", function () {
+      rowsPerPage = parseInt($(this).val());
+      totalPages = Math.ceil(flightCards.length / rowsPerPage);
+      if (currentPage > totalPages) {
+        currentPage = totalPages;
+      }
+      showPage(currentPage);
+    });
+
+
+    function showPage(page) {
+      var start = (page - 1) * rowsPerPage;
+      var end = start + rowsPerPage;
+
+      flightCards.hide().slice(start, end).show();
+
+
+      // Rimuovi i numeri di pagina esistenti
+      $(".page-item.pageNumber").remove();
+
+      // Calcola quali numeri di pagina visualizzare
+      var startPage = Math.max(1, currentPage - 1);
+      var endPage = Math.min(startPage + 2, totalPages);
+
+      for (var i = startPage; i <= endPage; i++) {
+        var $li = $("<li>", { class: "page-item pageNumber" });
+        var $link = $("<a>", { class: "page-link", href: "#", text: i });
+        if (i === currentPage) {
+          $li.addClass("active");
+        }
+        $li.append($link);
+        $li.insertBefore("#nextPage");
+      }
+    }
+
+
+    $("#firstPage").on("click", function () {
+      currentPage = 1;
+      showPage(currentPage);
+    });
+
+    $("#lastPage").on("click", function () {
+      currentPage = totalPages;
+      showPage(currentPage);
+    });
+
+    $("#nextPage").on("click", function () {
+      if (currentPage < totalPages) {
+        currentPage++;
+        showPage(currentPage);
+      }
+    });
+
+    $("#previousPage").on("click", function () {
+      if (currentPage > 1) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    });
+
+    $(document).on("click", ".pageNumber", function () {
+      var page = parseInt($(this).text());
+      currentPage = page;
+      showPage(currentPage);
+    });
+
+
+
+
+
+
     function filterFlights() {
-      var selectedValue = $('#partenza').find('option:selected').text();
-      var partenzaId = $('#partenza').find('option:selected').val();
-      var arrivoValue = $('#arrivo').find('option:selected').text();
-      var arrivoId = $('#arrivo').find('option:selected').val();
+      var value = $('#partenza').find('option:selected').text();
+      var textArrivo = $('#arrivo').find('option:selected').text();
+
+      var valuePartenza = $('#partenza').find('option:selected').val();
+      var valueArrivo = $('#arrivo').find('option:selected').val();
+
       var departureDate = $('#departure_date').val();
 
-      if (partenzaId == -1) {
-        selectedValue = null;
-      }
-      if (arrivoId == -1) {
-        arrivoValue = null;
-      }
-
-      $('.flight-card').hide();
-
-      $('.flight-card').each(function () {
-        var partenzaCity = $(this).find('span#partenzaCity').text().trim();
-        var arrivoCity = $(this).find('span#arrivoCity').text().trim();
-        var flightDepartureDate = $(this).find('span#departureDate').text().trim(); // Utilizziamo text() per ottenere il valore dallo span
-
-        var filterPartenza = (selectedValue === null || partenzaCity === selectedValue);
-        var filterArrivo = (arrivoValue === null || arrivoCity === arrivoValue);
+      var dateParts = departureDate.split("-");
+      var formattedDate = dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0];
 
 
-        // Confronto solo giorno, mese e anno ignorando l'orario
-        var filterDate = (!departureDate || flightDepartureDate === departureDate);
+
+      $(".flight-card").each(function () {
+        var flightNumber = $(this).find(".cittaPartenza").text().trim();
+        var flightArrival = $(this).find(".cittaArrivo").text().trim();
+        var flightDepartureDate = $(this).find(".dataPartenza").text().trim();
+
+        var filterPartenza = (valuePartenza == -1 || flightNumber == value);
+        var filterArrivo = (valueArrivo == -1 || flightArrival == textArrivo);
+        var filterDate = (!departureDate || flightDepartureDate == formattedDate);
 
         if (filterPartenza && filterArrivo && filterDate) {
           $(this).show();
+        } else {
+          $(this).hide();
         }
       });
     }
 
+
+
     // Evento change per la selezione della partenza
     $('#partenza').change(function () {
+      $("#paginationNav").hide();
+      $("#rowsPerPage").hide();
       filterFlights();
     });
 
     // Evento change per la selezione dell'arrivo
     $('#arrivo').change(function () {
+      $("#paginationNav").hide();
+      $("#rowsPerPage").hide();
       filterFlights();
     });
 
     // Evento change per la selezione della data di partenza
     $('#departure_date').change(function () {
+      $("#paginationNav").hide();
+      $("#rowsPerPage").hide();
       filterFlights();
     });
 
@@ -237,22 +329,20 @@
       // Resetta il valore della data di partenza
       $('#departure_date').val('');
 
-      // Nascondi tutti gli elementi con classe flight-card
       $('.flight-card').show();
     }
 
-    // Associa la funzione al clic del bottone
-    $('#cercavolo').submit(function (event) {
-      // Previeni il comportamento di default del form
-      event.preventDefault();
-
-      // Chiamata alla funzione per rimuovere i filtri
+    // Evento click per il reset dei filtri
+    $('#resettaFiltri').click(function (e) {
+      e.preventDefault();
       clearFilters();
+      currentPage = 1;
+      showPage(currentPage);
+      $("#paginationNav").show();
+      $("#rowsPerPage").show();
+
     });
-
   });
-
-
 </script>
 
 @endsection

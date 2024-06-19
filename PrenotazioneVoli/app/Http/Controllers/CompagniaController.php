@@ -49,7 +49,11 @@ class CompagniaController extends Controller
     {
         $dl = new DataLayer();
         $company = $dl->findCompagniaById($id);
-        return view('compagnie.show')->with('compagnia', $company);
+        if ($company == null) {
+            return view('errors.404')->with('message', 'Wrong compagnia ID has been used!');
+        } else {
+            return view('compagnie.show')->with('compagnia', $company);
+        }
     }
 
     /**
@@ -59,7 +63,11 @@ class CompagniaController extends Controller
     {
         $dl = new DataLayer();
         $company = $dl->findCompagniaById($id);
-        return view('compagnie.edit')->with('compagnia', $company);
+        if ($company == null) {
+            return view('errors.404')->with('message', 'Wrong compagnia ID has been used!');
+        } else {
+            return view('compagnie.edit')->with('compagnia', $company);
+        }
     }
 
     /**
@@ -94,7 +102,11 @@ class CompagniaController extends Controller
         $dl = new DataLayer();
         $company = $dl->findCompagniaById($id);
         if ($company !== null) {
-            return view('compagnie.delete')->with('compagnia', $company);
+            if ($company->voli->count() > 0) {
+                return view('errors.titolo')->with('message', 'Cannot delete a company with flights!');
+            } else {
+                return view('compagnie.delete')->with('compagnia', $company);
+            }
         } else {
             return view('errors.404')->with('message', 'Wrong compagnia ID has been used!');
         }

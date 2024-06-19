@@ -63,10 +63,10 @@
 
 @section('body')
 @if(($compagniaUser == null) || (isset($_SESSION['logged'])) && $volo->compagnia->id == $compagniaUser)
-    <div class="container mt-3 mb-3">
+    <div class="container mt-3 mb-3 ">
         <div class="row">
             <div class="col-md-5 text-left mr-5 my-4"
-                style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
+                style="background-color: white; padding: 20px; border-radius: 10px; border: 3px solid #827E7E;">
                 <p><strong>{{trans('messages.numero_volo')}}:</strong> {{ $volo->numeroVolo }}</p>
                 <p><strong>{{trans('messages.compagnie')}}:</strong> {{ $volo->compagnia->nome }}</p>
                 <p><strong>{{trans('messages.aeroportoP')}}:</strong> {{ $volo->aereoportoPartenza->nome }}</p>
@@ -86,6 +86,12 @@
                     $orarioPartenza = \Carbon\Carbon::parse($volo->orarioPartenza);
                     $orarioArrivo = \Carbon\Carbon::parse($volo->orarioArrivo);
                     $differenza = $orarioPartenza->diff($orarioArrivo);
+                    // Calcola le ore totali considerando anche i giorni
+                    $giorniCa = $differenza->day;
+                    $oreTotali = $differenza->h + ($giorniCa * 24);
+
+                    $minuti = $differenza->i;
+
                 @endphp
 
                 <p><strong>{{trans('messages.distanza')}}:</strong>
@@ -94,11 +100,16 @@
                         echo $distance;
                     @endphp
                 </p>
-                <p><strong>{{trans('messages.durata_delVolo')}}:</strong> {{ $differenza->format('%h ore e %I minuti') }}
+                <p><strong>{{trans('messages.durata_delVolo')}}: </strong>{{ $oreTotali }} {{trans('messages.ore')}}
+                    {{trans('messages.e')}}
+                    {{ $minuti }}
+                    {{trans('messages.minuti')}}
+                </p>
                 </p>
             </div>
 
-            <div id="map" class="col-md-6 text-right my-4" style="width: 500px; height: 400px">
+            <div id="map" class="col-md-6 text-right my-4"
+                style="width: 500px; height: 400px; border: 3px solid #827E7E;border-radius: 10px; ">
             </div>
         </div>
     </div>

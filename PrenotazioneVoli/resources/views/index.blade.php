@@ -18,8 +18,6 @@
 
 @section('body')
 
-
-<!-- Fai breve intro sul sito  e fai bottone che porta alla visualizzazione dei voli-->
 <div class="container mt-3">
   <div class="row">
     <div class="col-12">

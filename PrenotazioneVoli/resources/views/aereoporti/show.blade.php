@@ -29,7 +29,7 @@
 <div class="container mt-3 mb-5">
     <div class="row">
         <div class="col-md-5 text-left mr-5 my-4"
-            style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
+            style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;border: 3px solid #827E7E;">
             <p><strong>{{trans("messages.nomeAeroporto")}}:</strong> {{ $airport->nome}}</p>
             <p><strong>{{trans("messages.citta")}}:</strong> {{ $airport->city}}</p>
             <p><strong>{{trans("messages.stato")}}:</strong> {{ $airport->country}}</p>
@@ -41,7 +41,8 @@
 
         </div>
 
-        <div id="map" class="col-md-6 text-right my-4" style="width: 500px; height: 400px">
+        <div id="map" class="col-md-6 text-right my-4"
+            style="width: 500px; height: 400px;border-radius: 10px;border: 3px solid #827E7E;">
         </div>
     </div>
 

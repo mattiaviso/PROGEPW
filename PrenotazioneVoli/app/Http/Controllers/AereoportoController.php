@@ -45,7 +45,11 @@ class AereoportoController extends Controller
     {
         $dl = new DataLayer();
         $airport = $dl->findAirportById($id);
-        return view('aereoporti.show')->with('airport', $airport);
+        if ($airport !== null) {
+            return view('aereoporti.show')->with('airport', $airport);
+        } else {
+            return view('errors.404')->with('message', 'Wrong airport ID has been used!');
+        }
     }
 
     /**
@@ -86,10 +90,15 @@ class AereoportoController extends Controller
     {
         $dl = new DataLayer();
         $airport = $dl->findAirportById($id);
-        if ($airport !== null) {
-            return view('aereoporti.deleteAirport')->with('airport', $airport);
-        } else {
+        $nVoliAirport = $dl->countVoliByAirportId($id);
+        if ($airport === null) {
             return view('errors.404')->with('message', 'Wrong aereoporti ID has been used!');
+        } else {
+            if ($nVoliAirport > 0) {
+                return view('errors.titolo')->with('message', 'Impossibile eliminare l aereoporto perché ci sono voli associati!');
+            } else {
+                return view('aereoporti.deleteAirport')->with('airport', $airport);
+            }
         }
     }
 }

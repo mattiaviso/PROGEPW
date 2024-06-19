@@ -26,7 +26,7 @@
     <div class="card-body container mt-3">
         <div class="form-row">
             <div class="form-group col-md-3">
-                <label for="nome">{{trans("messages.nome")}}</label>
+                <strong><label for="nome">{{trans("messages.nome")}}</label></strong>
             </div>
             <div class="form-group col-md-9">
                 <input type="text" class="form-control" id="nome" name="nome" value="{{ $cliente->nome }}">
@@ -35,7 +35,7 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-3">
-                <label for="cognome">{{trans("messages.cognome")}}</label>
+                <strong><label for="cognome">{{trans("messages.cognome")}}</label></strong>
             </div>
             <div class="form-group col-md-9">
                 <input type="text" class="form-control" id="cognome" name="cognome" value="{{ $cliente->cognome }}">
@@ -45,7 +45,7 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-3">
-                <label for="dataNascita">{{trans("messages.dataNascita")}}</label>
+                <strong><label for="dataNascita">{{trans("messages.dataNascita")}}</label></strong>
             </div>
             <div class="form-group col-md-9">
                 <input type="date" class="form-control" id="dataNascita" name="dataNascita"
@@ -56,7 +56,7 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-3">
-                <label for="luogoNascita">{{trans("messages.luogoNascita")}}</label>
+                <strong><label for="luogoNascita">{{trans("messages.luogoNascita")}}</label></strong>
             </div>
             <div class="form-group col-md-9">
                 <input type="text" class="form-control" id="luogoNascita" name="luogoNascita"
@@ -67,7 +67,7 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-3">
-                <label for="text">{{trans("messages.email")}}</label>
+                <strong><label for="text">{{trans("messages.email")}}</label></strong>
             </div>
             <div class="form-group col-md-9">
                 <input type="text" class="form-control" id="email" name="email" value="{{ $cliente->email }}">
@@ -78,7 +78,7 @@
         @if (isset($cliente->compagnia))
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <label for="nomeCompagnia">{{trans("messages.nomeCompagnia")}}</label>
+                    <strong><label for="nomeCompagnia">{{trans("messages.nomeCompagnia")}}</label></strong>
                 </div>
                 <div class="form-group col-md-9">
                     <input type="text" class="form-control" id="nomeCompagnia" name="nomeCompagnia"
@@ -90,9 +90,10 @@
         <!-- Bottone Salva -->
         <div class="form-row">
             <div class="form-group col-md-12 text-right">
-                <button type="submit" class="btn btn-primary col-md-2" id="salva">{{trans("messages.salva")}}</button>
-                <button type="reset" class="btn btn-secondary col-md-2"
-                    id="reset">{{trans("messages.resetta")}}</button>
+                <button type="submit" class="btn btn-primary col-md-2" id="salva"><i class="bi bi-floppy2-fill"></i>
+                    {{trans("messages.salva")}}</button>
+                <button type="reset" class="btn btn-secondary col-md-2" id="reset"><i
+                        class="bi bi-arrow-return-left"></i> {{trans("messages.resetta")}}</button>
             </div>
         </div>
     </div>
@@ -103,27 +104,36 @@
     <form id="changePasswordForm" action="{{route('user.aggiornaPass')}}" method="post">
         @method('PUT')
         @csrf
-        <div class="form-group">
-            <label for="passwordnew1">{{trans("messages.nuovaPassword")}}</label>
-            <input type="password" class="form-control" id="passwordnew1" name="passwordnew1"
-                placeholder="{{trans("messages.nuovaPassword")}}">
-            <span class="text-danger error-text password_error"></span>
-
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <strong><label for="passwordnew1">{{trans("messages.nuovaPassword")}}</label></strong>
+            </div>
+            <div class="form-group col-md-9">
+                <input type="password" class="form-control" id="passwordnew1" name="passwordnew1"
+                    placeholder="{{trans("messages.nuovaPassword")}}">
+                <span class="text-danger error-text password_error"></span>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="passwordnew2">{{trans("messages.confermaNuovaPassword")}}</label>
-            <input type="password" class="form-control" id="passwordnew2" name="passwordnew2"
-                placeholder="{{trans("messages.confermaNuovaPassword")}}">
-            <span class="text-danger error-text password_confirm_error"></span>
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <strong><label for="passwordnew2">{{trans("messages.confermaNuovaPassword")}}</label></strong>
+            </div>
+            <div class="form-group col-md-9">
 
+                <input type="password" class="form-control" id="passwordnew2" name="passwordnew2"
+                    placeholder="{{trans("messages.confermaNuovaPassword")}}">
+                <span class="text-danger error-text password_confirm_error"></span>
+            </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-12 text-right">
-                <button type="submit" class="btn btn-primary col-md-4"
-                    id="salva">{{trans("messages.SalvaCambioPassword")}}</button>
+                <button type="submit" class="btn btn-primary col-md-4" id="salva"><i class="bi bi-floppy2-fill"></i>
+                    {{trans("messages.SalvaCambioPassword")}}</button>
             </div>
         </div>
-    </form>
+</div>
+
+</form>
 </div>
 
 
